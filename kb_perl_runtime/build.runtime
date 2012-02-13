@@ -1,0 +1,16 @@
+#!/bin/sh
+
+is_mac=0
+if [ -d /Library ] ; then
+   is_mac=1
+fi
+
+perl build.perl
+
+if [ $is_mac -eq 1 ] ; then
+   perl build.mac.wx
+   perl build.gd.libs
+fi
+
+perl build.modules
+

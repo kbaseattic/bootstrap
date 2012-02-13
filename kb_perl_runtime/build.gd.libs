@@ -1,0 +1,40 @@
+
+use strict;
+use Cwd 'abs_path';
+use Carp;
+
+my $here = abs_path(".");
+my $dest = "$here/INSTALL";
+
+$ENV{PATH} = $ENV{PATH} . ":$dest/bin";
+
+my @url = (jpeg => 'http://www.ijg.org/files/jpegsrc.v8c.tar.gz', 'jpeg-8c',
+	   png =>  'http://download.sourceforge.net/libpng/libpng-1.5.6.tar.gz', 'libpng-1.5.6',
+	   gd => 'http://bioseed.mcs.anl.gov/~olson/gd-2.0.35.tar.gz', 'gd-2.0.35');
+
+my %pkg_opts = (gd => "--with-jpeg=$dest --with-png=$dest --without-freetype --without-fontconfig");
+
+while (@url)
+{
+    chdir($here);
+    my($what, $url, $dir) = splice(@url, 0, 3);
+    print "Process $what\n";
+
+    run("curl", "-o", "$what.tar.gz", "-L", $url);
+    run("tar", "xzfv", "$what.tar.gz");
+    chdir($dir) or die "Cannot chdir $dir: $!";
+
+    my $opts = $pkg_opts{$what};
+
+    run("./configure --prefix=$dest $opts");
+    run("make -j4");
+    run("make install");
+}
+
+sub run
+{
+    my(@cmd) = @_;
+    print "@cmd\n";
+    my $rc = system(@cmd);
+    $rc == 0 or croak "Failed with rc=$rc: @cmd";
+}

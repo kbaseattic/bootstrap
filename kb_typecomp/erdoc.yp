@@ -1,0 +1,215 @@
+
+%start start
+
+%{
+    use Devel::StackTrace;
+    use KBT;
+    use Data::Dumper;
+    use File::Spec;
+
+our %field_types = ('int' => KBT::Scalar->new(scalar_type => 'int'),
+		    'string' => KBT::Scalar->new(scalar_type => 'string'),
+		    'float' => KBT::Scalar->new(scalar_type => 'float'),
+    );
+
+%}
+
+%%
+
+
+start:		item_list
+	;
+
+item_list: 	{ [] }
+	|      	item_list item { [ @{$_[1]}, $_[2] ] }
+	;
+
+item:		entity
+	|	relationship
+	;
+
+entity:		ENTITY { $_[0]->get_comment() } IDENT '{' field_list '}' ';' { ['ENTITY', $_[2], $_[3], $_[5]] } ;
+
+relationship:	RELATIONSHIP { $_[0]->get_comment() }  IDENT direction IDENT arity '{' field_list '}' ';'
+			{ ['REL', $_[2], $_[3], $_[4], $_[5], $_[6], $_[8]] }
+	;
+
+direction:	'<' '=' '>'  { '<=>' }
+	|	'=' '>' { '=>' }
+	;
+
+arity: IDENT ':' IDENT { [$_[1], $_[3]] }
+	;
+
+field_list:	{ [] }
+	|	field_list field { [ @{$_[1]}, $_[2] ] }
+	;
+
+field:		{$_[0]->get_comment() } field_type IDENT ';' { [$_[1], $_[2], $_[3] ]}
+	;
+
+field_type:	TYPENAME
+	;
+
+%% 
+
+sub define_type
+{
+    my($self, $old_type, $new_type, $comment) = @_;
+    my $def = KBT::Typedef->new(name => $new_type, alias_type => $old_type, comment => $comment);
+    push(@{$self->YYData->{type_list}}, $def);
+    $self->YYData->{type_table}->{$new_type} = $def;
+    return $def;
+}
+
+sub types
+{
+    my($self) = @_;
+    return $self->YYData->{type_list};
+}
+
+sub lookup_type
+{
+    my($self, $name) = @_;
+    return $self->YYData->{type_table}->{$name};
+}
+
+
+sub parse
+{
+    my($self, $data) = @_;
+
+    #
+    # Initialize type table to just the builtins.
+    #
+    $self->YYData->{type_table} = { %field_types };
+
+    $self->YYData->{INPUT} = $data;
+
+    my $res = $self->YYParse(yylex => \&Lexer, yyerror => \&Error);
+
+    return $res;
+}
+
+
+sub Error {
+    my($parser) = @_;
+    
+    my $data = $parser->YYData;
+    my $bufptr = \$data->{INPUT};
+
+    my $ctx = substr($$bufptr, 0, 100);
+
+    if ($data->{ERRMSG})
+    {
+        print $data->{ERRMSG};
+	print "$ctx\n";
+        delete $data->{ERRMSG};
+        return;
+    }
+    else
+    {
+	print "Syntax error.\n";
+	print "$ctx\n";
+    }
+}
+
+sub LexerX
+{
+my($parser) = shift;
+my @res = &LexerX($parser);
+print Dumper(\@res);
+return @res;
+}
+
+sub Lexer {
+    my($parser)=shift;
+
+    my $data = $parser->YYData;
+    my $bufptr = \$data->{INPUT};
+
+    for ($$bufptr)
+    {
+	while ($_ ne '')
+	{
+	    # print "Top: '$_'\n";
+	    s/^[ \t\n]+//;
+
+	    
+	    if ($_ eq '')
+	    {
+		return ('', undef);
+	    }
+	    elsif (s/^(entity|relationship)\b//)
+	    {
+		return (uc($1), $1);
+	    }
+	    elsif (s/^([A-Za-z][A-Za-z0-9_]*)//)
+	    {
+		#print "Check builtin $1 " . Dumper($data->{type_table});
+		
+		if (my $type = $data->{type_table}->{$1})
+		{
+		    return('TYPENAME', $type);
+		}
+		else
+		{
+		    return('IDENT',$1);
+		}
+	    }
+	    elsif (s,^/\*(.*?)\*/,,s)
+	    {
+		my $com = $1;
+		if ($com =~ /^\*/)
+		{
+		    #
+		    # It was a /** comment which is a doc-block. Return that as a token.
+		    #
+		    return('DOC_COMMENT', $com);
+		}
+
+		my @lines = split(/\n/, $com);
+		$lines[0] =~ s/^\s*//;
+		my @new = ($lines[0]);
+		shift @lines;
+		if (@lines)
+		{
+		    my $l = $lines[0];
+		    $l =~ s/\t/        /g;
+		    my($init_ws) = $l =~ /^(\s+)/;
+		    my $x = length($init_ws);
+		    # print "x=$x '$lines[0]'\n";
+		    for my $l (@lines)
+		    {
+			$l =~ s/\t/        /g;
+			$l =~ s/^\s{$x}//;
+			push(@new, $l);
+		    }
+		}
+		#$parser->{cur_comment} = $com;
+		$parser->{cur_comment} = join("\n", @new);
+		
+		# Else just elide.
+	    }
+	    elsif (s/^(.)//s)
+	    {
+		return($1,$1);
+	    }
+	}
+    }
+}
+
+#
+# Return the current comment if there is one. Always
+# clear the current comment.
+#
+sub get_comment
+{
+    my($self) = @_;
+    my $ret = $self->{cur_comment};
+    $self->{cur_comment} = "";
+    $ret =~ s/^\s+//;
+    $ret =~ s/\s+$//;
+    return $ret;
+}
+    

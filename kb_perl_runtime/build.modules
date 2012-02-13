@@ -1,0 +1,55 @@
+use strict;
+use LWP::UserAgent;
+use Cwd 'abs_path';
+
+my @modules;
+
+if (@ARGV)
+{
+    for my $m (@ARGV)
+    {
+	my($mod, $args) = split(/\s+/, $m, 2);
+	push(@modules, [$mod, $args]);
+    }
+}
+else
+{
+    open(M, "<", "module-list") or die "Cannot open module-list: $!";
+    while (<M>)
+    {
+	chomp;
+	s/^\s*//;
+	s/\s*$//;
+	next if /^\#/;
+	next if $_ eq '';
+	my($mod, $args) = split(/\s+/, $_, 2);
+	push(@modules, [$mod, $args]);
+    }
+}
+
+my $perl = abs_path("INSTALL/bin/perl");
+-x $perl or die "Cannot execute $perl";
+
+if (! -f "cpanm")
+{
+    print STDERR "Downloading cpanm\n";
+    my $ua = LWP::UserAgent->new;
+    
+    my $res = $ua->get("http://cpanmin.us/",
+		       ":content_file" => "cpanm");
+    if (!$res->is_success)
+    {
+	die "Failure downloading cpanm: " . $res->code . " " . $res->content;
+    }
+}
+		       
+
+for my $ment (@modules)
+{
+    my($mod, $args) = @$ment;
+    my $rc = system("$perl cpanm $args $mod");
+    if ($rc != 0)
+    {
+	die "Error $rc installing $args $mod\n";
+    }
+}

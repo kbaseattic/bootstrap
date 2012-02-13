@@ -1,0 +1,367 @@
+
+#BEGIN_HEADER
+
+use CDMI;
+
+our $entity_field_defs = {
+[% FOREACH entity IN entities -%]
+    '[% entity.name %]' => {
+	id => 1,
+	[% FOREACH fent IN entity.field_map -%]
+	    '[% fent.name %]' => 1,
+	[% END %]
+    },
+[% END %]
+};
+
+our $relationship_field_defs = {
+[% FOREACH rel IN relationships -%]
+    '[% rel.name %]' => {
+	to_link => 1, from_link => 1,
+	[% FOREACH fent IN rel.field_map -%]
+	    '[% fent.name %]' => 1,
+	[% END %]
+    },
+[% END %]
+};
+
+our $relationship_entities = {
+[% FOREACH rel IN relationships -%]
+    '[% rel.name %]' => [ '[% rel.from %]', '[% rel.to %]' ],
+[% END %]
+};
+
+#sub _init_instance
+#{
+#    my($self) = @_;
+#    $self->{db} = CDMI->new(dbhost => 'seed-db-read', sock => '', DBD => '/home/parrello/FIGdisk/dist/releases/current/WinBuild/KSaplingDBD.xml');
+#}
+
+sub _validate_fields_for_entity
+{
+    my($self, $tbl, $fields, $ensure_id) = @_;
+
+    my $valid_fields = $entity_field_defs->{$tbl};
+
+    my $have_id;
+
+    my $cdmi = $self->{db};
+    my $q = $cdmi->{_dbh}->quote;
+
+    my @qfields;
+    my @sfields;
+    my @bad_fields;
+    for my $field (@$fields)
+    {
+	$field =~ s/-/_/g;
+	if (!$valid_fields->{$field})
+	{
+	    push(@bad_fields, $field);
+	    next;
+	}
+		
+	push(@sfields, $field);
+	my $qfield = $q . $field . $q;
+	$have_id = 1 if $field eq 'id';
+	push(@qfields, $qfield);
+    }
+
+    if (@bad_fields)
+    {
+	die "The following fields are invalid in entity $tbl: @bad_fields";
+    }
+
+    if (!$have_id && $ensure_id)
+    {
+	unshift(@sfields, 'id');
+	unshift(@qfields, $q . 'id' . $q);
+    }
+
+    return(\@sfields, \@qfields);
+}
+
+sub _validate_fields_for_relationship
+{
+    my($self, $tbl, $fields, $link_field) = @_;
+
+    my $valid_fields = $relationship_field_defs->{$tbl};
+
+    my $cdmi = $self->{db};
+    my $q = $cdmi->{_dbh}->quote;
+
+    my $have_id = 0;
+    my @qfields;
+    my @sfields;
+    my @bad_fields;
+    for my $field (@$fields)
+    {
+	$field =~ s/-/_/g;
+	if (!$valid_fields->{$field})
+	{
+	    push(@bad_fields, $field);
+	    next;
+	}
+
+	$have_id = 1 if $field eq $link_field;
+	push(@sfields, $field);
+	my $qfield = $q . $field . $q;
+	push(@qfields, $qfield);
+    }
+
+    if (!$have_id)
+    {
+	unshift(@sfields, $link_field);
+	unshift(@qfields, $q . $link_field . $q);
+    }
+
+    if (@bad_fields)
+    {
+	die "The following fields are invalid in relationship $tbl: @bad_fields";
+    }
+
+    return(\@sfields, \@qfields);
+}
+
+sub _get_entity
+{
+    my($self, $ctx, $tbl, $ids, $fields) = @_;
+
+    my($sfields, $qfields) = $self->_validate_fields_for_entity($tbl, $fields, 1);
+    
+    my $filter = "id IN (" . join(", ", map { '?' } @$ids) . ")";
+
+    my $cdmi = $self->{db};
+    my $q = $cdmi->{_dbh}->quote;
+
+    my $qstr = join(", ", @$qfields);
+    my $qry = "SELECT $qstr FROM $q$tbl$q WHERE $filter";
+
+    my $attrs = {};
+    my $dbk = $cdmi->{_dbh};
+    if ($dbk->dbms eq 'mysql')
+    {
+	$attrs->{mysql_use_result} = 1;
+    }
+
+    my $sth = $dbk->{_dbh}->prepare($qry, $attrs);
+    
+    # print STDERR "$qry\n";
+    $sth->execute(@$ids);
+    my $out = $sth->fetchall_hashref('id');
+    return $out;
+}    
+
+sub _get_relationship
+{
+    my($self, $ctx, $relationship, $table, $is_converse, $ids, $from_fields, $rel_fields, $to_fields) = @_;
+
+    my($from_tbl, $to_tbl) = @{$relationship_entities->{$relationship}};
+    if (!$from_tbl)
+    {
+	die "Unknown relationship $relationship";
+    }
+
+    my($from_link, $to_link) = $is_converse ? qw(to_link from_link) :  qw(from_link to_link);
+
+    my $cdmi = $self->{db};
+    my $q = $cdmi->{_dbh}->quote;
+
+    my($from_sfields, $from_qfields) = $self->_validate_fields_for_entity($from_tbl, $from_fields, 0);
+    my($to_sfields, $to_qfields) = $self->_validate_fields_for_entity($to_tbl, $to_fields, 0);
+
+    my($rel_sfields, $rel_qfields) = $self->_validate_fields_for_relationship($relationship, $rel_fields, $from_link);
+    
+    my $filter = "$from_link IN (" . join(", ", map { '?' } @$ids) . ")";
+
+    my $from = "$q$table$q r ";
+    if (@$from_qfields)
+    {
+	$from .= "JOIN $q$from_tbl$q f ON f.id = r.$from_link ";
+    }
+    if (@$to_qfields)
+    {
+	$from .= "JOIN $q$to_tbl$q t ON t.id = r.$to_link ";
+    }
+
+    my $qstr = join(", ",
+		    (map { "f.$_" } @$from_qfields),
+		    (map { "t.$_" }  @$to_qfields),
+		    (map { "r.$_" } @$rel_qfields));
+
+    my $qry = "SELECT $qstr FROM $from WHERE $filter";
+
+    my $attrs = {};
+    my $dbk = $cdmi->{_dbh};
+    if ($dbk->dbms eq 'mysql')
+    {
+	$attrs->{mysql_use_result} = 1;
+    }
+
+    my $sth = $dbk->{_dbh}->prepare($qry, $attrs);
+    
+    # print STDERR "$qry\n";
+    $sth->execute(@$ids);
+    my $res = $sth->fetchall_arrayref();
+
+    my $out = [];
+    for my $ent (@$res)
+    {
+	my($fout, $rout, $tout) = ({}, {}, {});
+	for my $fld (@$from_sfields)
+	{
+	    my $v = shift @$ent;
+	    $fout->{$fld} = $v;
+	}
+	for my $fld (@$to_sfields)
+	{
+	    my $v = shift @$ent;
+	    $tout->{$fld} = $v;
+	}
+	for my $fld (@$rel_sfields)
+	{
+	    my $v = shift @$ent;
+	    $rout->{$fld} = $v;
+	}
+	
+	push(@$out, [$fout, $rout, $tout]);
+    }
+    return $out;
+}    
+
+sub _all_entities
+{
+    my($self, $ctx, $tbl, $start, $count, $fields) = @_;
+
+    my $valid_fields = $entity_field_defs->{$tbl};
+
+    my $have_id;
+
+    my $cdmi = $self->{db};
+    my $q = $cdmi->{_dbh}->quote;
+
+    my @qfields;
+    my @sfields;
+    my @bad_fields;
+    for my $field (@$fields)
+    {
+	$field =~ s/-/_/g;
+	if (!$valid_fields->{$field})
+	{
+	    push(@bad_fields, $field);
+	    next;
+	}
+		
+	push(@sfields, $field);
+	my $qfield = $q . $field . $q;
+	$have_id = 1 if $field eq 'id';
+	push(@qfields, $qfield);
+    }
+
+    if (@bad_fields)
+    {
+	die "The following fields are invalid in entity $tbl: @bad_fields";
+    }
+
+    if (!$have_id)
+    {
+	unshift(@sfields, 'id');
+	unshift(@qfields, $q . 'id' . $q);
+    }
+    
+    my $qstr = join(", ", @qfields);
+
+    my $attrs = {};
+    my $dbk = $cdmi->{_dbh};
+    my $limit;
+    
+    if ($dbk->dbms eq 'mysql')
+    {
+	$attrs->{mysql_use_result} = 1;
+	$limit = "LIMIT $start, $count";
+    }
+    elsif ($dbk->dbms eq 'Pg')
+    {
+	$limit = "ORDER BY id LIMIT $count OFFSET $start";
+    }
+
+    my $qry = "SELECT $qstr FROM $q$tbl$q $limit";
+
+    my $sth = $dbk->{_dbh}->prepare($qry, $attrs);
+    
+    # print STDERR "$qry\n";
+    $sth->execute();
+    my $out = $sth->fetchall_hashref('id');
+    return $out;
+}    
+
+#END_HEADER
+
+sub new
+{
+    my($class, @args) = @_;
+    my $self = {
+    };
+    bless $self, $class;
+    #BEGIN_CONSTRUCTOR
+
+    my($cdmi) = @args;
+    if (! $cdmi) {
+	$cdmi = CDMI->new();
+    }
+    $self->{db} = $cdmi;
+
+    #END_CONSTRUCTOR
+    
+    if ($self->can('_init_instance'))
+    {
+	$self->_init_instance();
+    }
+    return $self;
+}
+
+[% FOREACH entity IN entities %]
+
+sub get_entity_[% entity.name %]
+{
+    my($self, $ctx, $ids, $fields) = @_;
+
+    my $return;
+    #BEGIN get_entity_[% entity.name %]
+
+    $return = $self->_get_entity($ctx, '[% entity.name %]', $ids, $fields);
+
+    #END get_entity_[% entity.name %]
+    return $return;
+}
+
+sub all_entities_[% entity.name %]
+{
+    my($self, $ctx, $start, $count, $fields) = @_;
+
+    my $return;
+    #BEGIN all_entities_[% entity.name %]
+
+    $return = $self->_all_entities($ctx, '[% entity.name %]', $start, $count, $fields);
+
+    #END all_entities_[% entity.name %]
+    return $return;
+}
+[% END %]
+
+[% FOREACH relationship IN relationships %]
+
+sub get_relationship_[% relationship.name %]
+{
+    my($self, $ids, $from_fields, $rel_fields, $to_fields) = @_;
+    my $ctx = $CDMI_EntityAPIServer::CallContext;
+    my($return);
+
+    #BEGIN get_relationship_[% relationship.name %]
+
+    $return = $self->_get_relationship($ctx, '[% relationship.name %]', '[% relationship.relation %]', [% relationship.is_converse %], $ids, $from_fields, $rel_fields, $to_fields);
+	
+    #END get_relationship_[% relationship.name %]
+    return $return;
+}
+
+[% END %]

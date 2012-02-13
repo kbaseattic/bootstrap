@@ -1,0 +1,41 @@
+use Cwd 'abs_path';
+use strict;
+
+use Carp;
+
+my $perl = abs_path("INSTALL/bin/perl");
+-x $perl or die "Cannot execute $perl";
+
+run("curl", "-O", "-L", "http://search.cpan.org/CPAN/authors/id/M/MD/MDOOTSON/Alien-wxWidgets-0.54.tar.gz");
+
+run("tar", "xzfp", 'Alien-wxWidgets-0.54.tar.gz');
+
+chdir("Alien-wxWidgets-0.54");
+
+#
+# We need to patch Build.PL, at least with 0.54.
+#
+
+run("patch < ../alien.diff");
+
+run($perl,
+    qw(Build.PL
+       -wxWidgets-version 2.9.2
+       -nowxWidgets-build-opengl
+       -wxWidgets-build
+       -wxWidgets-source tar.bz2));
+
+run("./Build");
+run("./Build install");
+
+chdir('..');
+run("perl", 'build.modules', "Wx\t--notest");
+run("perl", 'build.modules', 'wxPerl::Constructors');
+
+sub run
+{
+    my(@cmd) = @_;
+    print "@cmd\n";
+    my $rc = system(@cmd);
+    $rc == 0 or croak "Failed with rc=$rc: @cmd";
+}

@@ -1,0 +1,6 @@
+Code for building runtime libs for myRAST (and RAST & friends too).
+
+For myRAST, toplevel is build.runtime. This invokes a build of perl, followed (on the mac)
+by builds WxWidgets and of GD dependent libs (png & jpeg & gd). Then the big pile of modules
+is built.
+
