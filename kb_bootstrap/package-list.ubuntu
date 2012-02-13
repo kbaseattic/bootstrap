@@ -34,4 +34,5 @@ libmoose-perl
 libcatalyst-perl
 python-django
 ncbi-blast+
+monit
 
