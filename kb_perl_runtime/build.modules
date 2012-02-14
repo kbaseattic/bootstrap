@@ -27,7 +27,8 @@ else
     }
 }
 
-my $perl = abs_path("INSTALL/bin/perl");
+my $perl = "/kb/runtime/bin/perl";
+#my $perl = abs_path("INSTALL/bin/perl");
 -x $perl or die "Cannot execute $perl";
 
 if (! -f "cpanm")

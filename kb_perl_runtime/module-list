@@ -1,7 +1,7 @@
 Moose
 MooseX::NonMoose
 MooseX::Singleton
-MooseX::Method::Signatures
+MooseX::Method::Signatures	--notest
 MooseX::Params::Validate
 Class::Accessor
 XML::LibXML
@@ -34,7 +34,7 @@ FreezeThaw
 DBD::SQLite
 JSON
 JSON::Any
-JSON-RPC
+JSON::RPC
 Proc::ParallelLoop
 SOAP::Lite
 Data::UUID
@@ -49,3 +49,4 @@ File::Slurp
 Lingua::EN::Inflect
 Frontier::Client
 MongoDB
+Starman

@@ -9,7 +9,7 @@ use Cwd 'abs_path';
 my $parallel = "-j4";
 
 my $here = abs_path(".");
-my $dest = "$here/INSTALL";
+my $dest = "/kb/runtime";
 
 -d $dest || mkdir $dest;
 
@@ -34,7 +34,8 @@ if (! -d $perl_vers)
 
 chdir $perl_vers;
 
-my @reloc = ("-Duserelocatableinc", "-Dusesitecustomize");
+my @reloc = ();
+#my @reloc = ("-Duserelocatableinc", "-Dusesitecustomize");
 
 if (-d "/Library")
 {
