@@ -50,3 +50,5 @@ Lingua::EN::Inflect
 Frontier::Client
 MongoDB
 Starman
+DBD::mysql
+Sphinx::Search
