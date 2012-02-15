@@ -38,3 +38,5 @@ monit
 python-flup
 python-django-piston
 python-pip
+libmysqlclient-dev
+libmysqld-dev
