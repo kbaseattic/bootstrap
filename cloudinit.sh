@@ -39,6 +39,9 @@ git clone kbase@git.kbase.us:/bootstrap.git
 pushd bootstrap
 # install debian dependencies
 pushd kb_bootstrap
+# change /etc/apt/sources.list to point to mirror.anl.gov
+sudo perl -i -pe 's/us\.archive\.ubuntu\.com/mirror\.anl\.gov/g' /etc/apt/sources.list
+sudo apt-get update
 ./install-debian-packages
 popd
 # build and install perl
