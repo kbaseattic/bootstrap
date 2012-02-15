@@ -35,4 +35,6 @@ libcatalyst-perl
 python-django
 ncbi-blast+
 monit
+python-flup
+python-django-piston
 
