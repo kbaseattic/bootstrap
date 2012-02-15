@@ -23,9 +23,6 @@ cd dev_container/modules
 
 ##
 git clone ssh://kbase@git.kbase.us/shock
-cd shock
-export PGPASSWORD=dontTell22
-./bootstrap.sh -d /mnt -p 8000 -N shock -H db1.chicago.kbase.us -U shockadmin -P dontTell22
 
 # deploy
 cd /kb/dev_container
