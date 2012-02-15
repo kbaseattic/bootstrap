@@ -1,4 +1,5 @@
 #!/bin/bash
+DIR="$( cd "$( dirname "$0" )" && pwd )"
 # Add a private key that can read from the git repositories
 echo "-----BEGIN RSA PRIVATE KEY-----
 MIIEpAIBAAKCAQEA4er0W6fIuEJIxYNBg0ExRJ9jpfNmq/AxWg4JY25tF5NuvjIc
@@ -36,9 +37,9 @@ GKJxT3/gVHPtVcVjTX7RhdO9Kqubd0MBC33qy4RSISmIhd3koc4H1H7+w==
 GKJxT3/gVHPtVcVjTX7RhdO9Kqubd0MBC33qy4RSISmIhd3koc4H1H7+w==" >> ~root/.ssh/known_hosts
 # clone this repository (it's not on the cloud instance)
 git clone kbase@git.kbase.us:/bootstrap.git
-pushd bootstrap
+pushd $DIR/bootstrap
 # install debian dependencies
-pushd kb_bootstrap
+pushd ./kb_bootstrap
 # change /etc/apt/sources.list to point to mirror.anl.gov
 sudo perl -i -pe 's/us\.archive\.ubuntu\.com/mirror\.anl\.gov/g' /etc/apt/sources.list
 sudo apt-get update
