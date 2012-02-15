@@ -37,4 +37,4 @@ ncbi-blast+
 monit
 python-flup
 python-django-piston
-
+python-pip
