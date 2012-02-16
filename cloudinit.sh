@@ -28,6 +28,7 @@ Qs1UG1JIejB/68cPV4ncl3RD52NnHwmLpr9xK+/cHeFloKRijKWwS3IiHyfclTJl
 bVZZ2MQJY/Lo579YvI6gCCW4dOeALR/+UBD2/egHFakwRzR3GbfILjI06oxG/0rI
 3Lpu/FYAacawlXKMykypjS6B/FP3zTsKDjNIT9bV5wgD+clYfYOAsg==
 -----END RSA PRIVATE KEY-----" > ~root/.ssh/id_rsa
+chmod 400 ~root/.ssh/id_rsa
 # Add the authorized keys for git.kbase.us and the hacker's computer
 echo "|1|4Qql1zSjbbZlcLI7xORqtq+ELUg=|lnGNVlEY9CkzRtrtChGRgnOvUQg= ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA2K6E4JMnvEXzmb2ArlVtKIon/TNow9aTYWQI9+EGzF79Pn2hkx3qJt/iJCRK66MhMkCdrWYPFY8IISfHeDFytQmN0+mOgK\
 9famT6yUUXuL2MsfUVqtP7qrBghUEhnxw6jlKLrvdJawJ2+cmeN51bWIzo34khLOvDjHGT4ekVQR+aTQaY2pUcQFblXJs/swS8ysuPzwgEZNGLIz2bg1ssqki6mnbrFVl9G7+nKcsa7RQ1aTLPy1XduNU9+Giv2psCAgE9f7iplbcrM8z2kgycZu/qviw5G\
@@ -35,18 +36,25 @@ GKJxT3/gVHPtVcVjTX7RhdO9Kqubd0MBC33qy4RSISmIhd3koc4H1H7+w==
 |1|JicCuAE/yoHjbl9c7a+r71DuKwE=|iTDwyEzKyKLItcdLU+Z8QSdCspE= ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA2K6E4JMnvEXzmb2ArlVtKIon/TNow9aTYWQI9+EGzF79Pn2hkx3qJt/iJCRK66MhMkCdrWYPFY8IISfHeDFytQmN0+mOgK\
 9famT6yUUXuL2MsfUVqtP7qrBghUEhnxw6jlKLrvdJawJ2+cmeN51bWIzo34khLOvDjHGT4ekVQR+aTQaY2pUcQFblXJs/swS8ysuPzwgEZNGLIz2bg1ssqki6mnbrFVl9G7+nKcsa7RQ1aTLPy1XduNU9+Giv2psCAgE9f7iplbcrM8z2kgycZu/qviw5G\
 GKJxT3/gVHPtVcVjTX7RhdO9Kqubd0MBC33qy4RSISmIhd3koc4H1H7+w==" >> ~root/.ssh/known_hosts
-# clone this repository (it's not on the cloud instance)
-git clone kbase@git.kbase.us:/bootstrap.git
-pushd $DIR/bootstrap
-# install debian dependencies
-pushd ./kb_bootstrap
 # change /etc/apt/sources.list to point to mirror.anl.gov
 sudo perl -i -pe 's/us\.archive\.ubuntu\.com/mirror\.anl\.gov/g' /etc/apt/sources.list
 sudo apt-get update
-./install-debian-packages
+# install git-core, we need it to download bootstrap.git
+apt-get install -y git-core
+# clone this repository (it's not on the cloud instance)
+git clone kbase@git.kbase.us:/bootstrap.git
+pushd $(pwd)
+pushd bootstrap
+# install debian dependencies Twice
+pushd kb_bootstrap
+./install-debian-packages package-list.ubuntu
+./install-debian-packages package-list.ubuntu
 popd
-# build and install perl
+# build and install perl Twice
 pushd kb_perl_runtime
+./build.runtime
 ./build.runtime
 popd
 popd
+
+
