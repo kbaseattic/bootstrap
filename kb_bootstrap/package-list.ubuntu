@@ -40,3 +40,5 @@ python-django-piston
 python-pip
 libmysqlclient-dev
 libmysqld-dev
+screen
+tmux
