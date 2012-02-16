@@ -44,3 +44,4 @@ screen
 tmux
 libssl
 libpq-dev
+mongodb-server
