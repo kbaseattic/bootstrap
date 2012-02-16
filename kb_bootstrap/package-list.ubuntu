@@ -42,3 +42,4 @@ libmysqlclient-dev
 libmysqld-dev
 screen
 tmux
+mongodb-server
