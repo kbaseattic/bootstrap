@@ -46,11 +46,15 @@ apt-get install -y git-core
 git clone kbase@git.kbase.us:/bootstrap.git
 pushd $(pwd)
 pushd bootstrap
-# install debian dependencies Twice
+# install debian dependencies
 pushd kb_bootstrap
 ./install-debian-packages package-list.ubuntu
 popd
-# build and install perl Twice
+# install node and npm
+pushd kb_node_runtime
+./build.node
+popd
+# build and install perl 
 pushd kb_perl_runtime
 ./build.runtime
 popd

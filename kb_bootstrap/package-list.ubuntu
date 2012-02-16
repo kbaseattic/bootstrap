@@ -42,3 +42,5 @@ libmysqlclient-dev
 libmysqld-dev
 screen
 tmux
+libssl
+libpq-dev
