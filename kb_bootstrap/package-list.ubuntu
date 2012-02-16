@@ -42,6 +42,6 @@ libmysqlclient-dev
 libmysqld-dev
 screen
 tmux
-libssl
+libssl-dev
 libpq-dev
 mongodb-server

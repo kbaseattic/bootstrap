@@ -37,9 +37,9 @@ GKJxT3/gVHPtVcVjTX7RhdO9Kqubd0MBC33qy4RSISmIhd3koc4H1H7+w==
 9famT6yUUXuL2MsfUVqtP7qrBghUEhnxw6jlKLrvdJawJ2+cmeN51bWIzo34khLOvDjHGT4ekVQR+aTQaY2pUcQFblXJs/swS8ysuPzwgEZNGLIz2bg1ssqki6mnbrFVl9G7+nKcsa7RQ1aTLPy1XduNU9+Giv2psCAgE9f7iplbcrM8z2kgycZu/qviw5G\
 GKJxT3/gVHPtVcVjTX7RhdO9Kqubd0MBC33qy4RSISmIhd3koc4H1H7+w==" >> ~root/.ssh/known_hosts
 # change /etc/apt/sources.list to point to mirror.anl.gov
-sudo perl -i -pe "s/(us\.){0,1}archive\.ubuntu\.com/mirror\.anl\.gov/g" /etc/apt/sources.list
-sudo perl -i -pe 's/security\.ubuntu\.com/mirror\.anl\.gov/g' /etc/apt/sources.list
-sudo apt-get update
+perl -i -pe "s/(us\.){0,1}archive\.ubuntu\.com/mirror\.anl\.gov/g" /etc/apt/sources.list
+perl -i -pe 's/security\.ubuntu\.com/mirror\.anl\.gov/g' /etc/apt/sources.list
+apt-get update
 # install git-core, we need it to download bootstrap.git
 apt-get install -y git-core
 # clone this repository (it's not on the cloud instance)
