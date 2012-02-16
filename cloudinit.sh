@@ -38,6 +38,7 @@ GKJxT3/gVHPtVcVjTX7RhdO9Kqubd0MBC33qy4RSISmIhd3koc4H1H7+w==
 GKJxT3/gVHPtVcVjTX7RhdO9Kqubd0MBC33qy4RSISmIhd3koc4H1H7+w==" >> ~root/.ssh/known_hosts
 # change /etc/apt/sources.list to point to mirror.anl.gov
 sudo perl -i -pe 's/us\.archive\.ubuntu\.com/mirror\.anl\.gov/g' /etc/apt/sources.list
+sudo perl -i -pe 's/security\.ubuntu\.com/mirror\.anl\.gov/g' /etc/apt/sources.list
 sudo apt-get update
 # install git-core, we need it to download bootstrap.git
 apt-get install -y git-core
