@@ -48,13 +48,9 @@ pushd bootstrap
 # install debian dependencies Twice
 pushd kb_bootstrap
 ./install-debian-packages package-list.ubuntu
-./install-debian-packages package-list.ubuntu
 popd
 # build and install perl Twice
 pushd kb_perl_runtime
 ./build.runtime
-./build.runtime
 popd
 popd
-
-
