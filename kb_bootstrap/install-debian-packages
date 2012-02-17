@@ -6,11 +6,15 @@ if [[ $# != 1 ]] ; then
 fi
 
 pkg_list=$1
-# kludge to get emacs23, firefox working
-export LANG=C
 
 for pkg in `cat $pkg_list` ; do
 	echo "install $pkg"
+	apt-get -y install $pkg
+done
+apt-get uninstall -y ispell
+
+for pkg in `cat $pkg_list` ; do
+	echo "reinstall $pkg"
 	apt-get -y install $pkg
 	if [[ $? -ne 0 ]] ; then
 		echo "Failure installing $pkg" 1>&2
