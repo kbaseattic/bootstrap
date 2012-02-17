@@ -9,6 +9,7 @@ pkg_list=$1
 # kludge to get emacs23, firefox working
 export LANG=C
 apt-get remove -y dictionaries-common ispell
+apt-get install -y dictionaries-common ispell
 
 for pkg in `cat $pkg_list` ; do
 	echo "install $pkg"
