@@ -6,15 +6,14 @@ if [[ $# != 1 ]] ; then
 fi
 
 pkg_list=$1
-# kludge to get emacs23 working
+# kludge to get emacs23, firefox working
 export LANG=C
-echo "LANG set to $LANG"
+apt-get remove -y dictionaries-common ispell
 
 for pkg in `cat $pkg_list` ; do
 	echo "install $pkg"
 	apt-get -y install $pkg
 	if [[ $? -ne 0 ]] ; then
 		echo "Failure installing $pkg" 1>&2
-        echo "LANG was set to $LANG"
 	fi
 done
