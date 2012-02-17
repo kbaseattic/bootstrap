@@ -6,6 +6,8 @@ if [[ $# != 1 ]] ; then
 fi
 
 pkg_list=$1
+# kludge to get emacs23 working
+export LANG=C
 
 for pkg in `cat $pkg_list` ; do
 	echo "install $pkg"
