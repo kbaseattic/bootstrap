@@ -11,7 +11,7 @@ for pkg in `cat $pkg_list` ; do
 	echo "install $pkg"
 	apt-get -y install $pkg
 done
-apt-get uninstall -y ispell
+apt-get remove -y ispell
 
 for pkg in `cat $pkg_list` ; do
 	echo "reinstall $pkg"
