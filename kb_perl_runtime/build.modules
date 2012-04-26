@@ -51,6 +51,6 @@ for my $ment (@modules)
     my $rc = system("$perl cpanm $args $mod");
     if ($rc != 0)
     {
-	die "Error $rc installing $args $mod\n";
+	warn "Error $rc installing $args $mod\n";
     }
 }

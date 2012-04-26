@@ -1,0 +1,10 @@
+#!/bin/bash
+# install node 0.6.10
+curl http://nodejs.org/dist/v0.6.10/node-v0.6.10.tar.gz | tar xfz -
+cd node-v0.6.10
+./configure
+make install
+alias node=`which node`
+# install npm
+curl http://npmjs.org/install.sh | sh
+

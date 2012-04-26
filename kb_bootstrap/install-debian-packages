@@ -10,8 +10,13 @@ pkg_list=$1
 for pkg in `cat $pkg_list` ; do
 	echo "install $pkg"
 	apt-get -y install $pkg
+done
+apt-get remove -y ispell
+
+for pkg in `cat $pkg_list` ; do
+	echo "reinstall $pkg"
+	apt-get -y install $pkg
 	if [[ $? -ne 0 ]] ; then
 		echo "Failure installing $pkg" 1>&2
-		exit 1
 	fi
 done

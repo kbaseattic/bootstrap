@@ -35,4 +35,13 @@ libcatalyst-perl
 python-django
 ncbi-blast+
 monit
-
+python-flup
+python-django-piston
+python-pip
+libmysqlclient-dev
+libmysqld-dev
+screen
+tmux
+libssl-dev
+libpq-dev
+mongodb-server
