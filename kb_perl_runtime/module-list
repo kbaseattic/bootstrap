@@ -54,3 +54,6 @@ DBD::mysql --notest
 Sphinx::Search
 Exception::Class
 String::Random
+URI::Dispatch
+CGI::PSGI
+Parse::Eyapp
