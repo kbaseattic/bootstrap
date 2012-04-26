@@ -52,3 +52,4 @@ MongoDB
 Starman
 DBD::mysql
 Sphinx::Search
+Exception::Class
