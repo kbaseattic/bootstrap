@@ -57,3 +57,17 @@ String::Random
 URI::Dispatch
 CGI::PSGI
 Parse::Eyapp
+Object::Tiny::RW
+JSON
+REST::Client
+Digest::SHA
+Digest::MD5
+MIME::Base64
+HTTP::Request
+HTTP::Daemon
+LWP::UserAgent
+Net::OAuth
+URI::Escape
+Carp
+Data::Dumper
+
