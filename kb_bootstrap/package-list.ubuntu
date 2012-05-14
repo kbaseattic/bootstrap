@@ -45,3 +45,5 @@ tmux
 libssl-dev
 libpq-dev
 mongodb-server
+glpk
+coinor-libcbc0
