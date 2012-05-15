@@ -1,7 +1,8 @@
 Images:
 105 | kbase-image-v5
 59  | kbase-image-v4
+118 | kbase-image-v8
 
 nova boot --flavor 5 --image 59 --key_name jared --user_data idserver.sh idservertest2
 
-nova boot --flavor 5 --image 105 --key_name jared --user_data idserver-cloudinit.sh idservertest.3
+nova boot --flavor 5 --image 118 --key_name jared --user_data shock.sh shocktest

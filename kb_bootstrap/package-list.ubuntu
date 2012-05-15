@@ -2,6 +2,7 @@ cvs
 mercurial
 git
 subversion
+bzr
 curl
 mysql-client
 postgresql-client
