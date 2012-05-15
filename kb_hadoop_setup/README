@@ -1,0 +1,55 @@
+/**Setup Hadoop Cluster**/
+Questions Contact: James  -> gurtowsk@cshl.edu
+
+####
+## Configure
+####
+1. Setup scripts use Fabric, a python library for ssh connections
+Ensure Fabric is installed and working
+
+2.To manage hosts, edit setup.json. Specify Namenode/Jobtracker
+as well as disks to format and where to mount them.
+
+3.Edit the hadoop .xml files and hadoop-env.sh found in this directory to fit the
+hadoop environment
+
+####
+##Execute
+####
+
+Copy Hadoop and Java to all hosts
+These files can be created by downloading
+a release from the respective sites or using
+package manager instead
+
+ $>fab putetgz:hadoop.tar.gz
+ $>fab putetgz:java.tar.gz
+
+
+Disable iptables if necessary
+ $>fab -R slave disableiptables
+ $>fab -R namenode disableiptables
+ $>fab -R jobtracker disableiptables
+
+Setup Hadoop
+
+ $>fab setupSlave
+ $>fab setupNamenode
+ $>fab setupJobtracker
+
+Setup is Complete
+
+#####
+##If it is necessary to change configuration
+#####
+
+ $>fab stopSlave
+ $>fab stopNamenode
+ $>fab stopJobtracker
+ $>fab -R slave putHadoopConf
+ $>fab -R jobtracker putHadoopConf
+ $>fab -R namenode putHadoopConf
+ $>fab startNamenode
+ $>fab startJobtracker
+ $>fab startSlave
+

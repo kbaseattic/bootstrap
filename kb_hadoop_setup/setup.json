@@ -1,0 +1,28 @@
+{
+    "hosts":{
+	"datanodes":null,
+	"datanodes_file":"slaves.txt",
+	"namenode":"node047.kbase.lan",
+	"jobtracker":"node047.kbase.lan",
+	"username":"ubuntu",
+	"use_sudo":true,
+	"update_ulimit":true
+    },
+    
+    "hadoop":{
+	"root_dir":"/home/ubuntu/hadoop",
+	"conf_dir":"/home/ubuntu/hadoop/conf",
+	"bin_dir":"/home/ubuntu/hadoop/bin",
+	"username":"ubuntu"
+    },
+
+    "hdd":{
+    	"drives":["/dev/sdb","/dev/sdc","/dev/sdd"],
+	"format":true,
+	"mount_locations": [{"drive":"/dev/sdb","mount_point":"/mnt/b"},
+			    {"drive":"/dev/sdc","mount_point":"/mnt/c"},
+			    {"drive":"/dev/sdd","mount_point":"/mnt/d"}
+			   ],
+	"auto_mount":true
+    }
+}
