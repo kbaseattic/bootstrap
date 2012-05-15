@@ -39,6 +39,7 @@ ncbi-blast+
 monit
 python-flup
 python-django-piston
+python-django-south
 python-pip
 libmysqlclient-dev
 libmysqld-dev
