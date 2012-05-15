@@ -3,7 +3,7 @@
 
 # install nodejs
 apt-get update
-apt-get install libssl libpq-dev
+apt-get install libpq-dev
 
 mkdir /kb/build
 cd /kb/build

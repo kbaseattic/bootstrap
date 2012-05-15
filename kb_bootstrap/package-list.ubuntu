@@ -2,8 +2,10 @@ cvs
 mercurial
 git
 subversion
+bzr
 curl
 mysql-client
+mysql-server
 postgresql-client
 libpng12-dev
 libjpeg-dev
@@ -50,4 +52,3 @@ coinor-libcbc0
 libcrypt-ssleay-perl
 maven2
 bowtie
-mysql-server
