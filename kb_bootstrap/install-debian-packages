@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# disables mysql-server prompt for password
 export DEBIAN_FRONTEND=noninteractive
 
 if [[ $# != 1 ]] ; then

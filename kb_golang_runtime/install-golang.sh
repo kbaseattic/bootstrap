@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 pushd /usr/local
 hg clone -u release https://code.google.com/p/go
