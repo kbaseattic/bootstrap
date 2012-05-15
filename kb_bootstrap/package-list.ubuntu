@@ -48,3 +48,5 @@ mongodb-server
 glpk
 coinor-libcbc0
 libcrypt-ssleay-perl
+maven2
+bowtie
