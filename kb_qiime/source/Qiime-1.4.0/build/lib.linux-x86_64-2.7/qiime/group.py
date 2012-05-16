@@ -1,0 +1,243 @@
+#!/usr/bin/env python
+
+"""This module contains functions useful for obtaining groupings."""
+
+__author__ = "Jai Rideout"
+__copyright__ = "Copyright 2011, The QIIME project"
+__credits__ = ["Jai Rideout", "Jeremy Widmann"]
+__license__ = "GPL"
+__version__ = "1.4.0"
+__maintainer__ = "Jai Rideout"
+__email__ = "jr378@nau.edu"
+__status__ = "Release"
+
+from numpy import array
+from qiime.parse import group_by_field
+
+def get_grouped_distances(dist_matrix_header, dist_matrix, mapping_header,
+                          mapping, field, within=True):
+    """Returns a list of distance groupings for the specified field.
+
+    The return value is a list that contains tuples of three elements: the
+    first two elements are the field values being compared, and the third
+    element is a list of the distances.
+
+    Arguments:
+        - dist_matrix_header: The distance matrix header, obtained from
+                              parse.parse_distmat()
+        - dist_matrix: The distance matrix, obtained from
+                       parse.parse_distmat().
+        - mapping_header: The mapping file header, obtained from
+                          parse.parse_mapping_file()
+        - mapping: The mapping file's contents, obtained from
+                   parse.parse_mapping_file()
+        - field: A field in the mapping file to do the grouping on.
+        - within: If True, distances are grouped within a field value. If
+          False, distances are grouped between field values.
+    """
+    _validate_input(dist_matrix_header, dist_matrix, mapping_header, mapping,
+                    field)
+    mapping_data = [mapping_header]
+    mapping_data.extend(mapping)
+    groups = group_by_field(mapping_data, field)
+    return _get_groupings(dist_matrix_header, dist_matrix, groups, within)
+
+def get_all_grouped_distances(dist_matrix_header, dist_matrix, mapping_header,
+                              mapping, field, within=True):
+    """Returns a list of distances for either samples within each of the
+    field values or between each of the field values for the specified field.
+
+    Arguments:
+        - dist_matrix_header: The distance matrix header, obtained from
+                              parse.parse_distmat()
+        - dist_matrix: The distance matrix, obtained from
+                       parse.parse_distmat().
+        - mapping_header: The mapping file header, obtained from
+                          parse.parse_mapping_file()
+        - mapping: The mapping file's contents, obtained from
+                   parse.parse_mapping_file()
+        - field: A field in the mapping file to do the grouping on.
+        - within: If True, distances are grouped within a field value. If
+          False, distances are grouped between field values.
+    """
+    distances = get_grouped_distances(dist_matrix_header, dist_matrix,
+                                      mapping_header, mapping, field, within)
+    results = []
+    for group in distances:
+        for distance in group[2]:
+            results.append(distance)
+    return results
+
+def get_field_state_comparisons(dist_matrix_header, dist_matrix,
+                                mapping_header, mapping, field,
+                                comparison_field_states):
+    """Returns a 2D dictionary relating distances between field states.
+
+    The 2D dictionary is constructed such that each top-level key is a field
+    state other than the field states in comparison_field_states. The
+    second-level key is a field state from comparison_field_states, and the
+    value at the (key, key) index is a list of distances between those two
+    field states. Thus, given a field, this function will create comparisons
+    between the specified comparison_field_states and all other field states.
+
+    Arguments:
+        - dist_matrix_header: The distance matrix header, obtained from
+                              parse.parse_distmat()
+        - dist_matrix: The distance matrix, obtained from
+                       parse.parse_distmat().
+        - mapping_header: The mapping file header, obtained from
+                          parse.parse_mapping_file()
+        - mapping: The mapping file's contents, obtained from
+                   parse.parse_mapping_file()
+        - field: A field in the mapping file to do the comparisons on.
+        - comparison_field_states: A list of strings specifying the field
+          states to compare to all other field states. Cannot be an empty list.
+    """
+    _validate_input(dist_matrix_header, dist_matrix, mapping_header, mapping,
+                    field)
+
+    # Make sure each comparison group field state is in the specified field.
+    if not comparison_field_states:
+        raise ValueError("You must provide at least one field state to "
+                         "compare to all of the other field states.")
+    mapping_data = [mapping_header]
+    mapping_data.extend(mapping)
+    groups = group_by_field(mapping_data, field)
+    for field_state in comparison_field_states:
+        if field_state not in groups:
+            raise ValueError("The comparison group field state '%s' is not in "
+                             "the provided mapping file's field '%s'."
+                             % (field_state, field))
+
+    # Grab a list of all other field states (besides the ones in
+    # comparison_field_states). These will be the field states that the states
+    # in comparison_field_states will be compared against.
+    field_states = [group for group in groups.keys()
+                    if group not in comparison_field_states]
+
+    # Get between distance groupings for the field of interest.
+    between_groupings = get_grouped_distances(dist_matrix_header, dist_matrix,
+            mapping_header, mapping, field, within=False)
+
+    # Build up our 2D dictionary giving the distances between a field state and
+    # a comparison group field state by filtering out the between_groupings
+    # list to include only the comparisons that we want.
+    result = {}
+    for field_state in field_states:
+        result[field_state] = {}
+        for comp_field_state in comparison_field_states:
+            result[field_state][comp_field_state] = []
+            for group in between_groupings:
+                if ((group[0] == field_state or group[1] == field_state)
+                    and (group[0] == comp_field_state or
+                         group[1] == comp_field_state)):
+                    # We've found a group of distances between our comparison
+                    # field state and the current field state, so keep the
+                    # data.
+                    result[field_state][comp_field_state] = group[2]
+    return result
+
+def _validate_input(dist_matrix_header, dist_matrix, mapping_header, mapping,
+                    field):
+    """Validates the input data to make sure it can be used and makes sense.
+
+    The headers, distance matrix, and mapping input should be iterable, and all
+    data should not be None. The field must exist in the mapping header.
+    """
+    if (dist_matrix_header is None or dist_matrix is None or mapping_header is
+        None or mapping is None or field is None):
+        raise ValueError("The input(s) cannot be 'None'.")
+
+    # Make sure the appropriate input is iterable.
+    for input_arg in (dist_matrix_header, dist_matrix, mapping_header,
+                      mapping):
+        try:
+            iter(input_arg)
+        except:
+            raise ValueError("The headers, distance matrix, and mapping data "
+                             "must be iterable.")
+
+    # The field must be a string.
+    if not isinstance(field, str):
+        raise ValueError("The field must be a string.")
+
+    # Make sure the field is in the mapping header.
+    if field not in mapping_header:
+        raise ValueError("The field '%s' is not in the mapping file header."
+                         % field)
+
+def _get_indices(input_items, wanted_items):
+    """Returns indices of the wanted items in the input items if present.
+
+    input_items must be iterable, and wanted_items may be either a single value
+    or a list. The return value will always be a list of indices, and an empty
+    list if none were found. If wanted_items is a single string, it is treated
+    as a scalar, not an iterable.
+    """
+    # Note: Some of this code is taken from Jeremy Widmann's
+    # get_valid_indices() function, part of make_distance_histograms.py.
+    try:
+        iter(input_items)
+    except:
+        raise ValueError("The input_items to search must be iterable.")
+    try:
+        len(wanted_items)
+    except:
+        # We have a scalar value, so put it in a list.
+        wanted_items = [wanted_items]
+    if isinstance(wanted_items, basestring):
+        wanted_items = [wanted_items]
+
+    return [input_items.index(item)
+            for item in wanted_items if item in input_items]
+
+def _get_groupings(dist_matrix_header, dist_matrix, groups, within=True):
+    """Returns a list of distance groupings.
+
+    The return value is a list that contains tuples of three elements: the
+    first two elements are the field values being compared, and the third
+    element is a list of the distances.
+
+    Arguments:
+        - dist_matrix_header: The distance matrix header.
+        - dist_matrix: The distance matrix.
+        - groups: A dictionary mapping field value to sample IDs, obtained by
+                  calling group_by_field().
+        - within: If True, distances are grouped within a field value. If
+          False, distances are grouped between field values.
+    
+    If within is True, the zeros along the diagonal of the distance matrix are
+    omitted.
+    """
+    # Note: Much of this code is taken from Jeremy Widmann's
+    # distances_by_groups() function, part of make_distance_histograms.py.
+    result = []
+    group_items = groups.items()
+
+    for i, (row_group, row_ids) in enumerate(group_items):
+        row_indices = _get_indices(dist_matrix_header, row_ids)
+        if within:
+            # Handle the case where indices are the same so we need to omit
+            # the diagonal.
+            block = dist_matrix[row_indices][:,row_indices]
+
+            size = len(row_indices)
+            indices = []
+            for i in range(size):
+                for j in range(i,size):
+                    if i != j:
+                        indices.append(block[i][j])
+            if indices:
+                result.append((row_group, row_group, indices))
+        else:
+            # Handle the case where indices are separate: just return blocks.
+            for j in range(i+1, len(groups)):
+                col_group, col_ids = group_items[j]
+                col_indices = _get_indices(dist_matrix_header, col_ids)
+                vals = dist_matrix[row_indices][:,col_indices]
+
+                # Flatten the array into a single-level list.
+                vals = map(None, vals.flat)
+                if vals:
+                    result.append((row_group, col_group, vals))
+    return result

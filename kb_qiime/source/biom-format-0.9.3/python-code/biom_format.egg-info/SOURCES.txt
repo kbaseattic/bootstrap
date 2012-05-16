@@ -1,0 +1,14 @@
+README
+setup.py
+python-code/biom/__init__.py
+python-code/biom/exception.py
+python-code/biom/parse.py
+python-code/biom/table.py
+python-code/biom/unit_test.py
+python-code/biom_format.egg-info/PKG-INFO
+python-code/biom_format.egg-info/SOURCES.txt
+python-code/biom_format.egg-info/dependency_links.txt
+python-code/biom_format.egg-info/top_level.txt
+scripts/biom_validator.py
+scripts/convert_biom.py
+scripts/test_biom_validator.py
