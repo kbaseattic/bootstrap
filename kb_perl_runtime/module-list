@@ -71,4 +71,10 @@ URI::Escape
 Carp
 Data::Dumper
 App::cpanminus
-
+App::Cmd
+Class::Autouse
+Config::Tiny
+File::NFSLock
+IO::Prompt::Tiny
+Time::ParseDate
+XML::DOM
