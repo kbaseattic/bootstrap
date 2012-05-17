@@ -70,5 +70,5 @@ Net::OAuth
 URI::Escape
 Carp
 Data::Dumper
-cpanm
+App::cpanminus
 
