@@ -86,4 +86,15 @@ pushd kb_python_runtime
 ./install-python-packages.sh
 popd
 
+# build and install oracle java
+pushd kb_java_runtime
+./java_build.sh
+popd
+
+# build and install thrift
+pushd kb_thrift_runtime
+./thrift_build.sh
+popd
+
+
 popd
