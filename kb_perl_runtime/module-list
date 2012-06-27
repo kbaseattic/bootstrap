@@ -78,3 +78,4 @@ File::NFSLock
 IO::Prompt::Tiny
 Time::ParseDate
 XML::DOM
+JSON::RPC::Client

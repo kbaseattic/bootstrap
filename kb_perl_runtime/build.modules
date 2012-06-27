@@ -1,8 +1,13 @@
 use strict;
 use LWP::UserAgent;
 use Cwd 'abs_path';
+use Getopt::Long;
 
 my @modules;
+
+my $perl = "/kb/runtime/bin/perl";
+
+my $rc = GetOptions("perl=s", \$perl); 
 
 if (@ARGV)
 {
@@ -27,8 +32,6 @@ else
     }
 }
 
-my $perl = "/kb/runtime/bin/perl";
-#my $perl = abs_path("INSTALL/bin/perl");
 -x $perl or die "Cannot execute $perl";
 
 if (! -f "cpanm")
