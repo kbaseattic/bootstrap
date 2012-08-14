@@ -79,3 +79,6 @@ IO::Prompt::Tiny
 Time::ParseDate
 XML::DOM
 JSON::RPC::Client
+Taint::Util
+Clone
+URI::Dispatch
