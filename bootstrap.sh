@@ -27,7 +27,12 @@ popd
 
 # build and install qiime python modules
 pushd kb_qiime
-./install-qiime.sh
+./install-qiime.sh python-qiime-list
+popd
+
+# build and install R base and libraries
+pushd kb_r_runtime
+./install-r.sh r-packages.R
 popd
 
 # build and install oracle java
