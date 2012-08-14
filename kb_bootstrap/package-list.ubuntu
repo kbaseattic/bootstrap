@@ -43,15 +43,10 @@ emacs23
 xdg-utils
 firefox
 plink
-r-recommended
-r-bioc-biobase
-r-bioc-edger
-r-bioc-limma
 openjdk-7-jre
 openjdk-7-jdk
 openjdk-7-doc
 rabbitmq-server
-r-base
 nodejs
 libmoose-perl
 libcatalyst-perl
