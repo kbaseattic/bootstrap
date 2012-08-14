@@ -12,3 +12,17 @@ tornado
 rpy2
 ipython
 ipython-extensions
+beautifulsoup
+django 1.4
+pika
+httplib2
+django-piston
+django-tastypie
+oauth2
+flup
+yolk
+nose
+django-nose
+jinja2
+south
+lxml
