@@ -7,7 +7,6 @@ biopython
 matplotlib
 mpi4py
 sphinx
-pprospector
 pyzmq
 tornado
 rpy2
