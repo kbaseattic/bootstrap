@@ -82,3 +82,4 @@ JSON::RPC::Client
 Taint::Util
 Clone
 URI::Dispatch
+JSON::XS
