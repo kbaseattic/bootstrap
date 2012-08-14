@@ -1,3 +1,15 @@
+setuptools
+MySQL-python
+SQLAlchemy
 python-novaclient
 numpy
 biopython
+matplotlib
+mpi4py
+sphinx
+pprospector
+pyzmq
+tornado
+rpy2
+ipython
+ipython-extensions
