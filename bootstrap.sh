@@ -45,4 +45,9 @@ pushd kb_thrift_runtime
 ./thrift_build.sh
 popd
 
+# install mongodb 2.2 binary
+pushd kb_mongodb
+./install-mongodb.sh
+popd
+
 
