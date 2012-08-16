@@ -9,6 +9,9 @@ RLIB=$1
 RURL="http://cran.r-project.org/src/base/R-2/"
 RBASE="R-2.15.1"
 
+echo "###### purge system R ######"
+apt-get -y remove --purge r-base-core
+
 echo "###### downloading $RBASE ######"
 wget $RURL$RBASE".tar.gz"
 tar zxf $RBASE".tar.gz"
@@ -20,9 +23,6 @@ make install
 popd
 rm $RBASE".tar.gz"
 rm -rf $RBASE
-
-echo "###### installing r-recommended ######"
-apt-get -y install r-recommended
 
 echo "###### installing R libraries ######"
 R CMD BATCH $RLIB
