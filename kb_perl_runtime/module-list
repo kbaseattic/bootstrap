@@ -83,3 +83,5 @@ Taint::Util
 Clone
 URI::Dispatch
 JSON::XS
+Test::Cmd
+BioPerl
