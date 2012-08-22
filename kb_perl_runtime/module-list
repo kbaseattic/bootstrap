@@ -85,3 +85,4 @@ URI::Dispatch
 JSON::XS
 Test::Cmd
 BioPerl
+File::Copy::Recursive
