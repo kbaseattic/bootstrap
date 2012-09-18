@@ -14,6 +14,12 @@ Structure
 * repos.list
 * *subdirectories*
 
+### cloudinit.sh ###
+
+This is the master install script.  This does the extra work of 
+installing ssh keys and some customizations to apt before calling
+bootstrap.sh.
+
 ### bootstrap.sh ###
 
 This script does the primary work of adding 3rd party dependencies
