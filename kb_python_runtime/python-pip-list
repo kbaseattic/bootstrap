@@ -26,3 +26,5 @@ django-nose
 jinja2
 south
 lxml
+python-daemon
+pymongo
