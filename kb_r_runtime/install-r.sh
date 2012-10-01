@@ -12,6 +12,9 @@ RBASE="R-2.15.1"
 echo "###### purge system R ######"
 apt-get -y remove --purge r-base-core
 
+echo "###### get R dependencies ######"
+apt-get --force-yes -y build-dep r-base
+
 echo "###### downloading $RBASE ######"
 wget $RURL$RBASE".tar.gz"
 tar zxf $RBASE".tar.gz"
