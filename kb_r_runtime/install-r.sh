@@ -20,7 +20,7 @@ wget $RURL$RBASE".tar.gz"
 tar zxf $RBASE".tar.gz"
 pushd $RBASE
 echo "###### installing $RBASE ######"
-./configure --enable-R-shlib
+./configure --enable-R-shlib --with-tcltk
 make -j4
 make install
 popd
