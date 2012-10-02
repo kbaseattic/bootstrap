@@ -28,3 +28,5 @@ south
 lxml
 python-daemon
 pymongo
+requests
+rsa
