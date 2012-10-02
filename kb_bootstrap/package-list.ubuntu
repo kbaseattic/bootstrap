@@ -4,9 +4,16 @@ git
 subversion
 bzr
 curl
+sqlite
 mysql-client
 mysql-server
 postgresql-client
+tcl
+tcl-dev
+tk
+tk-dev
+libtiff-dev
+libtiff-tools
 libpng12-dev
 libpng-dev
 libjpeg-dev
@@ -71,3 +78,4 @@ maven2
 bowtie
 nslcd
 nginx
+emacs

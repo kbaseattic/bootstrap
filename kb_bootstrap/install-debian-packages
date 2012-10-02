@@ -10,6 +10,10 @@ fi
 
 pkg_list=$1
 
+echo "updating apt-get"
+apt-get update
+apt-get -y upgrade all
+
 for pkg in `cat $pkg_list` ; do
 	echo "install $pkg"
 	apt-get -y install $pkg
