@@ -3,7 +3,8 @@
 export JAVA_HOME=/kb/runtime/java
 export ANT_HOME=/kb/runtime/ant
 export THRIFT_HOME=/kb/runtime/thrift
-export PATH=${JAVA_HOME}/bin:${ANT_HOME}/bin:/kb/runtime/bin:${THRIFT_HOME}/bin:${PATH}
+export CATALINA_HOME=/kb/runtime/tomcat
+export PATH=${JAVA_HOME}/bin:${ANT_HOME}/bin:/kb/runtime/bin:${THRIFT_HOME}/bin:${CATALINA_HOME}/bin:${PATH}
 
 curl http://www.kbase.us/docs/build/jdk1.6.0_30.tar.gz > jdk1.6.0_30.tar.gz
 #cleanup old
@@ -24,4 +25,7 @@ rm -rf /kb/runtime/apache-ivy*
 tar zxvf apache-ivy-2.3.0-rc1-bin.tar.gz -C /kb/runtime
 ln -s /kb/runtime/apache-ivy-2.3.0-rc1/ivy-2.3.0-rc1.jar /kb/runtime/ant/lib/.
 
-
+curl http://mirror.metrocast.net/apache/tomcat/tomcat-7/v7.0.32/bin/apache-tomcat-7.0.32.tar.gz > apache-tomcat-7.0.32.tar.gz
+rm -rf /kb/runtime/tomcat*
+tar zxvf apache-tomcat-7.0.32.tar.gz -C /kb/runtime
+ln -s /kb/runtime/apache-tomcat-7.0.32 /kb/runtime/tomcat
