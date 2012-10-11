@@ -25,7 +25,7 @@ rm -rf /kb/runtime/apache-ivy*
 tar zxvf apache-ivy-2.3.0-rc1-bin.tar.gz -C /kb/runtime
 ln -s /kb/runtime/apache-ivy-2.3.0-rc1/ivy-2.3.0-rc1.jar /kb/runtime/ant/lib/.
 
-curl http://mirror.metrocast.net/apache/tomcat/tomcat-7/v7.0.32/bin/apache-tomcat-7.0.32.tar.gz > apache-tomcat-7.0.32.tar.gz
+curl http://kbase.us/docs/build/apache-tomcat-7.0.32.tar.gz > apache-tomcat-7.0.32.tar.gz
 rm -rf /kb/runtime/tomcat*
 tar zxvf apache-tomcat-7.0.32.tar.gz -C /kb/runtime
 ln -s /kb/runtime/apache-tomcat-7.0.32 /kb/runtime/tomcat
