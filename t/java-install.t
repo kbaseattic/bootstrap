@@ -3,6 +3,12 @@ use strict vars;
 use warnings;
 use Test::More;
 
+$ENV{JAVA_HOME}     = "/kb/runtime/java";
+$ENV{ANT_HOME}      = "/kb/runtime/ant";
+$ENV{THRIFT_HOME}   = "/kb/runtime/thrift";
+$ENV{CATALINA_HOME} = "/kb/runtime/tomcat";
+$ENV{PATH}          = "$ENV{JAVA_HOME}/bin:$ENV{ANT_HOME}/bin:/kb/runtime/bin:$ENV{THRIFT_HOME}/bin:$ENV{CATALINA_HOME}/bin:$ENV{PATH}";
+
 my $testCount = 0;
 
 # keep adding tests to this list
@@ -19,7 +25,7 @@ done_testing($testCount);
 
 # attempt to start the tomcat server
 sub start_tomcat {
-        eval {!system("startup.sh") or die $!; sleep 30};
+        eval {!system("startup.sh > /dev/null") or die $!; sleep 60};
         ok(!$@, (caller(0))[3] );
 }
 
@@ -33,7 +39,7 @@ sub connect_to_tomcat {
 
 # attempt to shutdown the tomcat server
 sub shutdown_tomcat {
-        eval {!system("shutdown.sh") or die $!; sleep 30};
+        eval {!system("shutdown.sh > /dev/null") or die $!; sleep 30};
         ok(!$@, (caller(0))[3] );
 }
 
