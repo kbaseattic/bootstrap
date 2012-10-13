@@ -61,6 +61,7 @@ git clone kbase@git.kbase.us:/bootstrap.git
 pushd $(pwd)
 pushd bootstrap
 
+git pull
 # run bootstrap script
 ./bootstrap.sh
 popd
