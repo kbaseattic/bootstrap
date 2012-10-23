@@ -89,3 +89,5 @@ Test::Cmd
 BioPerl
 File::Copy::Recursive
 Dancer
+Plack
+Twiggy
