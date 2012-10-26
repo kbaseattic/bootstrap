@@ -8,7 +8,7 @@ pushd src
 ./all.bash
 popd
 for B in `ls bin`; do
-	if [ -e /usr/local/bin/$B]; then
+	if [ -e /usr/local/bin/$B ] ; then
 		rm /usr/local/bin/$B
 	fi
 	ln -s `pwd`/bin/$B /usr/local/bin
