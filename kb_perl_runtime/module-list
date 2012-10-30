@@ -91,3 +91,10 @@ File::Copy::Recursive
 Dancer
 Plack
 Twiggy
+Bash::Completion
+Bash::Completion::Plugin::Test
+Devel::Size
+Graph
+IO::Interactive::Tiny
+Module::Util
+Term::ReadKey
