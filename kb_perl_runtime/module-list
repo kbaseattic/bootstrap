@@ -61,7 +61,7 @@ CGI::PSGI
 Parse::Eyapp
 Object::Tiny::RW
 REST::Client
-Digest::SHA
+Digest::SHA1
 Digest::MD5
 MIME::Base64
 MIME::Types
@@ -85,9 +85,17 @@ XML::DOM
 Taint::Util
 Clone
 URI::Dispatch
+URI::QueryParam
 Test::Cmd
+Test::More
 BioPerl
 File::Copy::Recursive
 Dancer
 Plack
 Twiggy
+Crypt::OpenSSL::RSA
+Crypt::OpenSSL::X509
+Crypt::SSLeay
+Test::Deep::NoTest
+Storable
+Email::Valid
