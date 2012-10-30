@@ -16,7 +16,7 @@ beautifulsoup
 django 1.4
 pika
 httplib2
-django-piston
+django-piston==0.2.2
 django-tastypie
 oauth2
 flup
