@@ -99,3 +99,4 @@ Crypt::SSLeay
 Test::Deep::NoTest
 Storable
 Email::Valid
+Convert::PEM
