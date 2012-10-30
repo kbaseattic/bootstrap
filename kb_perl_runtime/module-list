@@ -100,3 +100,10 @@ Test::Deep::NoTest
 Storable
 Email::Valid
 Convert::PEM
+Bash::Completion
+Bash::Completion::Plugin::Test
+Devel::Size
+Graph
+IO::Interactive::Tiny
+Module::Util
+Term::ReadKey
