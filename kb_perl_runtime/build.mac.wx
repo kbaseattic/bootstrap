@@ -1,0 +1,46 @@
+use Cwd 'abs_path';
+use strict;
+use File::Basename;
+
+use Carp;
+
+@ARGV or die "Usage: $0 destdir\n";
+my $dest = shift;
+
+my $perl = abs_path("$dest/bin/perl");
+-x $perl or die "Cannot execute $perl";
+
+my $alien = "http://search.cpan.org/CPAN/authors/id/M/MD/MDOOTSON/Alien-wxWidgets-0.62.tar.gz";
+my $base = basename($alien);
+my $dir = $base;
+$dir =~ s/\.tar\.gz$//;
+
+run("curl", "-O", "-L", $alien);
+
+run("tar", "xzfp", $base);
+
+chdir($dir);
+
+#
+# We need to patch Build.PL, at least with 0.54.
+#
+
+#run("patch < ../alien.diff");
+
+run($perl,
+    qw(Build.PL
+       -wxWidgets-version 2.9.2
+       -wxWidgets-build-opengl
+       -wxWidgets-build
+       -wxWidgets-source tar.bz2));
+
+run("./Build");
+run("./Build install");
+
+sub run
+{
+    my(@cmd) = @_;
+    print "@cmd\n";
+    my $rc = system(@cmd);
+    $rc == 0 or croak "Failed with rc=$rc: @cmd";
+}

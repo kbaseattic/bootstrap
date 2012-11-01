@@ -21,16 +21,15 @@ fi
 file=`basename $url`
 dir=`echo $file | sed -e 's/\.tgz$//'`
 
-curl -o $file $url
-
-tar -xzf $file
-
-if [ ! -f $file ] ; then
+curl -f -o $file $url
+if [ $? -ne 0 -o ! -f $file ] ; then
     echo "Curl of $url to $file failed" 1>&2
     exit 1
 fi
 
-if [ ! -f "$dir/bin/mongod" ] ; then
+tar -xzf $file
+
+if [ $? -ne 0 -o ! -f "$dir/bin/mongod" ] ; then
     echo "Unpack of $file to $dir failed" 1>&2
     exit 1
 fi
