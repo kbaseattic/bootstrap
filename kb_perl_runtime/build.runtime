@@ -1,16 +1,26 @@
 #!/bin/sh
 
+DEST=/kb/runtime
+
+if [ $# -gt 0 ] ; then
+    DEST=$1
+    shift
+fi
+
 is_mac=0
 if [ -d /Library ] ; then
    is_mac=1
 fi
 
-perl build.perl
+perl build.perl $DEST
 
 if [ $is_mac -eq 1 ] ; then
-   perl build.mac.wx
-   perl build.gd.libs
+   perl build.mac.wx $DEST
+   perl build.gd.libs $DEST
 fi
 
-perl build.modules
+perl build.modules -perl $DEST/bin/perl
 
+if [ $is_mac -eq 1 ] ; then
+    perl build.modules -perl $DEST/bin/perl mac-module-list
+fi

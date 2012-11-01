@@ -6,6 +6,11 @@ use Carp;
 my $here = abs_path(".");
 my $dest = "$here/INSTALL";
 
+if (@ARGV)
+{
+    $dest = shift;
+}
+
 $ENV{PATH} = $ENV{PATH} . ":$dest/bin";
 
 my @url = (jpeg => 'http://www.ijg.org/files/jpegsrc.v8c.tar.gz', 'jpeg-8c',
