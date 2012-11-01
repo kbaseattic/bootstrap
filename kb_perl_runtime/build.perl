@@ -42,8 +42,8 @@ if (! -d $perl_vers)
 
 chdir $perl_vers;
 
-my @reloc = ();
-#my @reloc = ("-Duserelocatableinc", "-Dusesitecustomize");
+#my @reloc = ();
+my @reloc = ("-Duserelocatableinc", "-Dusesitecustomize");
 
 if (-d "/Library")
 {
