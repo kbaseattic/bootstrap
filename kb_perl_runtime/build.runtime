@@ -22,5 +22,5 @@ fi
 perl build.modules -perl $DEST/bin/perl
 
 if [ $is_mac -eq 1 ] ; then
-    perl build.modules -perl $DEST/bin/perl mac-module-list
+    perl build.modules -perl $DEST/bin/perl --list mac-module-list
 fi

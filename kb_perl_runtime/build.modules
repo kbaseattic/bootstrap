@@ -5,9 +5,11 @@ use Getopt::Long;
 
 my @modules;
 
+my $module_list = "module-list";
 my $perl = "/kb/runtime/bin/perl";
 
-my $rc = GetOptions("perl=s", \$perl); 
+my $rc = GetOptions("perl=s", \$perl,
+		    "list=s", \$module_list); 
 
 if (@ARGV)
 {
@@ -19,7 +21,7 @@ if (@ARGV)
 }
 else
 {
-    open(M, "<", "module-list") or die "Cannot open module-list: $!";
+    open(M, "<", $module_list) or die "Cannot open $module_list: $!";
     while (<M>)
     {
 	chomp;
