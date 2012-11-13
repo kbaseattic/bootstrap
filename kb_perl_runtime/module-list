@@ -112,3 +112,4 @@ Digest::SHA1
 Crypt::OpenSSL::RSA
 Convert::PEM
 LWP::Protocol::https
+Text::Table
