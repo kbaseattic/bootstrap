@@ -108,3 +108,7 @@ IO::Interactive::Tiny
 Module::Util
 Term::ReadKey
 Log::Log4perl
+Digest::SHA1
+Crypt::OpenSSL::RSA
+Convert::PEM
+LWP::Protocol::https
