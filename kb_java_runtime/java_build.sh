@@ -30,7 +30,6 @@ rm -rf /kb/runtime/tomcat*
 tar zxvf apache-tomcat-7.0.32.tar.gz -C /kb/runtime
 ln -s /kb/runtime/apache-tomcat-7.0.32 /kb/runtime/tomcat
 
-curl http://download.java.net/glassfish/3.1.2.2/release/glassfish-3.1.2.2-ml.zip > glassfish-3.1.2.2-ml.zip
+wget http://download.java.net/glassfish/3.1.2.2/release/glassfish-3.1.2.2-ml.zip
 rm -rf /kb/runtime/glassfish*
-tar zxvf glassfish-3.1.2.2-ml.zip -C /kb/runtime
-ln -s /kb/runtime/glassfish-3.1.2.2-ml /kb/runtime/glassfish
+unzip -d /kb/runtime/ glassfish-3.1.2.2-ml.zip 
