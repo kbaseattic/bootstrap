@@ -4,6 +4,7 @@ export JAVA_HOME=/kb/runtime/java
 export ANT_HOME=/kb/runtime/ant
 export THRIFT_HOME=/kb/runtime/thrift
 export CATALINA_HOME=/kb/runtime/tomcat
+export GLASSFISH_HOME=/kb/runtime/glassfish3
 export PATH=${JAVA_HOME}/bin:${ANT_HOME}/bin:/kb/runtime/bin:${THRIFT_HOME}/bin:${CATALINA_HOME}/bin:${PATH}
 
 curl http://www.kbase.us/docs/build/jdk1.6.0_30.tar.gz > jdk1.6.0_30.tar.gz
