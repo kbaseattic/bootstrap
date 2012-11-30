@@ -14,7 +14,7 @@ ipython
 ipython-extensions
 beautifulsoup
 django 1.4
-pika
+pika==0.9.8
 httplib2
 django-piston==0.2.2
 django-tastypie
