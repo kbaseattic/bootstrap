@@ -8,8 +8,8 @@ if [ $# -gt 0 ] ; then
 fi
 
 if [ ! -d "$dest/bin" ] ; then
-    echo "$dest/bin is not a directory" 1>&2
-    exit 1
+    mkdir $dest/bin 
+    echo "$dest/bin created" 1>&2
 fi
 
 if [ -d "/Library" ] ; then
