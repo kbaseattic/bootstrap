@@ -4,6 +4,7 @@ export JAVA_HOME=/kb/runtime/java
 export ANT_HOME=/kb/runtime/ant
 export THRIFT_HOME=/kb/runtime/thrift
 export CATALINA_HOME=/kb/runtime/tomcat
+export GLASSFISH_HOME=/kb/runtime/glassfish3
 export PATH=${JAVA_HOME}/bin:${ANT_HOME}/bin:/kb/runtime/bin:${THRIFT_HOME}/bin:${CATALINA_HOME}/bin:${PATH}
 
 curl http://www.kbase.us/docs/build/jdk1.6.0_30.tar.gz > jdk1.6.0_30.tar.gz
@@ -34,7 +35,12 @@ ln -s /kb/runtime/apache-tomcat-7.0.32 /kb/runtime/tomcat
 # Standard java libraries.
 #
 
+wget http://download.java.net/glassfish/3.1.2.2/release/glassfish-3.1.2.2-ml.zip
+rm -rf /kb/runtime/glassfish*
+unzip -d /kb/runtime/ glassfish-3.1.2.2-ml.zip 
+
 jackson=jackson-all-1.9.11.jar
 
 curl -o /kb/runtime/lib/$jackson http://jackson.codehaus.org/1.9.11/$jackson
 ln -s /kb/runtime/lib/$jackson /kb/runtime/lib/jackson-all.jar
+

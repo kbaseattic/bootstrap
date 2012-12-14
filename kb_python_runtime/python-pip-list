@@ -14,7 +14,7 @@ ipython
 ipython-extensions
 beautifulsoup
 django 1.4
-pika
+pika==0.9.8
 httplib2
 django-piston==0.2.2
 django-tastypie
@@ -37,3 +37,5 @@ requests==0.13.0
 rsa==3.0.1
 pyyaml==3.10
 jsonschema
+poster
+sphinx-http-domain

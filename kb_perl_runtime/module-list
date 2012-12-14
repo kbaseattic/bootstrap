@@ -109,3 +109,10 @@ Module::Util
 Term::ReadKey
 Log::Log4perl
 Sort::Topological
+Digest::SHA1
+Crypt::OpenSSL::RSA
+Convert::PEM
+LWP::Protocol::https
+Text::Table
+Text::NSP::Measures::2D::Fisher::twotailed
+
