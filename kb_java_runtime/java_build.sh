@@ -29,3 +29,12 @@ curl http://kbase.us/docs/build/apache-tomcat-7.0.32.tar.gz > apache-tomcat-7.0.
 rm -rf /kb/runtime/tomcat*
 tar zxvf apache-tomcat-7.0.32.tar.gz -C /kb/runtime
 ln -s /kb/runtime/apache-tomcat-7.0.32 /kb/runtime/tomcat
+
+#
+# Standard java libraries.
+#
+
+jackson=jackson-all-1.9.11.jar
+
+curl -o /kb/runtime/lib/$jackson http://jackson.codehaus.org/1.9.11/$jackson
+ln -s /kb/runtime/lib/$jackson /kb/runtime/lib/jackson-all.jar

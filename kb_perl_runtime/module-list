@@ -108,3 +108,4 @@ IO::Interactive::Tiny
 Module::Util
 Term::ReadKey
 Log::Log4perl
+Sort::Topological
