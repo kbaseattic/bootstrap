@@ -39,4 +39,4 @@ pyyaml==3.10
 jsonschema
 poster
 sphinx-http-domain
-jsosnschema
+jsonschema
