@@ -1,6 +1,16 @@
 #!/bin/bash
+
 # install node 0.6.18
+
+target=/kb/runtime
+
+if [ $# -gt 0 ] ; then
+	target=$1
+	shift
+fi
+
 curl http://nodejs.org/dist/v0.6.18/node-v0.6.18.tar.gz | tar xfz -
 cd node-v0.6.18
-./configure
+./configure --prefix=$target
+make
 make install
