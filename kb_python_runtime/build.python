@@ -1,0 +1,58 @@
+#!/usr/bin/env perl
+
+use strict;
+
+use Carp;
+use File::Basename;
+use Cwd 'abs_path';
+
+my $parallel = "-j4";
+
+my $here = abs_path(".");
+my $dest = "/kb/runtime";
+
+if (@ARGV)
+{
+    $dest = shift;
+    print STDERR "Overriding destination to $dest\n";
+}
+
+-d $dest || mkdir $dest;
+
+my $python_url = "http://www.python.org/ftp/python/2.7.3/Python-2.7.3.tgz";
+
+my $python_tgz = basename($python_url);
+my $python_vers = basename($python_tgz, ".tgz");
+print "tgz=$python_tgz vers=$python_vers\n";
+
+if (! -f $python_tgz)
+{
+    run("curl", "-o", $python_tgz, "-L", $python_url);
+}
+if (! -f $python_tgz)
+{
+    die "could not get python\n";
+}
+
+if (! -d $python_vers)
+{
+    run("tar", "xzf", $python_tgz);
+}
+
+chdir $python_vers;
+
+run("./configure", "--prefix", $dest);
+
+run("make", $parallel);
+run("make install > $here/install.out 2>&1");
+
+run("curl http://python-distribute.org/distribute_setup.py | $dest/bin/python");
+run("curl https://raw.github.com/pypa/pip/master/contrib/get-pip.py | $dest/bin/python");
+
+sub run
+{
+    my(@cmd) = @_;
+    print "@cmd\n";
+    my $rc = system(@cmd);
+    $rc == 0 or croak "Failed with rc=$rc: @cmd";
+}
