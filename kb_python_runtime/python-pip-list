@@ -39,3 +39,4 @@ jsonschema
 poster
 sphinx-http-domain
 jsonrpcbase
+uwsgi
