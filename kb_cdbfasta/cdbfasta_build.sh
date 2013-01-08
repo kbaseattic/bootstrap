@@ -7,7 +7,7 @@ if [[ $# -ne 0 ]] ; then
 fi
 
 IDIR=$target
-CURL="http://kbase.us/docs/build/cdbfasta/"
+CURL="http://kbase.us/docs/build/"
 CBASE="cdbfasta"
 
 echo "###### downloading $CBASE ######"
