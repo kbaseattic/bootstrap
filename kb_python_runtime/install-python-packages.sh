@@ -26,3 +26,9 @@ done
 if [ -d "/usr/local/lib/python2.7/dist-packages" ] ; then
 	rm -rf /usr/local/lib/python2.7/dist-packages/django_piston-0.2.3-py2.7*
 fi
+
+chmod a+x install-gevent.sh
+./install-gevent.sh
+
+chmod a+x install-nexus.sh
+./install-nexus.sh
