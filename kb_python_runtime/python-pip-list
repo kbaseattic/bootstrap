@@ -40,3 +40,4 @@ poster
 sphinx-http-domain
 jsonrpcbase
 uwsgi
+scipy
