@@ -28,7 +28,7 @@ if [ -d "/usr/local/lib/python2.7/dist-packages" ] ; then
 fi
 
 chmod a+x install-gevent.sh
-./install-gevent.sh
+./install-gevent.sh $target
 
 chmod a+x install-nexus.sh
-./install-nexus.sh
+./install-nexus.sh $target

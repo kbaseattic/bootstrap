@@ -11,7 +11,7 @@ JURL="http://kbase.us/docs/build/"
 JBASE="jellyfish-1.1.5"
 
 echo "###### downloading $JBASE ######"
-wget $JURL$JBASE".tar.gz"
+curl -O $JURL$JBASE".tar.gz"
 tar zxf $JBASE".tar.gz"
 
 echo "###### installing $JBASE ######"

@@ -11,7 +11,7 @@ CURL="http://kbase.us/docs/build/"
 CBASE="cdbfasta"
 
 echo "###### downloading $CBASE ######"
-wget $CURL$CBASE".tar.gz"
+curl -O $CURL$CBASE".tar.gz"
 tar zxf $CBASE".tar.gz"
 
 echo "###### installing $CBASE ######"
