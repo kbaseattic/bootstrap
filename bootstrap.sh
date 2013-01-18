@@ -70,4 +70,16 @@ pushd kb_mongodb
 if_error $? "install-mongodb.sh"
 popd
 
+# install jellyfish
+pushd kb_jellyfish
+./jellyfish_build.sh
+if_error $? "jellyfish_build.sh"
+popd
+
+# install jellyfish
+pushd kb_cdbfasta
+./cdbfasta_build.sh
+if_error $? "cdbfasta_build.sh"
+popd
+
 

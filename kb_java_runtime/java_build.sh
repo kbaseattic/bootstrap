@@ -1,46 +1,66 @@
 #!/bin/sh
 
-export JAVA_HOME=/kb/runtime/java
-export ANT_HOME=/kb/runtime/ant
-export THRIFT_HOME=/kb/runtime/thrift
-export CATALINA_HOME=/kb/runtime/tomcat
-export GLASSFISH_HOME=/kb/runtime/glassfish3
-export PATH=${JAVA_HOME}/bin:${ANT_HOME}/bin:/kb/runtime/bin:${THRIFT_HOME}/bin:${CATALINA_HOME}/bin:${PATH}
+target=$target
+if [ $# -ne 0 ] ; then
+	target=$1
+	shift
+fi
 
-curl http://www.kbase.us/docs/build/jdk1.6.0_30.tar.gz > jdk1.6.0_30.tar.gz
-#cleanup old
-rm -rf /kb/runtime/jdk1.6*
-rm /kb/runtime/java
-#install new 
-tar zxvf jdk1.6.0_30.tar.gz -C /kb/runtime
-ln -s /kb/runtime/jdk1.6.0_30 /kb/runtime/java
+export JAVA_HOME=$target/java
+export ANT_HOME=$target/ant
+export THRIFT_HOME=$target/thrift
+export CATALINA_HOME=$target/tomcat
+export GLASSFISH_HOME=$target/glassfish3
+export PATH=${JAVA_HOME}/bin:${ANT_HOME}/bin:$target/bin:${THRIFT_HOME}/bin:${CATALINA_HOME}/bin:${PATH}
 
-curl http://www.kbase.us/docs/build/apache-ant-1.8.4-bin.tar.gz > apache-ant-1.8.4-bin.tar.gz
-rm -rf /kb/runtime/apache-ant*
-rm /kb/runtime/ant
-tar zxvf apache-ant-1.8.4-bin.tar.gz -C /kb/runtime
-ln -s /kb/runtime/apache-ant-1.8.4 /kb/runtime/ant
+mkdir -p $target/lib
 
-curl http://www.kbase.us/docs/build/apache-ivy-2.3.0-rc1-bin.tar.gz > apache-ivy-2.3.0-rc1-bin.tar.gz
-rm -rf /kb/runtime/apache-ivy*
-tar zxvf apache-ivy-2.3.0-rc1-bin.tar.gz -C /kb/runtime
-ln -s /kb/runtime/apache-ivy-2.3.0-rc1/ivy-2.3.0-rc1.jar /kb/runtime/ant/lib/.
+#
+# We don't install this version on the mac; we use the one that
+# came with the system.
+#
+if [ ! -d /Library/Java/Home ] ; then
+	echo "Install JDK"
+	curl http://www.kbase.us/docs/build/jdk1.6.0_30.tar.gz > jdk1.6.0_30.tar.gz
+	#cleanup old
+	rm -rf $target/jdk1.6*
+	rm $target/java
+	#install new 
+	tar zxvf jdk1.6.0_30.tar.gz -C $target
+	ln -s $target/jdk1.6.0_30 $target/java
+fi
 
+echo "Install Ant"
+curl -O http://www.kbase.us/docs/build/apache-ant-1.8.4-bin.tar.gz
+rm -rf $target/apache-ant*
+rm $target/ant
+tar zxvf apache-ant-1.8.4-bin.tar.gz -C $target
+ln -s $target/apache-ant-1.8.4 $target/ant
+
+echo "Install Ivy"
+curl -O http://www.kbase.us/docs/build/apache-ivy-2.3.0-rc1-bin.tar.gz 
+rm -rf $target/apache-ivy*
+tar zxvf apache-ivy-2.3.0-rc1-bin.tar.gz -C $target
+ln -s $target/apache-ivy-2.3.0-rc1/ivy-2.3.0-rc1.jar $target/ant/lib/.
+
+echo "Install tomcat"
 curl http://kbase.us/docs/build/apache-tomcat-7.0.32.tar.gz > apache-tomcat-7.0.32.tar.gz
-rm -rf /kb/runtime/tomcat*
-tar zxvf apache-tomcat-7.0.32.tar.gz -C /kb/runtime
-ln -s /kb/runtime/apache-tomcat-7.0.32 /kb/runtime/tomcat
+rm -rf $target/tomcat*
+tar zxvf apache-tomcat-7.0.32.tar.gz -C $target
+ln -s $target/apache-tomcat-7.0.32 $target/tomcat
 
 #
 # Standard java libraries.
 #
 
-wget http://download.java.net/glassfish/3.1.2.2/release/glassfish-3.1.2.2-ml.zip
-rm -rf /kb/runtime/glassfish*
-unzip -d /kb/runtime/ glassfish-3.1.2.2-ml.zip 
+echo "Install glassfish"
+curl -O http://download.java.net/glassfish/3.1.2.2/release/glassfish-3.1.2.2-ml.zip
+rm -rf $target/glassfish*
+unzip -d $target/ glassfish-3.1.2.2-ml.zip 
 
 jackson=jackson-all-1.9.11.jar
 
-curl -o /kb/runtime/lib/$jackson http://jackson.codehaus.org/1.9.11/$jackson
-ln -s /kb/runtime/lib/$jackson /kb/runtime/lib/jackson-all.jar
+echo "Install jackson"
+curl -o $target/lib/$jackson http://jackson.codehaus.org/1.9.11/$jackson
+ln -s $target/lib/$jackson $target/lib/jackson-all.jar
 
