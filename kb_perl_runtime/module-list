@@ -118,3 +118,6 @@ Text::NSP::Measures::2D::Fisher::twotailed
 String::CamelCase
 IPC::Shareable
 Plack::Middleware::CrossOrigin
+Cairo
+Statistics::PCA
+
