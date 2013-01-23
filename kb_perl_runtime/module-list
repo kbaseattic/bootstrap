@@ -120,4 +120,4 @@ IPC::Shareable
 Plack::Middleware::CrossOrigin
 Cairo
 Statistics::PCA
-
+Statistics::Descriptive
