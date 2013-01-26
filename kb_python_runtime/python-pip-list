@@ -41,3 +41,4 @@ sphinx-http-domain
 jsonrpcbase
 uwsgi
 scipy
+cython
