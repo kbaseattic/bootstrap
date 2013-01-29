@@ -10,8 +10,6 @@ sphinx
 pyzmq
 tornado
 rpy2
-ipython
-ipython-extensions
 beautifulsoup
 django 1.4
 pika==0.9.8
