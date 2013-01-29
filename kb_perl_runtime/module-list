@@ -1,3 +1,4 @@
+JSON::Schema
 MongoDB::MongoClient
 Moose
 MooseX::NonMoose
