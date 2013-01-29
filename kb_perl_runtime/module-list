@@ -1,3 +1,4 @@
+MongoDB::MongoClient
 Moose
 MooseX::NonMoose
 MooseX::Singleton
