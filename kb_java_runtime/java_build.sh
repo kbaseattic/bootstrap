@@ -54,7 +54,7 @@ ln -s $target/apache-tomcat-7.0.32 $target/tomcat
 #
 
 echo "Install glassfish"
-curl -O http://download.java.net/glassfish/3.1.2.2/release/glassfish-3.1.2.2-ml.zip
+curl -O http://dlc.sun.com.edgesuite.net/glassfish/3.1.2.2/release/glassfish-3.1.2.2-ml.zip
 rm -rf $target/glassfish*
 unzip -d $target/ glassfish-3.1.2.2-ml.zip 
 
