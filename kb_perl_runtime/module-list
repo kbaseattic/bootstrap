@@ -7,6 +7,10 @@ MooseX::Method::Signatures	--notest
 MooseX::Params::Validate
 Class::Accessor
 XML::LibXML
+XML::Parser
+XML::SAX::Base
+XML::SAX
+XML::NamespaceSupport
 #Wx	--notest
 #wxPerl::Constructors
 LWP::UserAgent
