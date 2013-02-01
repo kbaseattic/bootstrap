@@ -127,3 +127,8 @@ Plack::Middleware::CrossOrigin
 Cairo
 Statistics::PCA
 Statistics::Descriptive
+Math::Random::MT::Perl
+Getopt::Declare
+Bio::Tools::Run::TigrAssembler
+File::Sort
+XML::Twig
