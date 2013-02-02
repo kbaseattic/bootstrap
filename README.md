@@ -40,3 +40,14 @@ to install properly using Aptitude:
    (QIIME) software package
 * `kb_thrift_runtime`: Install Apache Thrift RPC language interface
    definition
+
+Software With Restricted Redistribution Rights
+----------------------------------------------
+
+Software with restricted redistribution rights will need to be downloaded
+by the end user manually.  During the bootstrap process software affected
+by these restrictions will print out a warning message.  
+
+Once you aquire the affected restricted software, run "export restricted"
+before running the cloudinit.sh script to enable the installation of 
+restricted software.  
