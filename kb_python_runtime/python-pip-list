@@ -43,3 +43,4 @@ jsonrpcbase
 uwsgi
 scipy
 cython
+appdirs
