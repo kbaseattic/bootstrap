@@ -1,3 +1,4 @@
+oauth2==1.5.167
 setuptools
 MySQL-python
 SQLAlchemy
