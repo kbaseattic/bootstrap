@@ -6,7 +6,6 @@ function if_error() {
   if [ $EXIT_CODE != 0 ]
   then
     echo "$(basename $0) failed with exit code $EXIT_CODE and message $MESSAGE at $(date)"
-    exit $1
   fi
 }
 
