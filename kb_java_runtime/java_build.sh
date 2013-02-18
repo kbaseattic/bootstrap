@@ -59,14 +59,9 @@ ln -s $target/apache-tomcat-7.0.32 $target/tomcat
 #
 
 echo "Install glassfish"
-if [ -z restricted ]
-then
-  curl -O http://dlc.sun.com.edgesuite.net/glassfish/3.1.2.2/release/glassfish-3.1.2.2-ml.zip
-  rm -rf $target/glassfish*
-  unzip -d $target/ glassfish-3.1.2.2-ml.zip 
-else
-  echo "This component is restricted, please download the tarball from the rights holder."
-fi
+curl -O http://dlc.sun.com.edgesuite.net/glassfish/3.1.2.2/release/glassfish-3.1.2.2-ml.zip
+rm -rf $target/glassfish*
+unzip -d $target/ glassfish-3.1.2.2-ml.zip 
 
 jackson=jackson-all-1.9.11.jar
 
