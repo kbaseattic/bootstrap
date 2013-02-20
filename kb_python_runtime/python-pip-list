@@ -44,3 +44,4 @@ uwsgi
 scipy
 cython
 appdirs
+scikit-learn
