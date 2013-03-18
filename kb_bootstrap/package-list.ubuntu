@@ -80,3 +80,6 @@ nslcd
 nginx
 emacs
 doxygen
+mummer
+libexpat1-dev
+

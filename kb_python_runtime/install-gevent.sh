@@ -7,4 +7,4 @@ target=$1
 curl http://cloud.github.com/downloads/SiteSupport/gevent/gevent-1.0rc2.tar.gz > gevent-1.0rc2.tar.gz
 tar -xvf gevent-1.0rc2.tar.gz 
 cd gevent-1.0rc2
-$target/bin/python setup.py install
+python setup.py install

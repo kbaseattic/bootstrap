@@ -9,6 +9,14 @@ function if_error() {
   fi
 }
 
+while [ -z $target ]
+do
+  echo -n "target not defined, please enter location to install runtime:"
+  read target
+  export $target
+done
+
+cp VERSION ${target}/
 
 # install debian dependencies
 pushd kb_bootstrap

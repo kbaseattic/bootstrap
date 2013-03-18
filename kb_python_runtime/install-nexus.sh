@@ -9,4 +9,4 @@ target=$1
 git clone http://github.com/globusonline/python-nexus-client.git
 cd python-nexus-client
 git pull
-$target/bin/python setup.py install
+python setup.py install
