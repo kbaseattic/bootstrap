@@ -14,8 +14,6 @@ else
     exit 1
 fi
 
-IFS=$'\t'
-
 # python libs
 while read TYPE PKG SRC; do
     echo "downloading $PKG via $TYPE"
@@ -41,13 +39,7 @@ unzip -d $target/ rdp_classifier_2.2.zip
 ln -s $runtime/rdp_classifier_2.2/rdp_classifier-2.2.jar $runtime/lib/rdp_classifier.jar
 ln -s $runtime/rdp_classifier_2.2/rdp_classifier-2.2.jar $runtime/java/lib/rdp_classifier.jar
 
-# fasttree
-echo "installing fasttree"
-wget http://www.microbesonline.org/fasttree/FastTree-2.1.3.c
-gcc -Wall -O3 -finline-functions -funroll-loops -o FastTree -lm FastTree-2.1.3.c
-cp FastTree $target/bin/.
-
-# pre-compiled uclust
+# pre-compiled 64-bit Linux
 for B in bin/*; do 
     echo "install $B"
     cp $B $target/bin/.
