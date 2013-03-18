@@ -1,5 +1,5 @@
-PyCogent-1.5.1	PyCogent-1.5.1.tgz	http://downloads.sourceforge.net/project/pycogent/PyCogent/1.5.1/PyCogent-1.5.1.tgz
-PyNAST-1.1	PyNAST-1.1.tgz	http://downloads.sourceforge.net/project/pynast/PyNAST%20releases/PyNAST-1.1.tgz
-pprospector-1.0.1	pprospector-1.0.1.tar.gz	http://sourceforge.net/projects/pprospector/files/pprospector-1.0.1.tar.gz
-Qiime-1.5.0	Qiime-1.5.0.tar.gz	http://sourceforge.net/projects/qiime/files/releases/Qiime-1.5.0.tar.gz
-biom-format-1.0.0	biom-format-1.0.0.tgz	http://cloud.github.com/downloads/biom-format/biom-format/biom-format-1.0.0.tgz
+svn pprospector https://pprospector.svn.sourceforge.net/svnroot/pprospector/trunk
+git pycogent    git://github.com/pycogent/pycogent.git
+git pynast  git://github.com/qiime/pynast.git
+git qiime   git://github.com/qiime/qiime.git
+git biom-format git://github.com/biom-format/biom-format.git
