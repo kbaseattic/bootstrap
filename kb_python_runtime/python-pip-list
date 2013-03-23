@@ -44,3 +44,4 @@ cython
 appdirs
 scikit-learn
 markdown
+xlutils
