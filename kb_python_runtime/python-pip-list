@@ -45,3 +45,5 @@ appdirs
 scikit-learn
 markdown
 xlutils
+gitpython
+semantic_version
