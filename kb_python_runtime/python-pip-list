@@ -1,3 +1,4 @@
+oauth2==1.5.167
 setuptools
 MySQL-python
 SQLAlchemy
@@ -10,8 +11,6 @@ sphinx
 pyzmq
 tornado
 rpy2
-ipython
-ipython-extensions
 beautifulsoup
 django 1.4
 pika==0.9.8
@@ -42,3 +41,10 @@ jsonrpcbase
 uwsgi
 scipy
 cython
+appdirs
+scikit-learn
+markdown
+xlutils
+gitpython
+semantic_version
+simplejson

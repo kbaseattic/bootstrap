@@ -21,13 +21,18 @@ mkdir -p $target/lib
 #
 if [ ! -d /Library/Java/Home ] ; then
 	echo "Install JDK"
-	curl http://www.kbase.us/docs/build/jdk1.6.0_30.tar.gz > jdk1.6.0_30.tar.gz
-	#cleanup old
-	rm -rf $target/jdk1.6*
-	rm $target/java
-	#install new 
-	tar zxvf jdk1.6.0_30.tar.gz -C $target
-	ln -s $target/jdk1.6.0_30 $target/java
+        if [ -z restricted ]
+	then
+	  curl http://www.kbase.us/docs/build/jdk1.6.0_30.tar.gz > jdk1.6.0_30.tar.gz
+	  #cleanup old
+	  rm -rf $target/jdk1.6*
+	  rm $target/java
+	  #install new 
+	  tar zxvf jdk1.6.0_30.tar.gz -C $target
+	  ln -s $target/jdk1.6.0_30 $target/java
+	else
+	  echo "This component is restricted, please download the tarball from the rights holder."
+	fi
 fi
 
 echo "Install Ant"
@@ -54,7 +59,7 @@ ln -s $target/apache-tomcat-7.0.32 $target/tomcat
 #
 
 echo "Install glassfish"
-curl -O http://download.java.net/glassfish/3.1.2.2/release/glassfish-3.1.2.2-ml.zip
+curl -O http://dlc.sun.com.edgesuite.net/glassfish/3.1.2.2/release/glassfish-3.1.2.2-ml.zip
 rm -rf $target/glassfish*
 unzip -d $target/ glassfish-3.1.2.2-ml.zip 
 

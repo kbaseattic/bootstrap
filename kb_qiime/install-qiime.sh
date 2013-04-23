@@ -14,22 +14,32 @@ else
     exit 1
 fi
 
-IFS=$'\t'
-
-while read PKG TGZ URL; do
-    echo "###### downloading $PKG ######"
-    if [[ ! -f $TGZ ]] ; then
-	    curl -L -O $URL
+# python libs
+while read TYPE PKG SRC; do
+    echo "downloading $PKG via $TYPE"
+    if [[ $TYPE == 'svn' ]]; then
+        svn co $SRC $PKG
+    elif [[ $TYPE == 'git' ]]; then
+        git clone $SRC
     fi
-    tar zxf $TGZ
     if [[ ! -d $PKG ]] ; then
-	echo "Download of $URL and extraction of $TGZ did not create $PKG directory" 1>&2
-	exit 2
+        echo "Download of $SRC did not create $PKG directory" 1>&2
+        exit 2
     fi
-    echo "###### installing $PKG ######"
-    (cd $PKG; $python setup.py install)
+    echo "installing $PKG"
+    pushd $PKG
+    $python setup.py install
+    popd
 done < $pkg_list
 
+# java rdp clasifier
+echo "installing rdp-classifier"
+wget -O rdp_classifier_2.2.zip http://sourceforge.net/projects/rdp-classifier/files/rdp-classifier/rdp_classifier_2.2.zip/download
+unzip -d $target/ rdp_classifier_2.2.zip
+ln -s $target/rdp_classifier_2.2/rdp_classifier-2.2.jar $target/lib/rdp_classifier.jar
+ln -s $target/rdp_classifier_2.2/rdp_classifier-2.2.jar $target/java/lib/rdp_classifier.jar
+
+# pre-compiled 64-bit Linux
 for B in bin/*; do 
     echo "install $B"
     cp $B $target/bin/.
