@@ -123,3 +123,4 @@ Plack::Middleware::CrossOrigin
 Cairo
 Statistics::PCA
 Statistics::Descriptive
+Term::ReadLine::Gnu
