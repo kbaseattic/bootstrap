@@ -32,15 +32,34 @@ while read TYPE PKG SRC; do
     popd
 done < $pkg_list
 
+# set qiime
+mkdir -p $target/qiime
+mkdir -p $target/qiime/temp
+
 # java rdp clasifier
 echo "installing rdp-classifier"
 wget -O rdp_classifier_2.2.zip http://sourceforge.net/projects/rdp-classifier/files/rdp-classifier/rdp_classifier_2.2.zip/download
-unzip -d $target/ rdp_classifier_2.2.zip
-ln -s $target/rdp_classifier_2.2/rdp_classifier-2.2.jar $target/lib/rdp_classifier.jar
-ln -s $target/rdp_classifier_2.2/rdp_classifier-2.2.jar $target/java/lib/rdp_classifier.jar
+unzip -d $target/qiime/ rdp_classifier_2.2.zip
+ln -s $target/qiime/rdp_classifier_2.2/rdp_classifier-2.2.jar $target/lib/rdp_classifier.jar
+ln -s $target/qiime/rdp_classifier_2.2/rdp_classifier-2.2.jar $target/java/lib/rdp_classifier.jar
+
+# greengenes data
+echo "installing greengenes libraries"
+mkdir -p $target/qiime/greengenes
+wget -O $target/qiime/greengenes/core_set_aligned.fasta.imputed http://greengenes.lbl.gov/Download/Sequence_Data/Fasta_data_files/core_set_aligned.fasta.imputed
+wget -O $target/qiime/greengenes/lanemask_in_1s_and_0s http://greengenes.lbl.gov/Download/Sequence_Data/lanemask_in_1s_and_0s
+wget ftp://greengenes.microbio.me/greengenes_release/gg_12_10/gg_12_10_otus.tar.gz
+tar -xzf gg_12_10_otus.tar.gz -C $target/greengenes/qiime
 
 # pre-compiled 64-bit Linux
 for B in bin/*; do 
     echo "install $B"
     cp $B $target/bin/.
 done
+
+# qiime config
+touch $target/qiime/.qiime_config
+echo "qiime_scripts_dir\t/usr/local/bin" >> $target/qiime/.qiime_config
+echo "temp_dir\t$target/qiime/temp" >> $target/qiime/.qiime_config
+echo "pynast_template_alignment_fp\t$target/qiime/greengenes/core_set_aligned.fasta.imputed" >> $target/qiime/.qiime_config
+echo "template_alignment_lanemask_fp\t$target/qiime/greengenes/lanemask_in_1s_and_0s" >> $target/qiime/.qiime_config
