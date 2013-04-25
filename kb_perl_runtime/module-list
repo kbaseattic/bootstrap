@@ -132,3 +132,4 @@ Getopt::Declare
 Bio::Tools::Run::TigrAssembler
 File::Sort
 XML::Twig
+Term::ReadLine::Gnu
