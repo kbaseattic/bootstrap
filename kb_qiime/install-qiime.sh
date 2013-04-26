@@ -59,7 +59,7 @@ done
 
 # qiime config
 touch $target/qiime/.qiime_config
-echo "qiime_scripts_dir\t/usr/local/bin" >> $target/qiime/.qiime_config
-echo "temp_dir\t$target/qiime/temp" >> $target/qiime/.qiime_config
-echo "pynast_template_alignment_fp\t$target/qiime/greengenes/core_set_aligned.fasta.imputed" >> $target/qiime/.qiime_config
-echo "template_alignment_lanemask_fp\t$target/qiime/greengenes/lanemask_in_1s_and_0s" >> $target/qiime/.qiime_config
+echo -e "qiime_scripts_dir\t/usr/local/bin" >> $target/qiime/.qiime_config
+echo -e "temp_dir\t$target/qiime/temp" >> $target/qiime/.qiime_config
+echo -e "pynast_template_alignment_fp\t$target/qiime/greengenes/core_set_aligned.fasta.imputed" >> $target/qiime/.qiime_config
+echo -e "template_alignment_lanemask_fp\t$target/qiime/greengenes/lanemask_in_1s_and_0s" >> $target/qiime/.qiime_config
