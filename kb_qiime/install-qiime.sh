@@ -49,7 +49,7 @@ mkdir -p $target/qiime/greengenes
 wget -O $target/qiime/greengenes/core_set_aligned.fasta.imputed http://greengenes.lbl.gov/Download/Sequence_Data/Fasta_data_files/core_set_aligned.fasta.imputed
 wget -O $target/qiime/greengenes/lanemask_in_1s_and_0s http://greengenes.lbl.gov/Download/Sequence_Data/lanemask_in_1s_and_0s
 wget ftp://greengenes.microbio.me/greengenes_release/gg_12_10/gg_12_10_otus.tar.gz
-tar -xzf gg_12_10_otus.tar.gz -C $target/greengenes/qiime
+tar -xzf gg_12_10_otus.tar.gz -C $target/qiime/greengenes
 
 # pre-compiled 64-bit Linux
 for B in bin/*; do 
