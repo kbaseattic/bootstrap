@@ -48,3 +48,4 @@ xlutils
 gitpython
 semantic_version
 simplejson
+networkx
