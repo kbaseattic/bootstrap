@@ -1,4 +1,5 @@
+github.com/jaredwilkening/log4go
 github.com/jaredwilkening/goweb
-github.com/kless/goconfig/config
+github.com/jaredwilkening/goconfig/config
 labix.org/v2/mgo
 code.google.com/p/goprotobuf/proto

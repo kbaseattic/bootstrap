@@ -1,22 +1,24 @@
 #!/bin/bash
 
+DIR=$1 
+: ${DIR:="/kb/runtime"}
 
-pushd /usr/local
+pushd ${DIR}
 hg clone -u release https://code.google.com/p/go
 pushd go
 pushd src
 ./all.bash
 popd
 for B in `ls bin`; do
-	if [ -e /usr/local/bin/$B ] ; then
-		rm /usr/local/bin/$B
+	if [ -e ${DIR}/bin/$B ] ; then
+		rm ${DIR}/bin/$B
 	fi
-	ln -s `pwd`/bin/$B /usr/local/bin
+	ln -s `pwd`/bin/$B ${DIR}/bin
 done
 popd
 popd
 
-export GOPATH=/usr/local/gopath
+export GOPATH=${DIR}/gopath
 if [ ! -e $GOPATH ]; then
 	mkdir $GOPATH
 fi
