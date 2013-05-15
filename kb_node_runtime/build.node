@@ -9,8 +9,9 @@ if [ $# -gt 0 ] ; then
 	shift
 fi
 
-curl http://nodejs.org/dist/v0.6.18/node-v0.6.18.tar.gz | tar xfz -
-cd node-v0.6.18
+#curl http://nodejs.org/dist/v0.6.18/node-v0.6.18.tar.gz | tar xfz -
+curl http://nodejs.org/dist/node-latest.tar.gz | tar xfz -
+cd node-v*
 ./configure --prefix=$target
 make
 make install
