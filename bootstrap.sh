@@ -42,6 +42,12 @@ pushd kb_golang_runtime
 if_error $? "install-golang.sh"
 popd
 
+# build and install shock
+pushd kb_shock
+./install-shock.sh
+if_error $? "install-shock.sh"
+popd
+
 # build and install R base and libraries
 pushd kb_r_runtime
 ./install-r.sh r-packages.R
