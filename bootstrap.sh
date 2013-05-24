@@ -90,4 +90,10 @@ pushd kb_cdbfasta
 if_error $? "cdbfasta_build.sh"
 popd
 
+# install seed kmer code
+pushd kb_seed_kmers
+./build.seed_kmers
+if_error $? "build.seed_kmers"
+popd
+
 
