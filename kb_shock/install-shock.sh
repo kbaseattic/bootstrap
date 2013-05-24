@@ -7,7 +7,7 @@ gopath=${DIR}/gopath
 export GOPATH=${gopath}
 
 pushd ${DIR}
-mkdir -p shock/conf shock/bin shock/logs /shock/data
+mkdir -p shock/conf shock/bin shock/logs /shock/data/temp
 popd
 
 if [ ! -e $GOPATH ]; then
