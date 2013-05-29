@@ -102,4 +102,17 @@ pushd kb_seed_kmers
 if_error $? "build.seed_kmers"
 popd
 
+# install prodigal
+pushd kb_prodigal
+./build.prodigal
+if_error $? "build.prodigal"
+popd
+
+
+# install glimmer
+pushd kb_glimmer
+./build.glimmer
+if_error $? "build.glimmer"
+popd
+
 
