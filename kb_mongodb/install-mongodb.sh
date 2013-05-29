@@ -13,9 +13,9 @@ if [ ! -d "$dest/bin" ] ; then
 fi
 
 if [ -d "/Library" ] ; then
-    url="http://fastdl.mongodb.org/osx/mongodb-osx-x86_64-2.2.1.tgz"
+    url="http://fastdl.mongodb.org/osx/mongodb-osx-x86_64-2.4.3.tgz"
 else
-    url="http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.0.7.tgz"
+    url="http://fastdl.mongodb.org/linux/mongodb-linux-x86_64-2.4.3.tgz"
 fi
 
 file=`basename $url`
@@ -35,4 +35,4 @@ if [ $? -ne 0 -o ! -f "$dir/bin/mongod" ] ; then
 fi
 
 cp $dir/bin/* $dest/bin/.
-
+cp mongo_up $dest/bin

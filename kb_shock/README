@@ -1,0 +1,8 @@
+KBase bootstrap Shock notes:
+
+Shock requires mongodb to be configured and running. For in order to not interfere with the production deployment of Shock please use localhost mongodb. If it is desirable to persist this instance data beyond this runtime attach a volume and use it for the mongodb & Shock data directories. 
+
+Once mongodb is running modify the /kb/runtime/shock/conf/shock.cfg file appropriately and run shock.
+
+Shock start cmd (assuming default bootstrap location):
+/kb/runtime/shock/bin/shock-server -conf /kb/runtime/shock/conf/shock.cfg
