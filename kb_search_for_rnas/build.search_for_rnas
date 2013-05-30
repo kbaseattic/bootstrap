@@ -63,6 +63,8 @@ close(P);
 close(I);
 chmod(0755, $prog);
 
+symlink($prog, "$dest/bin/$prog");
+
 my @from_blast = qw(blastall formatdb);
 for my $prog (@from_blast)
 {
@@ -73,4 +75,3 @@ for my $prog (@from_blast)
 	symlink("/usr/bin/$prog", "$bindir/$prog");
     }
 }
-
