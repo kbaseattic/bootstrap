@@ -96,23 +96,14 @@ pushd kb_cdbfasta
 if_error $? "cdbfasta_build.sh"
 popd
 
-# install seed kmer code
-pushd kb_seed_kmers
-./build.seed_kmers
-if_error $? "build.seed_kmers"
-popd
+#
+# Some builds using a common model.
+#
 
-# install prodigal
-pushd kb_prodigal
-./build.prodigal
-if_error $? "build.prodigal"
-popd
-
-
-# install glimmer
-pushd kb_glimmer
-./build.glimmer
-if_error $? "build.glimmer"
-popd
-
-
+builds="seed_kmers prodigal glimmer elph"
+for build in $builds; do
+	pushd kb_$build
+	./build.$build
+	if_error $? "build.$build"
+	popd
+done
