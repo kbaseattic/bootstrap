@@ -63,7 +63,7 @@ close(P);
 close(I);
 chmod(0755, $prog);
 
-symlink($prog, "$dest/bin/$prog");
+symlink($prog, "$dest/bin/search_for_rnas");
 
 my @from_blast = qw(blastall formatdb);
 for my $prog (@from_blast)
