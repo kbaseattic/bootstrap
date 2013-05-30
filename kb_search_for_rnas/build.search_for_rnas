@@ -34,12 +34,20 @@ my $bindir = "$progdir/bin";
 my $mandir = "$progdir/man";
 
 chdir($search_for_rnas_dir);
+
+mkdir("$dest/search_for_rnas"); 
+
+my $rc = system("cp", "-r", "alignments", "$dest/search_for_rnas/.");
+if ($rc != 0) {
+    die "error copying alignments to $dest/search_for_rnas/.";
+}
+
 chdir("programs/cove-2.4.4");
-system("make", "BINDIR=$bindir", "MANDIR=$mandir");
+system("make", "-j$parallel", "BINDIR=$bindir", "MANDIR=$mandir");
 system("make", "BINDIR=$bindir", "MANDIR=$mandir", "install");
 
 chdir("../tRNAscan-SE-1.21");
-system("make", "PERLDIR=$dest/bin", "BINDIR=$bindir", "MANDIR=$mandir", "LIBDIR=$progdir/lib/tRNAscan-SE");
+system("make", "-j$parallel", "PERLDIR=$dest/bin", "BINDIR=$bindir", "MANDIR=$mandir", "LIBDIR=$progdir/lib/tRNAscan-SE");
 system("make", "PERLDIR=$dest/bin", "BINDIR=$bindir", "MANDIR=$mandir", "LIBDIR=$progdir/lib/tRNAscan-SE", "install");
 
 my $prog = "$dest/search_for_rnas/search_for_rnas";
@@ -55,72 +63,14 @@ close(P);
 close(I);
 chmod(0755, $prog);
 
-__DATA__
+my @from_blast = qw(blastall formatdb);
+for my $prog (@from_blast)
+{
 
-  601  ls
-  602  ls alignments/
-  603  vi search_for_rnas
-  604  cp search_for_rnas /Applications/KBase.app/runtime/search_for_rnas/
-  605  find . -name Common
-  606  find . -name Messages.pm
-  607  grep -r Common .
-  608  dirs
-  609  ls
-  610  diff search_for_rnas.orig search_for_rnas
-  611  ls
-  612  rm search_for_rnas.orig 
-  613  ls -l
-  614  di
-  615  id
-  616  rm search_for_rnas
-  617  id
-  618  ls -ld .
-  619  chmod +w .
-  620  rm search_for_rnas.orig 
-  621  vi search_for_rnas 
-  622  mv search_for_rnas search_for_rnas.in
-  623  vi search_for_rnas.in 
-  624  ls
-  625  cd programs/
-  626  ls
-  627  ls bin
-  628  file bin/*
-  629  rm bin/*
-  630  ls
-  631  cd cove-2.4.4/
-  632  ls
-  633  make clean
-  634  ls
-  635  file *
-  636  cd ..
-  637  ls
-  638  sl lib
-  639  ls lib
-  640  ls lib/tRNAscan-SE/
-  641  file lib/*/*
-  642  cd tRNAscan-SE-1.21
-  643  ls
-  644  make clean
-  645  file *
-  646  more sstofa
-  647  rm sstofa
-  648  file *
-  649  dirs
-  650  cd ../..
-  651  cd ..
-  652  tar czf search_for_rnas-2007-0625.tgz search_for_rnas-2007-0625
-  653  tar vtzf search_for_rnas-2007-0625.tgz 
-  654  tar vtzf search_for_rnas-2007-0625.tgz  | sort -k5n
-  655  rm search_for_rnas-2007-0625/programs/tRNAscan-SE-1.21.beforebobhack.tgz
-  656  tar czf search_for_rnas-2007-0625.tgz search_for_rnas-2007-0625
-  657  dirs
-  658  cd ..
-  659  ls
-  660  mkdir kb_search_for_rnas
-  661  cd kb_se
-  662  cd kb_search_for_rnas/
-  663  cp ../kb_blast/build.blast .
-  664  mv build.blast build.search_for_rnas
-  665  history
-  666  history|grep make
-  667  history >> build.search_for_rnas 
+    if (-x "$dest/bin/$prog") {
+	symlink("$dest/bin/$prog", "$bindir/$prog");
+    } else {
+	symlink("/usr/bin/$prog", "$bindir/$prog");
+    }
+}
+
