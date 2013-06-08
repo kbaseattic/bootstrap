@@ -56,6 +56,11 @@ apt-get update
 # install git-core, we need it to download bootstrap.git
 apt-get install -y git-core
 
+if [ $1 == "no-bootstrap" ]; then
+  echo "no-bootstrap";
+  exit;
+fi;
+
 # clone this repository (it's not on the cloud instance)
 git clone kbase@git.kbase.us:/bootstrap.git
 pushd $(pwd)
