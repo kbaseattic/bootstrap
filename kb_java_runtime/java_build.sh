@@ -1,10 +1,36 @@
 #!/bin/sh
 
-target=$target
+# usage: 
+#   build_java.sh
+#   build_java.sh /kb/runtime
+#   build_java.sh -u /kb/runtime
+#
+# general form:
+#  build_java.sh -u <target>
+#
+# -u 		is optional, it will over-ride java restricted
+# <target> 	is optional, it will default to /kb/runtime
+restricted="restricted"
+while getopts u opt; do
+  case $opt in
+    u)
+      echo "-u was triggered, overridding restricted"
+      shift
+      restricted="unrestricted"
+      ;;
+    \?)
+      echo "invalid option: -$OPTARG"
+      ;;
+  esac
+done
+
+
+target="/kb/runtime"
 if [ $# -ne 0 ] ; then
 	target=$1
 	shift
 fi
+echo "using $target as runtime"
 
 export JAVA_HOME=$target/java
 export ANT_HOME=$target/ant
@@ -20,8 +46,8 @@ mkdir -p $target/lib
 # came with the system.
 #
 if [ ! -d /Library/Java/Home ] ; then
-	echo "Install JDK"
-        if [ -z restricted ]
+	echo "Install JDK, restricted set to $restricted"
+	if [ "$restricted" = unrestricted ] ;
 	then
 	  curl http://www.kbase.us/docs/build/jdk1.6.0_30.tar.gz > jdk1.6.0_30.tar.gz
 	  #cleanup old
@@ -66,6 +92,7 @@ unzip -d $target/ glassfish-3.1.2.2-ml.zip
 jackson=jackson-all-1.9.11.jar
 
 echo "Install jackson"
+rm -rf $target/lib/jackson-all*
 curl -o $target/lib/$jackson http://jackson.codehaus.org/1.9.11/$jackson
 ln -s $target/lib/$jackson $target/lib/jackson-all.jar
 
