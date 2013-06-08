@@ -42,6 +42,12 @@ pushd kb_golang_runtime
 if_error $? "install-golang.sh"
 popd
 
+# build and install shock
+pushd kb_shock
+./install-shock.sh
+if_error $? "install-shock.sh"
+popd
+
 # build and install R base and libraries
 pushd kb_r_runtime
 ./install-r.sh r-packages.R
@@ -84,16 +90,26 @@ pushd kb_jellyfish
 if_error $? "jellyfish_build.sh"
 popd
 
-# install jellyfish
+# install cdbfasta
 pushd kb_cdbfasta
 ./cdbfasta_build.sh
 if_error $? "cdbfasta_build.sh"
 popd
 
-# install seed kmer code
-pushd kb_seed_kmers
-./build.seed_kmers
-if_error $? "build.seed_kmers"
+# install daemonize
+pushd kb_daemonize
+./install-daemonize.sh
+if_error $? "install-daemonize.sh"
 popd
 
+#
+# Some builds using a common model.
+#
 
+builds="seed_kmers prodigal glimmer elph"
+for build in $builds; do
+	pushd kb_$build
+	./build.$build
+	if_error $? "build.$build"
+	popd
+done

@@ -1,0 +1,36 @@
+#!/usr/bin/env perl
+
+use strict;
+
+use Carp;
+use File::Basename;
+use Cwd 'abs_path';
+
+my $dest = "/kb/runtime";
+my $parallel = 4;
+
+if (@ARGV)
+{
+    $dest = shift;
+    print STDERR "Overriding destination to $dest\n";
+}
+
+-d $dest || mkdir $dest;
+
+my $vers = "1.0.1";
+my $elph_dir = "ELPH";
+my $elph_tar = "ELPH-$vers.tar.gz";
+my $elph_url = "ftp://ftp.cbcb.umd.edu/pub/software/elph/$elph_tar";
+
+if (! -s $elph_tar)
+{
+    system("curl", "-o", $elph_tar, "-L", $elph_url);
+}
+
+system("rm", "-rf", $elph_dir);
+system("tar", "xzfp", $elph_tar);
+
+chdir("$elph_dir/sources") || die "chdir failed: $!";
+system("make", "-j$parallel") && die "make failed";
+-x "elph" || die "did not create elph";
+system("cp", "elph", "$dest/bin/elph") && die "cp elph $dest/bin/elph failed";
