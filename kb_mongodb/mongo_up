@@ -10,13 +10,6 @@ unless ($ARGV[0] eq "start" or $ARGV[0] eq "stop" ) {
         exit 0;
 }
 
-sub whoami {  $u=`whoami`; chomp $u; return $u; }
-
-if (whoami() ne "root") {
-    print "mongo_up must be run as root\n";
-    exit 0;
-}
-
 mongo_up() if $ARGV[0] eq "start";
 mongo_down() if $ARGV[0] eq "stop";
 
