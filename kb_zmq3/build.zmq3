@@ -1,0 +1,70 @@
+#!/usr/bin/env perl
+
+use strict;
+
+use Carp;
+use File::Basename;
+use Cwd 'abs_path';
+
+my $dest = "/kb/runtime";
+my $parallel = 4;
+
+if (@ARGV)
+{
+    $dest = shift;
+    print STDERR "Overriding destination to $dest\n";
+}
+
+-d $dest || mkdir $dest;
+my $zdest = "$dest/zmq3";
+-d $zdest || mkdir $zdest;
+
+my $vers = "3.2.3";
+my $zmq3_dir = "zeromq-$vers";
+my $zmq3_tar = "zeromq-$vers.tar.gz";
+my $zmq3_url = "http://download.zeromq.org/$zmq3_tar";
+
+if (! -s $zmq3_tar)
+{
+    system("curl", "-o", $zmq3_tar, "-L", $zmq3_url);
+}
+
+
+system("rm", "-rf", $zmq3_dir);
+system("tar", "xzfp", $zmq3_tar);
+
+
+#
+# Retrieve the Perl module as well.
+#
+
+my $perl_dir = "ZMQ-LibZMQ3-1.12";
+my $perl_tar = "ZMQ-LibZMQ3-1.12.tar.gz";
+my $perl_url = "http://search.cpan.org/CPAN/authors/id/D/DM/DMAKI/$perl_tar";
+if (! -s $perl_tar)
+{
+    system("curl", "-o", $perl_tar, "-L", $perl_url);
+}
+
+system("rm", "-rf", $perl_dir);
+system("tar", "xzfp", $perl_tar);
+
+#
+# Mac needs 32-bit build for the perl linkage.
+#
+if (-d "/Library")
+{
+    $ENV{CFLAGS} = $ENV{CXXFLAGS} = $ENV{LDFLAGS} = "-m32";
+}
+
+chdir("$zmq3_dir") || die "chdir $zmq3_dir failed: $!";
+system("patch -p1 < ../fix_strndup.patch");
+system("./configure", "--prefix", $zdest, "--enable-static", "--disable-dynamic");
+system("make", "-j$parallel") && die "make failed";
+system("make", "install");
+
+chdir("../$perl_dir");
+$ENV{ZMQ_HOME} = $zdest;
+system("$dest/bin/perl", "Makefile.PL");
+system("make");
+system("make install");
