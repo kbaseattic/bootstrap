@@ -90,10 +90,16 @@ pushd kb_jellyfish
 if_error $? "jellyfish_build.sh"
 popd
 
-# install jellyfish
+# install cdbfasta
 pushd kb_cdbfasta
 ./cdbfasta_build.sh
 if_error $? "cdbfasta_build.sh"
+popd
+
+# install daemonize
+pushd kb_daemonize
+./install-daemonize.sh
+if_error $? "install-daemonize.sh"
 popd
 
 #
