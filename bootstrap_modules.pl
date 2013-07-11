@@ -4,12 +4,13 @@ use strict;
 use Cwd qw(abs_path getcwd);
 use Getopt::Long;
 use Pod::Usage;
+use Data::Dumper;
 
 use vars qw($help $dest $module_dat);
 GetOptions('h'    => \$help,
 	   'help' => \$help,
 	   'd'    => \$dest,
-	   'm'    => \$module_dat,
+	   'm=s'    => \$module_dat,
     ) or pod2usage(0);
 
 pod2usage(-exitstatus => 0,
@@ -55,13 +56,16 @@ print Dumper(\@modules);
 for my $mod (@modules)
 {
     my($dir, $cmd, $args) = @$mod;
-    chdir $dir or die "could not chdir into $dir";
+    open STDOUT, ">$log_dir/$dir" or die "can not open STDOUT on $log_dir/$dir";
+    open STDERR, ">$log_dir/$dir" or die "can not open STDERR on $log_dir/$dir";
 
-    my $full_cmd = "$cmd $args >& $log_dir/$dir";
-    !system($cmd, $args) or die "failed to execute $cmd $args: $!";
+    my $full_cmd = "bash -c 'pushd $dir; ./$cmd $args; popd;'";
+    !system($full_cmd) or die "failed to execute $full_cmd: $!";
     system("touch", "$log_dir/built.$dir");
 
-    chdir $start_cwd or die "could not chdir back to start dir";
+
+    close STDOUT;
+    close STDERR;
 }
 
 
@@ -71,7 +75,7 @@ for my $mod (@modules)
 
 =head1  NAME
 
-[% kb_method_name %]
+bootstrap_modules.pl
 
 =head1  SYNOPSIS
 
