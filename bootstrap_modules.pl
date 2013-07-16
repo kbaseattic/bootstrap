@@ -81,7 +81,7 @@ bootstrap_modules.pl
 
 =over
 
-=item bootstrap.pl -d /kb/runtime -m ./my_modules.dat
+=item bootstrap_modules.pl -d /kb/runtime -m ./my_modules.dat
 
 =back
 
