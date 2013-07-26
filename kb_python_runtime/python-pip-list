@@ -49,7 +49,6 @@ gitpython
 semantic_version
 simplejson
 networkx
-PyQt
 pygments
 XStatic-MathJax
 pexpect
