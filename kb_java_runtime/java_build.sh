@@ -49,13 +49,14 @@ if [ ! -d /Library/Java/Home ] ; then
 	echo "Install JDK, restricted set to $restricted"
 	if [ "$restricted" = unrestricted ] ;
 	then
-	  curl http://www.kbase.us/docs/build/jdk1.6.0_30.tar.gz > jdk1.6.0_30.tar.gz
+	  curl http://www.kbase.us/docs/build/jdk-7u25-linux-x64.tar.gz > jdk-7u25-linux-x64.tar.gz
 	  #cleanup old
 	  rm -rf $target/jdk1.6*
+	  rm -rf $target/jdk1.7*
 	  rm $target/java
 	  #install new 
-	  tar zxvf jdk1.6.0_30.tar.gz -C $target
-	  ln -s $target/jdk1.6.0_30 $target/java
+	  tar zxvf jdk-7u25-linux-x64.tar.gz -C $target
+	  ln -s $target/jdk1.7.0_25 $target/java
 	else
 	  echo "This component is restricted, please download the tarball from the rights holder."
 	fi
