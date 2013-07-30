@@ -56,3 +56,4 @@ readline
 pylxc
 virtualenv
 virtualenvwrapper
+configobj
