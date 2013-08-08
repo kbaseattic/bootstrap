@@ -84,3 +84,5 @@ mummer
 libexpat1-dev
 gprolog
 python-qt4
+bc
+apache2
