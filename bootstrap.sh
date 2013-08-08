@@ -100,7 +100,7 @@ popd
 # Some builds using a common model.
 #
 
-builds="seed_kmers prodigal glimmer elph"
+builds="seed_kmers prodigal glimmer elph blat"
 for build in $builds; do
 	pushd kb_$build
 	./build.$build
