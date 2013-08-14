@@ -18,3 +18,9 @@ kb_blat	./build.blat
 kb_blast	./build.blast
 kb_zmq3	./build.zmq3
 kb_search_for_rnas	./build.search_for_rnas
+kb_amos	./build.amos
+kb_circonspect	./build.circonspect
+kb_phispy_runtime	./build.phispy
+kb_prinseq_runtime	./build.prinseq
+kb_solr	./install-solr.sh
+kb_sphinx_runtime	./sphinx_build.sh

@@ -129,7 +129,7 @@ Statistics::PCA
 Statistics::Descriptive
 Math::Random::MT::Perl
 Getopt::Declare
-Bio::Tools::Run::TigrAssembler
+Bio::Tools::Run::TigrAssembler	--notest
 File::Sort
 XML::Twig
 Term::ReadLine::Gnu
