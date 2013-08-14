@@ -1,12 +1,13 @@
 #!/usr/bin/env perl
 
 use strict;
+use autodie;
 
 use Carp;
 use File::Basename;
 use Cwd 'abs_path';
 
-my $dest = "/kb/runtime";
+my $dest = $ENV{TARGET} || "/kb/runtime";
 my $parallel = 4;
 
 if (@ARGV)

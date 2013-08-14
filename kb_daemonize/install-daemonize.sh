@@ -1,6 +1,6 @@
 #!/bin/bash
 
-target="/kb/runtime"
+target=${TARGET-"/kb/runtime"}
 if [[ $# -ne 0 ]] ; then
         target=$1
         shift
@@ -12,7 +12,7 @@ IDIR=$target
 git clone git://github.com/bmc/daemonize.git
 pushd daemonize
 ./configure --prefix=$IDIR
-make
-make install
+make || exit 1
+make install || exit 1
 popd
 rm -rf daemonize

@@ -6,7 +6,7 @@ use Carp;
 use File::Basename;
 use Cwd 'abs_path';
 
-my $dest = "/kb/runtime";
+my $dest = $ENV{TARGET} || "/kb/runtime";
 
 if (@ARGV)
 {

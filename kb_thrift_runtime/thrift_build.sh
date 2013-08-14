@@ -15,6 +15,7 @@ fi
 export ANT_HOME=$target/ant
 export THRIFT_HOME=$target/thrift
 export PATH=${JAVA_HOME}/bin:${ANT_HOME}/bin:$target/bin:${THRIFT_HOME}/bin:${PATH}
+export PY_PREFIX=$target
 
 curl -O -L http://www.kbase.us/docs/build/thrift-0.8.0.tar.gz 
 tar zxvf thrift-0.8.0.tar.gz

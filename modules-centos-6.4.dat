@@ -15,5 +15,6 @@ kb_prodigal	./build.prodigal
 kb_glimmer	./build.glimmer
 kb_elph	./build.elph
 kb_blat	./build.blat
+kb_blast	./build.blast
 kb_zmq3	./build.zmq3
 kb_search_for_rnas	./build.search_for_rnas

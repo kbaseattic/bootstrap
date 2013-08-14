@@ -29,3 +29,6 @@ expat-devel
 libxslt-devel
 sqlite-devel
 bzip2-devel
+patch
+unzip
+tcsh
