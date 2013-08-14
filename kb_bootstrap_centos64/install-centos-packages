@@ -1,0 +1,13 @@
+#!/bin/bash
+
+if [[ $# != 1 ]] ; then
+	echo "Usage: $0 package-list" 1>&2
+	exit 1
+fi
+
+pkg_list=$1
+
+for pkg in `cat $pkg_list` ; do
+	echo "install $pkg"
+	yum -y install $pkg
+done

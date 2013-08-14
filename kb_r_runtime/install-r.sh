@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dest=/kb/runtime
+dest=${TARGET-/kb/runtime}
 if [[ $# -gt 1 ]] ; then
 	dest=$1
 	shift

@@ -2,7 +2,7 @@
 
 # install node 0.6.18
 
-target=/kb/runtime
+target=${TARGET-/kb/runtime}
 
 if [ $# -gt 0 ] ; then
 	target=$1
@@ -12,6 +12,7 @@ fi
 #curl http://nodejs.org/dist/v0.6.18/node-v0.6.18.tar.gz | tar xfz -
 curl http://nodejs.org/dist/node-latest.tar.gz | tar xfz -
 cd node-v*
+echo "Configuring `pwd` to target $target";
 ./configure --prefix=$target
 make
 make install

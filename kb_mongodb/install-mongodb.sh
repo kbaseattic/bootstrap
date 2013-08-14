@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dest=/kb/runtime
+dest=${TARGET-/kb/runtime}
 
 if [ $# -gt 0 ] ; then
     dest=$1

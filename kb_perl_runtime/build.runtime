@@ -1,6 +1,6 @@
 #!/bin/sh
 
-DEST=/kb/runtime
+DEST=${TARGET-/kb/runtime}
 
 if [ $# -gt 0 ] ; then
     DEST=$1

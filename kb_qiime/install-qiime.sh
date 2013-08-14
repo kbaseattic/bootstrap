@@ -1,7 +1,7 @@
 #!/bin/bash
 
 python=python
-target=/kb/runtime
+target=${TARGET-/kb/runtime}
 
 if [[ $# -eq 1 ]] ; then
     pkg_list=$1

@@ -1,7 +1,10 @@
 #!/bin/bash
 
-DIR=$1 
-: ${DIR:="/kb/runtime"}
+if [ $# -gt 0 ] ; then
+	DIR=$1
+else
+	DIR=${TARGET-/kb/runtime}
+fi
 
 pushd ${DIR}
 hg clone -u release https://code.google.com/p/go

@@ -9,7 +9,7 @@ use Cwd 'abs_path';
 my $parallel = "-j4";
 
 my $here = abs_path(".");
-my $dest = "/kb/runtime-2012-1101";
+my $dest = $ENV{TARGET} ? $ENV{TARGET} : "/kb/runtime";
 
 if (@ARGV)
 {

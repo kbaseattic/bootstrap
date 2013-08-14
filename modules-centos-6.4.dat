@@ -1,0 +1,19 @@
+kb_node_runtime	./build.node
+kb_perl_runtime	./build.runtime
+kb_golang_runtime	./install-golang.sh
+kb_r_runtime	./install-r.sh r-packages.R
+kb_python_runtime	./build.python
+kb_qiime	./install-qiime.sh python-qiime-list
+kb_java_runtime	./java_build.sh -u
+kb_thrift_runtime	./thrift_build.sh
+kb_mongodb	./install-mongodb.sh
+kb_jellyfish	./jellyfish_build.sh
+kb_cdbfasta	./cdbfasta_build.sh
+kb_daemonize	./install-daemonize.sh
+kb_seed_kmers	./build.seed_kmers
+kb_prodigal	./build.prodigal
+kb_glimmer	./build.glimmer
+kb_elph	./build.elph
+kb_blat	./build.blat
+kb_zmq3	./build.zmq3
+kb_search_for_rnas	./build.search_for_rnas

@@ -9,7 +9,7 @@ use Data::Dumper;
 use vars qw($help $dest $module_dat);
 GetOptions('h'    => \$help,
 	   'help' => \$help,
-	   'd'    => \$dest,
+	   'd=s'    => \$dest,
 	   'm=s'    => \$module_dat,
     ) or pod2usage(0);
 
@@ -35,8 +35,7 @@ my @modules;
 while (<DAT>)
 {
     chomp;
-    my($dir, $cmd, @rest) = split /\s+/;
-    my $args = join(" ", @rest);
+    my($dir, $cmd) = split(/\s+/, $_, 2);
     die "error parsing $module_dat" unless ($dir && $cmd);
     die "directory $dir does not exist" unless -d $dir;
     die "directory $dir is not executable" unless -e $dir;
@@ -47,25 +46,42 @@ while (<DAT>)
 	print "$dir already built\n";
 	next;
     }
-    push(@modules, [$dir, $cmd, $args]);
+    push(@modules, [$dir, $cmd]);
 }
 close(DAT);
 
-print Dumper(\@modules);
+#print Dumper(\@modules);
 
 for my $mod (@modules)
 {
-    my($dir, $cmd, $args) = @$mod;
-    open STDOUT, ">$log_dir/$dir" or die "can not open STDOUT on $log_dir/$dir";
-    open STDERR, ">$log_dir/$dir" or die "can not open STDERR on $log_dir/$dir";
+    my($dir, $cmd) = @$mod;
 
-    my $full_cmd = "bash -c 'pushd $dir; ./$cmd $args; popd;'";
-    !system($full_cmd) or die "failed to execute $full_cmd: $!";
+    my $to_run = "cd $dir; $cmd 2>&1";
+
+    open(LOG, ">", "$log_dir/$dir") or die "Cannot open logfile $log_dir/$dir: $!";
+    open(RUN, "$to_run |") or die "Cannot open pipe $to_run: $!";
+
+    print LOG "$to_run\n";
+    print "$to_run\n";
+
+    while (<RUN>)
+    {
+	print $_;
+	print LOG $_;
+    }
+    if (!close(RUN))
+    {
+	if ($!)
+	{
+	    die "Error running $to_run: $!\n";
+	}
+	else
+	{
+	    die "Command $to_run failed with nonzero status $?\n";
+	}
+    }
     system("touch", "$log_dir/built.$dir");
-
-
-    close STDOUT;
-    close STDERR;
+    close(LOG);
 }
 
 
