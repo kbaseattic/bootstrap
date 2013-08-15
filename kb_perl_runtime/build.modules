@@ -8,6 +8,9 @@ my @modules;
 my $module_list = "module-list";
 my $perl = "/kb/runtime/bin/perl";
 
+my @mirror = $ENV{CPAN_MIRROR} ? ("--mirror", $ENV{CPAN_MIRROR}) : ();
+
+
 my $rc = GetOptions("perl=s", \$perl,
 		    "list=s", \$module_list); 
 
@@ -53,7 +56,7 @@ if (! -f "cpanm")
 for my $ment (@modules)
 {
     my($mod, $args) = @$ment;
-    my $rc = system("$perl cpanm $args $mod");
+    my $rc = system("$perl cpanm @mirror $args $mod");
     if ($rc != 0)
     {
 	warn "Error $rc installing $args $mod\n";
