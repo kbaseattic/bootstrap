@@ -11,6 +11,7 @@ XML::Parser
 XML::SAX::Base
 XML::SAX
 XML::NamespaceSupport
+XML::Dumper
 #Wx	--notest
 #wxPerl::Constructors
 LWP::UserAgent
