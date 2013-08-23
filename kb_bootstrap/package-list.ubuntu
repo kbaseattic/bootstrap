@@ -19,10 +19,9 @@ libpng-dev
 libjpeg-dev
 libgd2-xpm-dev
 libxml2-dev
-libwww-perl
 libwxgtk2.8-dev
 libdb5.1-dev
-libzmq-dev
+libzmq3-dev
 libgsl0-dev
 openjdk-6-jdk
 libxml2
@@ -55,8 +54,6 @@ openjdk-7-jdk
 openjdk-7-doc
 rabbitmq-server
 nodejs
-libmoose-perl
-libcatalyst-perl
 python-django
 ncbi-blast+
 monit
@@ -73,7 +70,6 @@ libssl-dev
 libpq-dev
 glpk
 coinor-libcbc0
-libcrypt-ssleay-perl
 maven2
 bowtie
 nslcd
@@ -86,3 +82,4 @@ gprolog
 python-qt4
 bc
 apache2
+perl-doc
