@@ -57,3 +57,4 @@ pylxc
 virtualenv
 virtualenvwrapper
 configobj
+paramiko
