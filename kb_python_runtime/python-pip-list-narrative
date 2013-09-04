@@ -38,3 +38,4 @@ virtualenv
 virtualenvwrapper
 configobj
 paramiko
+python-dateutil
