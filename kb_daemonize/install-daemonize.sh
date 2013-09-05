@@ -16,3 +16,4 @@ make || exit 1
 make install || exit 1
 popd
 rm -rf daemonize
+ln -s $IDIR/sbin/daemonize $IDIR/bin/daemonize
