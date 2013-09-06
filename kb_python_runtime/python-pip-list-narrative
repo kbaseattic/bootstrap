@@ -39,3 +39,4 @@ virtualenvwrapper
 configobj
 paramiko
 python-dateutil
+rpy2
