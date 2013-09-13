@@ -1,5 +1,19 @@
 #!/bin/sh
 
+function error() {
+  local parent_lineno="$1"
+  local message="$2"
+  local code="${3:-1}"
+  if [[ -n "$message" ]] ; then
+    echo "Error on or near line ${parent_lineno}: ${message}; exiting with status ${code}"
+  else
+    echo "Error on or near line ${parent_lineno}; exiting with status ${code}"
+  fi
+  exit "${code}"
+}
+
+trap 'error ${LINENO}' ERR
+
 target=${TARGET-/kb/runtime}
 
 if [ $# -gt 0 ] ; then
@@ -13,6 +27,12 @@ else
 	pip="pip"
 fi
 
+if [ -x $target/bin/easy_install ] ; then
+	easy_install="$target/bin/easy_install"
+else
+	easy_install="easy_install"
+fi
+
 for P in `cat ./python-pip-list`; do
 	echo "$pip installing $P"
 	$pip install $P --upgrade
@@ -20,7 +40,7 @@ done
 
 for P in `cat ./python-easy-list`; do
 	echo "easy_installing $P"
-	easy_install $P
+	$easy_install $P
 done
 
 if [ -d "/usr/local/lib/python2.7/dist-packages" ] ; then

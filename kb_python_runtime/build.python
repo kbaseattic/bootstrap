@@ -46,9 +46,6 @@ run("./configure", "--prefix", $dest);
 run("make", $parallel);
 run("make install > $here/install.out 2>&1");
 
-run("curl http://python-distribute.org/distribute_setup.py | $dest/bin/python");
-run("curl -k https://raw.github.com/pypa/pip/master/contrib/get-pip.py | $dest/bin/python");
-
 sub run
 {
     my(@cmd) = @_;
