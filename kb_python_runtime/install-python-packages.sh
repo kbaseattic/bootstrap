@@ -1,6 +1,6 @@
 #!/bin/sh
 
-target=/kb/runtime
+target=${TARGET-/kb/runtime}
 
 if [ $# -gt 0 ] ; then
 	target=$1

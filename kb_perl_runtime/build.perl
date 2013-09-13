@@ -35,6 +35,8 @@ if (! -f $perl_tgz)
     die "could not get perl\n";
 }
 
+run("rm", "-rf", $perl_vers);
+
 if (! -d $perl_vers)
 {
     run("tar", "xzf", $perl_tgz);

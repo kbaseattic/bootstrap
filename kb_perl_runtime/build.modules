@@ -1,5 +1,6 @@
+#!/usr/bin/env perl
+
 use strict;
-use LWP::UserAgent;
 use Cwd 'abs_path';
 use Getopt::Long;
 use File::Basename;
@@ -7,10 +8,7 @@ use File::Basename;
 my @modules;
 
 my $module_list = "module-list";
-my $perl = "/kb/runtime/bin/perl";
-
-my @mirror = $ENV{CPAN_MIRROR} ? ("--mirror", $ENV{CPAN_MIRROR}) : ();
-
+my $perl = exists($ENV{TARGET}) ? "$ENV{TARGET}/bin/perl" : "/kb/runtime/bin/perl";
 
 my $rc = GetOptions("perl=s", \$perl,
 		    "list=s", \$module_list); 
@@ -43,14 +41,7 @@ else
 if (! -f "cpanm")
 {
     print STDERR "Downloading cpanm\n";
-    my $ua = LWP::UserAgent->new;
-    
-    my $res = $ua->get("http://cpanmin.us/",
-		       ":content_file" => "cpanm");
-    if (!$res->is_success)
-    {
-	die "Failure downloading cpanm: " . $res->code . " " . $res->content;
-    }
+    run("curl", "-L", "-o", "cpanm", "http://cpanmin.us/");
 }
 
 my $workdir = abs_path("cpan-work");
@@ -61,7 +52,10 @@ my $distdir = abs_path("cpan-packages");
 -d $distdir ||  mkdir ($distdir) || die "Cannot mkdir $distdir: $!";
 
 my @global_args = ("--notest", "--save-dists", $distdir);
-push(@global_args, "--mirror", 'http://www.cpan.org', "--mirror", $distdir);
+
+my $default_mirror = exists($ENV{CPAN_MIRROR}) ? $ENV{CPAN_MIRROR} : 'http://www.cpan.org';
+
+push(@global_args, "--mirror", $distdir, "--mirror", $default_mirror);
 
 my @failures;
 
@@ -70,44 +64,16 @@ my @failures;
 # installs properly using make.
 #
 
-my $mod_url = 'http://www.cpan.org/authors/id/B/BJ/BJOERN/XML-SAX-Expat-0.50.tar.gz';
-my $file = basename($mod_url);
-my $rc  = system("curl", "-o", $file, $mod_url);
-if ($rc != 0)
-{
-    die "Error loading $mod_url\n";
-}
-$rc = system("tar", "xzfp", $file);
-$rc == 0 or die "untar failed";
-my $dir = basename($file, ".tar.gz");
-chdir($dir) or die "cannot chdir $dir: $!";
-$rc = system($perl, "Makefile.PL");
-$rc == 0 or die "$perl Makefile.PL failed";
-$rc = system("make");
-$rc == 0 or die "make failed";
-$rc = system("make", "install");
-$rc == 0 or die "make  install failed";
-chdir("..");
-exit;
-for my $ment (@modules)
-{
-    my($mod, $args) = @$ment;
-    my $cmd = "$perl cpanm @mirror $args @global_args $mod";
-    my $rc = system($cmd);
-    if ($rc != 0)
-    {
-	warn "Error $rc installing $args $mod\n";
-	my $log;
-	if (open(M, "<", "$workdir/build.log"))
-	{
-	    local $/;
-	    undef $/;
-	    $log = <M>;
-	    close(M);
-	}
-	push(@failures, [$mod, $cmd, $log]);
-    }
-}
+my @prereqs = qw(XML::NamespaceSupport XML::Parser XML::SAX XML::SAX::Base);
+print "Install prereqs\n";
+install_modules(\@modules, \@prereqs);
+install_module('http://www.cpan.org/authors/id/B/BJ/BJOERN/XML-SAX-Expat-0.50.tar.gz');
+
+print "Install all\n";
+install_modules(\@modules);
+
+install_statistics_pca();
+install_bioperl();
 
 if (@failures)
 {
@@ -123,4 +89,128 @@ if (@failures)
 	print $log;
 	print "\n\n";
     }
+
+    if (open(F, ">", "build_failures.html"))
+    {
+	print F "<title>Perl module build failures</title>\n";
+	print F "<h1>Perl module build failures</h1>\n";
+
+	for my $fail (@failures)
+	{
+	    my($mod, $cmd, $log) = @$fail;
+	    print F "<a href='#$mod'>$mod</a><br>\n";
+	}
+	for my $fail (@failures)
+	{
+	    my($mod, $cmd, $log) = @$fail;
+	    print F "<hr>\n";
+	    print F "<a name='$mod'>$mod</a><br>\n";
+	    $cmd =~ s/</&lt;/g;
+	    $cmd =~ s/&/&amp;/g;
+	    $log =~ s/</&lt;/g;
+	    $log =~ s/&/&amp;/g;
+	    print F "$cmd<p>\n";
+	    print F "<pre>\n$log\n</pre>\n";
+	}
+	close(F);
+    }
 }
+
+sub run
+{
+    my(@cmd) = @_;
+    print "@cmd\n";
+    my $rc = system(@cmd);
+    $rc == 0 or die "Failed with rc=$rc: @cmd\n";
+}
+
+sub install_modules
+{
+    my($modules, $limit) = @_;
+    my %limit;
+    if (ref($limit))
+    {
+	$limit{$_} = 1 foreach @$limit;
+    }
+    else
+    {
+	$limit{$_->[0]} = 1 foreach @$modules;
+    }
+
+    my $n = @$modules;
+    my $i = 1;
+    for my $ment (@$modules)
+    {
+	my($mod, $args) = @$ment;
+	next unless $limit{$mod};
+	print "\nInstall $mod ($i of $n)\n";
+	$i++;
+	my $cmd = "$perl cpanm $args @global_args $mod";
+	print "$cmd\n";
+	my $rc = system($cmd);
+	if ($rc != 0)
+	{
+	    warn "Error $rc installing $args $mod\n";
+	    my $log;
+	    if (open(M, "<", "$workdir/build.log"))
+	    {
+		local $/;
+		undef $/;
+		$log = <M>;
+		close(M);
+	    }
+	    push(@failures, [$mod, $cmd, $log]);
+	}
+    }
+}
+
+
+#
+# Another nasty special case.
+#
+sub install_statistics_pca
+{
+    my $mod_url = 'http://search.cpan.org/CPAN/authors/id/D/DS/DSTH/Statistics-PCA-0.0.1.tar.gz';
+    install_module($mod_url, 'Statistics-PCA');
+}
+
+sub install_bioperl
+{
+    install_module_build('http://search.cpan.org/CPAN/authors/id/C/CJ/CJFIELDS/BioPerl-1.6.921.tar.gz');
+}
+
+sub install_module
+{
+    my($mod_url, $dir) = @_;
+    my $file = basename($mod_url);
+    run("curl", "-L", "-o", $file, $mod_url);
+    
+    $dir ||= basename($file, ".tar.gz");
+    run("rm", "-rf", $dir);
+    run("tar", "xzfp", $file);
+    chdir($dir) or die "cannot chdir $dir: $!";
+
+    run($perl, "Makefile.PL");
+    run("make");
+    run("make", "install");
+    
+    chdir("..");
+}
+
+sub install_module_build
+{
+    my($mod_url, $dir) = @_;
+    my $file = basename($mod_url);
+    run("curl", "-L", "-o", $file, $mod_url);
+
+    $dir ||= basename($file, ".tar.gz");
+    run("rm", "-rf", $dir);
+    run("tar", "xzfp", $file);
+    chdir($dir) or die "cannot chdir $dir: $!";
+
+    run($perl, "Build.PL", "--accept");
+    run("./Build", "install");
+    
+    chdir("..");
+}
+

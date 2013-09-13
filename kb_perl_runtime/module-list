@@ -95,7 +95,7 @@ URI::Dispatch
 URI::QueryParam
 Test::Cmd	--notest
 Test::More
-BioPerl
+Data::Stag
 File::Copy::Recursive
 Dancer
 Plack
@@ -126,7 +126,11 @@ String::CamelCase
 IPC::Shareable
 Plack::Middleware::CrossOrigin
 Cairo
-Statistics::PCA
+Contextual::Return
+Math::Cephes
+Math::Cephes::Matrix
+Math::MatrixReal
+Text::SimpleTable
 Statistics::Descriptive
 Math::Random::MT::Perl
 Getopt::Declare
@@ -137,3 +141,21 @@ Term::ReadLine::Gnu
 HTML::TreeBuilder
 DBI::Shell
 RPC::PlServer
+FCGI
+CGI::Fast
+CGI::Emulate::PSGI
+CGI::Compile
+Carp::Always
+Apache::Htpasswd
+Algorithm::Munkres
+Array::Compare
+Convert::Binary::C
+HTML::TableExtract
+Math::Random
+PostScript::TextBlock
+SVG
+SVG::Graph
+Sort::Naturally
+XML::SAX::Writer
+XML::Writer
+
