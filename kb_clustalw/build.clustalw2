@@ -1,0 +1,44 @@
+#!/usr/bin/env perl
+
+use strict;
+
+use Carp;
+use File::Basename;
+use Cwd 'abs_path';
+
+my $dest = $ENV{TARGET} || "/kb/runtime";
+my $parallel = 4;
+
+if (@ARGV)
+{
+    $dest = shift;
+    print STDERR "Overriding destination to $dest\n";
+}
+
+-d $dest || mkdir $dest;
+
+my $vers = "2.1";
+my $clustalw_dir = "clustalw-$vers";
+my $clustalw_tar = "clustalw-${vers}.tar.gz";
+my $clustalw_url = "http://www.clustal.org/download/current/$clustalw_tar";
+
+if (! -s $clustalw_tar)
+{
+    run("curl", "-o", $clustalw_tar, "-L", $clustalw_url);
+}
+
+run("rm", "-rf", $clustalw_dir);
+run("tar", "xzfp", $clustalw_tar);
+
+chdir("$clustalw_dir");
+run("./configure", "--prefix", "$dest");
+run("make");
+run("make", "install");
+
+sub run
+{
+    my(@cmd) = @_;
+    print "@cmd\n";
+    my $rc = system(@cmd);
+    $rc == 0 or die "Command failed with rc=$rc: @cmd\n";
+}

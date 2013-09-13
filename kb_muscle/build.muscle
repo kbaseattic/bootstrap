@@ -1,0 +1,45 @@
+#!/usr/bin/env perl
+
+use strict;
+
+use Carp;
+use File::Basename;
+use Cwd 'abs_path';
+
+my $dest = $ENV{TARGET} || "/kb/runtime";
+my $parallel = 4;
+
+if (@ARGV)
+{
+    $dest = shift;
+    print STDERR "Overriding destination to $dest\n";
+}
+
+-d $dest || mkdir $dest;
+
+
+
+my $vers = "3.8.31";
+my $muscle_dir = "muscle$vers";
+my $muscle_tar = "muscle${vers}_src.tar.gz";
+my $muscle_url = "http://www.drive5.com/muscle/downloads$vers/$muscle_tar";
+
+if (! -s $muscle_tar)
+{
+    run("curl", "-o", $muscle_tar, "-L", $muscle_url);
+}
+
+run("rm", "-rf", $muscle_dir);
+run("tar", "xzfp", $muscle_tar);
+
+chdir("$muscle_dir/src");
+run("make");
+run("cp", "muscle", "$dest/bin/muscle");
+
+sub run
+{
+    my(@cmd) = @_;
+    print "@cmd\n";
+    my $rc = system(@cmd);
+    $rc == 0 or die "Command failed with rc=$rc: @cmd\n";
+}
