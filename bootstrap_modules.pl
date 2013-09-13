@@ -32,33 +32,58 @@ open(DAT, "<", $module_dat) or die "Cannot open $module_dat: $!";
 
 my @modules;
 
+my %modules;
+
 while (<DAT>)
 {
     chomp;
+    s/^\s*//;
+    next if /^#/;
     my($dir, $cmd) = split(/\s+/, $_, 2);
     die "error parsing $module_dat" unless ($dir && $cmd);
     die "directory $dir does not exist" unless -d $dir;
     die "directory $dir is not executable" unless -e $dir;
     die "directory $dir is not writable" unless -w $dir;
 
-    if (-f "$log_dir/built.$dir")
-    {
-	print "$dir already built\n";
-	next;
-    }
-    push(@modules, [$dir, $cmd]);
+    my $rec = [$dir, $dir, $cmd];
+    push(@modules, $rec);
+    push(@{$modules{$dir}}, $rec);
 }
 close(DAT);
 
-#print Dumper(\@modules);
+#
+# Rewrite dir-tag element ($rec[1]) for the
+# directories that have more than one build record.
+#
+
+for my $dir (keys %modules)
+{
+    my $l = $modules{$dir};
+    if (@$l > 1)
+    {
+	for my $i (0..$#$l)
+	{
+	    my $n = $i + 1;
+	    $l->[$i]->[1] = "${dir}_$n";
+	}
+    }
+}
+
+# print Dumper(\@modules);
 
 for my $mod (@modules)
 {
-    my($dir, $cmd) = @$mod;
+    my($dir, $tag, $cmd) = @$mod;
+
+    if (-f "$log_dir/built.$tag")
+    {
+	print "$tag already built\n";
+	next;
+    }
 
     my $to_run = "cd $dir; $cmd 2>&1";
 
-    open(LOG, ">", "$log_dir/$dir") or die "Cannot open logfile $log_dir/$dir: $!";
+    open(LOG, ">", "$log_dir/$tag") or die "Cannot open logfile $log_dir/$tag: $!";
     open(RUN, "$to_run |") or die "Cannot open pipe $to_run: $!";
 
     print LOG "$to_run\n";
@@ -80,7 +105,7 @@ for my $mod (@modules)
 	    die "Command $to_run failed with nonzero status $?\n";
 	}
     }
-    system("touch", "$log_dir/built.$dir");
+    system("touch", "$log_dir/built.$tag");
     close(LOG);
 }
 

@@ -1,0 +1,22 @@
+#
+# Modules file for SEED installation
+#
+kb_perl_runtime	./build.runtime
+kb_python_runtime	./build.python
+kb_mongodb	./install-mongodb.sh
+kb_seed_kmers	./build.seed_kmers
+kb_prodigal	./build.prodigal
+kb_glimmer	./build.glimmer
+kb_elph	./build.elph
+kb_blat	./build.blat
+kb_blast	./build.blast
+kb_zmq3	./build.zmq3
+kb_search_for_rnas	./build.search_for_rnas
+kb_amos	./build.amos
+kb_circonspect	./build.circonspect
+kb_phispy_runtime	./build.phispy
+kb_prinseq_runtime	./build.prinseq
+kb_sphinx_runtime	./sphinx_build.sh
+kb_muscle		./build_muscle
+kb_clustalw		./build_clustalw
+kb_clustalw		./build_clustalw2

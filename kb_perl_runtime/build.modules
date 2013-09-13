@@ -2,6 +2,7 @@ use strict;
 use LWP::UserAgent;
 use Cwd 'abs_path';
 use Getopt::Long;
+use File::Basename;
 
 my @modules;
 
@@ -51,14 +52,75 @@ if (! -f "cpanm")
 	die "Failure downloading cpanm: " . $res->code . " " . $res->content;
     }
 }
-		       
 
+my $workdir = abs_path("cpan-work");
+-d $workdir ||  mkdir ($workdir) || die "Cannot mkdir $workdir: $!";
+$ENV{PERL_CPANM_HOME} = $workdir;
+
+my $distdir = abs_path("cpan-packages");
+-d $distdir ||  mkdir ($distdir) || die "Cannot mkdir $distdir: $!";
+
+my @global_args = ("--notest", "--save-dists", $distdir);
+push(@global_args, "--mirror", 'http://www.cpan.org', "--mirror", $distdir);
+
+my @failures;
+
+#
+# Nasty special case. The XML::SAX::Expat module is broken for cpanm, but
+# installs properly using make.
+#
+
+my $mod_url = 'http://www.cpan.org/authors/id/B/BJ/BJOERN/XML-SAX-Expat-0.50.tar.gz';
+my $file = basename($mod_url);
+my $rc  = system("curl", "-o", $file, $mod_url);
+if ($rc != 0)
+{
+    die "Error loading $mod_url\n";
+}
+$rc = system("tar", "xzfp", $file);
+$rc == 0 or die "untar failed";
+my $dir = basename($file, ".tar.gz");
+chdir($dir) or die "cannot chdir $dir: $!";
+$rc = system($perl, "Makefile.PL");
+$rc == 0 or die "$perl Makefile.PL failed";
+$rc = system("make");
+$rc == 0 or die "make failed";
+$rc = system("make", "install");
+$rc == 0 or die "make  install failed";
+chdir("..");
+exit;
 for my $ment (@modules)
 {
     my($mod, $args) = @$ment;
-    my $rc = system("$perl cpanm @mirror $args $mod");
+    my $cmd = "$perl cpanm @mirror $args @global_args $mod";
+    my $rc = system($cmd);
     if ($rc != 0)
     {
 	warn "Error $rc installing $args $mod\n";
+	my $log;
+	if (open(M, "<", "$workdir/build.log"))
+	{
+	    local $/;
+	    undef $/;
+	    $log = <M>;
+	    close(M);
+	}
+	push(@failures, [$mod, $cmd, $log]);
+    }
+}
+
+if (@failures)
+{
+    print "Failure report\n";
+    print "Failing modules:\n";
+    print "\t$_->[0]\n" foreach @failures;
+    
+    for my $fail (@failures)
+    {
+	my($mod, $cmd, $log) = @$fail;
+	print "Failing module $mod\n";
+	print "Command: $cmd\n";
+	print $log;
+	print "\n\n";
     }
 }
