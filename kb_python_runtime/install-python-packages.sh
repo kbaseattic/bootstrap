@@ -21,6 +21,18 @@ if [ $# -gt 0 ] ; then
 	shift
 fi
 
+if [ -x $target/bin/python ] ; then
+    python=$target/bin/python
+else
+    python=python
+fi
+
+#curl -L -k http://python-distribute.org/distribute_setup.py | $python
+
+curl -k -L https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py | $python
+
+curl -k -L https://raw.github.com/pypa/pip/master/contrib/get-pip.py | $python
+
 if [ -x $target/bin/pip ] ; then
 	pip="$target/bin/pip"
 else
