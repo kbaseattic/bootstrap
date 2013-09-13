@@ -158,4 +158,5 @@ SVG::Graph
 Sort::Naturally
 XML::SAX::Writer
 XML::Writer
-
+Cache::Memcached
+Cache::Memcached::Fast
