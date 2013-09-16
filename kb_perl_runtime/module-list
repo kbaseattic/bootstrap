@@ -160,3 +160,5 @@ XML::SAX::Writer
 XML::Writer
 Cache::Memcached
 Cache::Memcached::Fast
+Set::IntervalTree
+IntervalTree
