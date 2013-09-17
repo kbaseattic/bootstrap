@@ -61,6 +61,3 @@ fi
 
 chmod a+x install-gevent.sh
 ./install-gevent.sh $target
-
-chmod a+x install-nexus.sh
-./install-nexus.sh $target
