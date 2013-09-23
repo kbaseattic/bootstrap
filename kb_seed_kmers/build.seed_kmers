@@ -27,6 +27,11 @@ system("rm", "-rf", $kmer_dir);
 run("cvs", "-d", $kmer_cvsroot, "export", "-r", $kmer_tag, "-d", $kmer_dir, $kmer_mod);
 
 chdir($kmer_dir);
+
+if (-d "/Library")
+{
+    run("perl", "-pi.bak", "-e", 's/CC = "g\+\+"/CC = "g++ -m32"/', "Makefile.PL");
+}
 run("$dest/bin/perl", "Makefile.PL");
 run("make");
 run("make", "test");

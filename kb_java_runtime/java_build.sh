@@ -45,7 +45,9 @@ mkdir -p $target/lib
 # We don't install this version on the mac; we use the one that
 # came with the system.
 #
-if [ ! -d /Library/Java/Home ] ; then
+if [ -d /Library/Java/Home ] ; then
+	export JAVA_HOME=/Library/Java/Home
+else
 	echo "Install JDK, restricted set to $restricted"
 	if [ "$restricted" = unrestricted ] ;
 	then

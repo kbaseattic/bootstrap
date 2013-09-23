@@ -41,7 +41,15 @@ if (! -d $python_vers)
 
 chdir $python_vers;
 
-run("./configure", "--prefix", $dest);
+my @opts;
+
+if (-d "/Applications") 
+{
+    $ENV{CC} = "gcc -m32";
+    $ENV{CXX} = "g++ -m32";
+}
+
+run("./configure", "--prefix", $dest, @opts);
 
 run("make", $parallel);
 run("make install > $here/install.out 2>&1");

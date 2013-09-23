@@ -1,0 +1,12 @@
+diff -u clustalw1.83/interface.c clustalw1.83.patched/interface.c
+--- clustalw1.83/interface.c	2003-01-29 02:53:45.000000000 -0600
++++ clustalw1.83.patched/interface.c	2013-09-23 17:03:59.000000000 -0500
+@@ -210,7 +210,7 @@
+ 		Boolean 	name1 = FALSE;
+ 		sint ajb;
+ 
+-	if(args[0]==NULL) return;
++	if(args[0]==NULL) return 0;
+ 
+ 
+ 

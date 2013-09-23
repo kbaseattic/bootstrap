@@ -12,7 +12,7 @@ pyzmq
 tornado
 rpy2
 beautifulsoup
-django 1.4
+django==1.4
 pika==0.9.8
 httplib2
 django-piston==0.2.2

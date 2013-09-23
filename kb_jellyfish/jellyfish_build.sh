@@ -1,6 +1,11 @@
 #!/bin/bash
 
-target="/kb/runtime"
+. ../tools/error_handler
+
+trap 'error ${LINENO}' ERR
+
+target=${TARGET-/kb/runtime}
+
 if [[ $# -ne 0 ]] ; then
         target=$1
         shift
@@ -12,6 +17,9 @@ JBASE="jellyfish-1.1.5"
 
 echo "###### downloading $JBASE ######"
 curl -O $JURL$JBASE".tar.gz"
+
+rm -rf $JBASE
+
 tar zxf $JBASE".tar.gz"
 
 echo "###### installing $JBASE ######"

@@ -27,6 +27,20 @@ else
     python=python
 fi
 
+is_mac=0
+if [ -d /Library ] ; then
+    export CC="gcc -m32"
+    export CXX="g++ -m32"
+    export CFLAGS="-I$dest/include"
+    export LDFLAGS="-L$dest/lib"
+    is_mac=1
+fi
+
+have_r=0
+if [ -x $target/bin/R ] ; then
+	have_r=1
+fi
+
 #curl -L -k http://python-distribute.org/distribute_setup.py | $python
 
 curl -k -L https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py | $python
@@ -45,9 +59,30 @@ else
 	easy_install="easy_install"
 fi
 
+if  mysql_config --version >/dev/null 2>/dev/null ; then
+	have_mysql=1
+else
+	have_mysql=0
+fi
+
 for P in `cat ./python-pip-list`; do
-	echo "$pip installing $P"
-	$pip install $P --upgrade
+	if [ $P = "MySQL-python" -a $have_mysql -eq 0 ] ; then
+		echo "Skipping $P: no mysql available"
+	elif [ $P = "mpi4py" -a $is_mac=1 ] ; then
+	    echo "Skipping $P on mac"
+	elif [ $P = "matplotlib" -a $is_mac=1 ] ; then
+	    echo "Skipping $P on mac"
+	elif [ $P = "scipy" -a $is_mac=1 ] ; then
+	    echo "Skipping $P on mac"
+	elif [ $P = "pyzmq" -a $is_mac=1 ] ; then
+	    echo "Skipping $P on mac"
+	elif [ $P = "rpy2" -a $have_r=0 ] ; then
+	    echo "Skipping $P - no R installed"
+	else
+
+		echo "$pip installing $P"
+		$pip install $P --upgrade
+	fi
 done
 
 for P in `cat ./python-easy-list`; do

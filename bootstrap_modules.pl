@@ -91,7 +91,7 @@ for my $mod (@modules)
 
     while (<RUN>)
     {
-	print $_;
+	printf "%-10s $_", $tag;
 	print LOG $_;
     }
     if (!close(RUN))

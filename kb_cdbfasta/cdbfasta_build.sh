@@ -1,6 +1,11 @@
 #!/bin/bash
 
-target="/kb/runtime"
+. ../tools/error_handler
+
+trap 'error ${LINENO}' ERR
+
+target=${TARGET-/kb/runtime}
+
 if [[ $# -ne 0 ]] ; then
         target=$1
         shift
