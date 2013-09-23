@@ -1,0 +1,9 @@
+Blast+ is included on Ubuntu releases.
+
+For other releases it will need to be built or downloaded from NCBI.
+
+It would not build cleanly on Ubuntu, untried as of yet on other platforms.
+
+Note that blast+ includes an incompatible version of rpsblast. The Ubuntu
+packaging installs that version as rpsblast+ which source installs should
+emulate.
