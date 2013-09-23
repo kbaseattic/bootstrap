@@ -1,0 +1,79 @@
+#!/usr/bin/env perl
+
+use strict;
+
+use Carp;
+use File::Basename;
+use Cwd 'abs_path';
+
+my $dest = $ENV{TARGET} || "/kb/runtime";
+my $parallel = 4;
+
+if (@ARGV)
+{
+    $dest = shift;
+    print STDERR "Overriding destination to $dest\n";
+}
+
+my $vers = "2.2.28";
+my $tar = "ncbi-blast-${vers}+-src.tar.gz";
+my $dir = "ncbi-blast-${vers}+-src";
+my $url = "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/$vers/$tar";
+
+if (! -s $tar)
+{
+    run("curl", "-o", $tar, "-L", $url);
+}
+
+#run("rm", "-rf", "$dir");
+#run("tar", "xzfp", $tar);
+chdir("$dir/c++") or die "cannot chdir $dir/c++: $!";
+#run("./configure", "--prefix=$dest", "--without-debug");
+
+#
+# Use config.log to determine the build directory as configured here.
+#
+my $build_root;
+if (open(F, "<", "config.log"))
+{
+    while (<F>)
+    {
+	if (/^build_root='([^']+)'/)
+	{
+	    $build_root = $1;
+	}
+    }
+    close(F);
+}
+else
+{
+    die "Cannot open config.log: $!";
+}
+if (!$build_root)
+{
+    die "Could not find build_root";
+}
+
+#run("make");
+
+opendir(B, "$build_root/bin") or die "Cannot opendir $build_root/bin: $!";
+for my $f (sort grep { $_ !~ /^\./ && -x "$build_root/bin/$_" } readdir(B))
+{
+    my $dest_file = "$dest/bin/$f";
+    if (-f "$dest_file")
+    {
+	$dest_file = "$dest/bin/${f}+";
+    }
+    run("cp", "$build_root/bin/$f", $dest_file);
+}
+
+sub run
+{
+    my(@cmd) = @_;
+    print "\n@cmd\n";
+    my $rc = system(@cmd);
+    if ($rc != 0)
+    {
+	die "Command failed with rc=$rc: @cmd\n";
+    }
+}
