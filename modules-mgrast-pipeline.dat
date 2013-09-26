@@ -1,0 +1,2 @@
+kb_mgrast_pipeline install-mgr-apps.sh
+kb_fgs	fgs_build.sh

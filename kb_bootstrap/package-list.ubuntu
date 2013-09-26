@@ -84,3 +84,5 @@ bc
 apache2
 perl-doc
 samtools
+libmysqlclient18
+libzmq-dev
