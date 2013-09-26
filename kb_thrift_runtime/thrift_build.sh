@@ -1,9 +1,9 @@
 #!/bin/sh
 set -x
 
-. ../tools/error_handler
+#. ../tools/error_handler
 
-trap 'error ${LINENO}' ERR
+#trap 'error ${LINENO}' ERR
 
 target=${TARGET-/kb/runtime}
 
