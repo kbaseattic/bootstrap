@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 function error() {
   local parent_lineno="$1"
