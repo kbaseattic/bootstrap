@@ -7,3 +7,4 @@ kb_search_for_rnas	build.search_for_rnas
 kb_seed_kmers	build.seed_kmers
 kb_shock	install-shock.sh
 kb_zmq3		build.zmq3
+kb_meme		build.meme
