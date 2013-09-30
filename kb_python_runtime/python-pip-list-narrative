@@ -4,7 +4,6 @@ rpy2
 beautifulsoup
 pika==0.9.8
 httplib2
-oauth2
 flup
 yolk
 nose
@@ -39,4 +38,3 @@ virtualenvwrapper
 configobj
 paramiko
 python-dateutil
-rpy2
