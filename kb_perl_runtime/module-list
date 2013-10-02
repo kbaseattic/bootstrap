@@ -162,3 +162,4 @@ Cache::Memcached
 Cache::Memcached::Fast
 Set::IntervalTree
 IntervalTree
+Graph::Undirected::Components
