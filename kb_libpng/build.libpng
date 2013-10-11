@@ -1,0 +1,50 @@
+#!/usr/bin/env perl
+
+use strict;
+
+use Carp;
+use File::Basename;
+use Cwd 'abs_path';
+
+my $dest = $ENV{TARGET} || "/kb/runtime";
+my $parallel = 4;
+
+if (@ARGV)
+{
+    $dest = shift;
+    print STDERR "Overriding destination to $dest\n";
+}
+
+-d $dest || mkdir $dest;
+
+if (-d "/Library")
+{
+    $ENV{CC} = "gcc -m32";
+    $ENV{CXX} = "g++ -m32";
+}
+
+my $vers = "1.6.6";
+my $libpng_dir = "libpng-$vers";
+my $libpng_tar = "libpng-${vers}.tar.gz";
+my $libpng_url = "ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng16/$libpng_tar";
+
+if (! -s $libpng_tar)
+{
+    run("curl", "-o", $libpng_tar, "-L", $libpng_url);
+}
+
+run("rm", "-rf", $libpng_dir);
+run("tar", "xzfp", $libpng_tar);
+
+chdir("$libpng_dir");
+run("./configure", "--prefix", "$dest");
+run("make");
+run("make", "install");
+
+sub run
+{
+    my(@cmd) = @_;
+    print "@cmd\n";
+    my $rc = system(@cmd);
+    $rc == 0 or die "Command failed with rc=$rc: @cmd\n";
+}
