@@ -163,3 +163,4 @@ Cache::Memcached::Fast
 Set::IntervalTree
 IntervalTree
 Graph::Undirected::Components
+IPC::System::Simple
