@@ -13,7 +13,7 @@ fi
 
 RLIB=$1
 RURL="http://cran.r-project.org/src/base/R-2/"
-RBASE="R-2.15.1"
+RBASE="R-2.15.3"
 
 
 if [[ -x /usr/bin/apt-get ]] ; then
