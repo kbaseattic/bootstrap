@@ -12,6 +12,7 @@ if [[ $# -gt 0 ]] ; then
 	shift
 fi
 
+rm -rf FGS
 git clone https://github.com/wltrimbl/FGS.git
 
 pushd FGS
@@ -22,5 +23,6 @@ mv *.pl bin/.
 mv FragGeneScan bin/.
 popd
 
+rm -rf $target/FragGeneScan
 mv FGS $target/FragGeneScan
 ln -s $target/FragGeneScan/bin/* $target/bin/.
