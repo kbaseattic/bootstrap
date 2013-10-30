@@ -12,16 +12,15 @@ if [[ $# -gt 0 ]] ; then
 	shift
 fi
 
+git clone https://github.com/wltrimbl/FGS.git
 
-vers=1.16
-url=http://omics.informatics.indiana.edu/mg/get.php?justdoit=yes&software=FragGeneScan${vers}.tar.gz
+pushd FGS
+make
+mkdir bin
+mv train bin/.
+mv *.pl bin/.
+mv FragGeneScan bin/.
+popd
 
-tar=FragGeneScan$vers.tar.gz
-
-curl -o $tar -L $url
-
-rm -rf $target/FragGeneScan$vers
-tar -C $target/FragGeneScan$vers -zxf $tar
-
-rm -f $target/fgs
-ln -s $target/FragGeneScan$vers $target/fgs
+mv FGS $target/FragGeneScan
+ln -s $target/FragGeneScan/bin/* $target/bin/.
