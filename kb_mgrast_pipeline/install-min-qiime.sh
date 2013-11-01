@@ -2,7 +2,7 @@
 set -e
 
 TARGET=/kb/runtime
-BOOTSTRAP_DIR=pwd
+BOOTSTRAP_DIR=`pwd`
 
 # install qiime-uclust / qiime-dresee / qiime-blast
 # 
@@ -30,4 +30,4 @@ rm -f activate.sh
 cp $BOOTSTRAP_DIR/activate.sh .
 
 # edit .bashrc for above apps
-echo "source activate.sh" >> $TARGET/user-env.sh
+cat $BOOTSTRAP_DIR/activate.sh >> $TARGET/user-env.sh
