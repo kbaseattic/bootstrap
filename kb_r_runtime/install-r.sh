@@ -12,8 +12,8 @@ if [[ $# != 1 ]] ; then
 fi
 
 RLIB=$1
-RURL="http://cran.r-project.org/src/base/R-2/"
-RBASE="R-2.15.3"
+RURL="http://cran.r-project.org/src/base/R-3/"
+RBASE="R-3.0.2"
 
 
 if [[ -x /usr/bin/apt-get ]] ; then
