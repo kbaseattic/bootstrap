@@ -20,4 +20,4 @@ popd
 
 rm -rf $target/FragGeneScan
 mv FGS $target/FragGeneScan
-ln -s $target/FragGeneScan/bin/* $target/bin/.
+ln -sf $target/FragGeneScan/bin/* $target/bin/.
