@@ -36,4 +36,5 @@ rm -f activate.sh
 cp $BOOTSTRAP_DIR/activate.sh .
 
 # edit .bashrc for above apps
-$BOOTSTRAP_DIR/activate.sh ${TARGET} > $TARGET/env/min-qiime-runtime-env.sh
+mkdir -p ${TARGET}/env
+$BOOTSTRAP_DIR/activate.sh ${TARGET} > ${TARGET}/env/min-qiime-runtime-env.sh
