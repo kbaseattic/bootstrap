@@ -1,7 +1,7 @@
 # This installes the needed third party tools for
 # the mgrast pipeline
-#A
-kb_bootstrap		./install-debian-packages
+#
+kb_bootstrap		./install-debian-packages	package-list.ubuntu
 kb_python_runtime       ./build.python
 kb_python_runtime       ./install-python-packages.sh
 kb_perl_runtime 	./build.perl
