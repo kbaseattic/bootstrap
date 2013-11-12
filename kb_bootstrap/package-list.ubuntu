@@ -86,3 +86,5 @@ perl-doc
 samtools
 libmysqlclient18
 libzmq-dev
+bzip2
+libbz2-dev
