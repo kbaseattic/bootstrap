@@ -15,7 +15,7 @@ certifi==0.0.8
 chardet==1.0.1
 oauthlib==0.1.3
 pyasn1==0.1.3
-requests==0.13.0
+requests>=1.0
 rsa==3.0.1
 pyyaml==3.10
 jsonschema
@@ -38,3 +38,7 @@ virtualenvwrapper
 configobj
 paramiko
 python-dateutil
+pyzmq>=2.2
+python-qt
+tornado>=2.4.1
+pycrypto>=2.6
