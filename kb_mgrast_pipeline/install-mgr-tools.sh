@@ -1,7 +1,12 @@
 #!/bin/sh
 set -e
 
-TARGET=/kb/runtime
+if [ $# -gt 0 ] ; then
+        TARGET=$1
+        shift
+else
+	TARGET=/kb/runtime
+fi
 
 #install bowtie and download index file
 #sudo apt-get -y install bowtie

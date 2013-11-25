@@ -12,11 +12,11 @@ if [[ $# -ne 0 ]] ; then
 fi
 
 IDIR=$target
-CURL="http://kbase.us/docs/build/"
+CURL="http://sourceforge.net/projects/cdbfasta/files/latest/download?source=files"
 CBASE="cdbfasta"
 
 echo "###### downloading $CBASE ######"
-curl -O $CURL$CBASE".tar.gz"
+curl -L $CURL > $CBASE".tar.gz"
 tar zxf $CBASE".tar.gz"
 
 echo "###### installing $CBASE ######"

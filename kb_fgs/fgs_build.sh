@@ -21,3 +21,6 @@ popd
 rm -rf $target/FragGeneScan
 mv FGS $target/FragGeneScan
 ln -sf $target/FragGeneScan/bin/* $target/bin/.
+
+echo "export FGS_HOME=$target/FragGeneScan" >> $target/runtime-env.sh
+echo "export PATH=\$PATH:\$FGS_HOME/bin" >>  $target/runtime-env.sh

@@ -33,3 +33,5 @@ patch
 unzip
 tcsh
 doxygen
+ncurses
+ncurses-devel

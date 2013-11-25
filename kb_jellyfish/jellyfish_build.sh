@@ -12,7 +12,7 @@ if [[ $# -ne 0 ]] ; then
 fi
 
 IDIR=$target
-JURL="http://kbase.us/docs/build/"
+JURL="http://www.cbcb.umd.edu/software/jellyfish/"
 JBASE="jellyfish-1.1.5"
 
 echo "###### downloading $JBASE ######"
