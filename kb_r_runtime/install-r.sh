@@ -14,7 +14,7 @@ fi
 RLIB=$1
 RURL="http://cran.r-project.org/src/base/R-3/"
 RBASE="R-3.0.2"
-
+TPAGE=`which tpage`
 
 if [[ -x /usr/bin/apt-get ]] ; then
 	echo "###### purge system R ######"
@@ -64,4 +64,5 @@ popd
 #rm -rf $RBASE
 
 echo "###### installing R libraries ######"
-$dest/bin/R CMD BATCH $RLIB
+echo "update.packages(checkBuilt=TRUE, ask=FALSE)" | $dest/bin/R --vanilla --slave
+$TPAGE --define rlib=$dest/lib/R/library $LIBS | $dest/bin/R --vanilla --slave
