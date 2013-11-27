@@ -56,3 +56,4 @@ system("make", "install");
 system("ln", "-s", "$dest/meme/bin/meme", "/usr/bin/");
 system("ln", "-s", "$dest/meme/bin/tomtom", "/usr/bin/");
 system("ln", "-s", "$dest/meme/bin/mast", "/usr/bin/");
+system("ln", "-s", "$dest/meme/bin/dust", "/usr/bin/");
