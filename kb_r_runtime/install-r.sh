@@ -24,15 +24,18 @@ if [[ -x /usr/bin/apt-get ]] ; then
 	apt-get --force-yes -y build-dep r-base
 fi
 
+echo "###### remove old R ######"
+rm -rf $RBASE
+rm -rf $dest/lib/R
+
 echo "###### downloading $RBASE ######"
 if [[ ! -s $RBASE".tar.gz" ]]; then
 	curl -O -L $RURL$RBASE".tar.gz"
 fi
-rm -rf $RBASE
 tar zxf $RBASE".tar.gz"
-pushd $RBASE
-echo "###### installing $RBASE ######"
 
+echo "###### installing $RBASE ######"
+pushd $RBASE
 conf_opts="--enable-R-shlib --with-tcltk --prefix=$dest"
 
 #
@@ -65,4 +68,4 @@ popd
 
 echo "###### installing R libraries ######"
 echo "update.packages(checkBuilt=TRUE, ask=FALSE)" | $dest/bin/R --vanilla --slave
-$TPAGE --define rlib=$dest/lib/R/library $LIBS | $dest/bin/R --vanilla --slave
+$TPAGE --define rlib=$dest/lib/R/library $RLIB | $dest/bin/R --vanilla --slave
