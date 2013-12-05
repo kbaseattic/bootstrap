@@ -20,7 +20,7 @@ if (@ARGV)
 my $vers = "1.0";
 my $cmonkey_dir = "cmonkey-python_$vers";
 my $cmonkey_deb = "cmonkey-python_".$vers."_all.deb";
-my $cmonkey_url = "http://networks.systemsbiology.net/gaggle/cmonkey-python_1.0_all.deb";
+my $cmonkey_url = "http://networks.systemsbiology.net/gaggle/cmonkey-python_1.0.1-1_all.deb";
 
 if (! -s $cmonkey_deb)
 {
@@ -28,3 +28,4 @@ if (! -s $cmonkey_deb)
 }
 
 system("sudo", "dpkg", "-i", $cmonkey_deb);
+system("sudo", "apt-get", "-f", "install");
