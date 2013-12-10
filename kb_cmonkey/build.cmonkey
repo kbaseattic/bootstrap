@@ -17,15 +17,22 @@ if (@ARGV)
 
 -d $dest || mkdir $dest;
 
+system ("mkdir", "/etc/cmonkey-python");
 my $vers = "1.0";
-my $cmonkey_dir = "cmonkey-python_$vers";
-my $cmonkey_deb = "cmonkey-python_".$vers."_all.deb";
-my $cmonkey_url = "http://networks.systemsbiology.net/gaggle/cmonkey-python_1.0.1-1_all.deb";
+my $cmonkey_dir = $dest."/cmonkey-python";
+#my $cmonkey_deb = "cmonkey-python_".$vers."_all.deb";
+#my $cmonkey_url = "http://networks.systemsbiology.net/gaggle/cmonkey-python_1.0.1-1_all.deb";
+#if (! -s $cmonkey_deb)
+#{
+#    system("curl", "-o", $cmonkey_deb, "-L", $cmonkey_url);
+#}
+#system("sudo", "dpkg", "-i", $cmonkey_deb);
+#system("sudo", "apt-get", "-f", "install");
 
-if (! -s $cmonkey_deb)
-{
-    system("curl", "-o", $cmonkey_deb, "-L", $cmonkey_url);
-}
-
-system("sudo", "dpkg", "-i", $cmonkey_deb);
-system("sudo", "apt-get", "-f", "install");
+system("apt-get", "install", "python-xmlrunner");
+system("git", "clone", "https://github.com/weiju/cmonkey-python.git");
+system("cp", "cmonkey-python/config/default.ini", "/etc/cmonkey-python");
+system("cp", "cmonkey-python/config/KEGG_taxonomy", "/etc/cmonkey-python");
+system("cp", "-r", "cmonkey-python", $dest);
+chdir($cmonkey_dir) or die "Cant chdir to $cmonkey_dir $!";
+system("./run_tests.sh");
