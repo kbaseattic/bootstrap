@@ -33,6 +33,8 @@ system("apt-get", "install", "python-xmlrunner");
 system("git", "clone", "https://github.com/weiju/cmonkey-python.git");
 system("cp", "cmonkey-python/config/default.ini", "/etc/cmonkey-python");
 system("cp", "cmonkey-python/config/KEGG_taxonomy", "/etc/cmonkey-python");
+system("cp", "cmonkey-python/config/fasta_test.fa", "/etc/cmonkey-python");
+system("cp", "cmonkey-python/config/proteome2taxid", "/etc/cmonkey-python");
 system("cp", "-r", "cmonkey-python", $dest);
 chdir($cmonkey_dir) or die "Cant chdir to $cmonkey_dir $!";
 system("./run_tests.sh");
