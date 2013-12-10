@@ -13,7 +13,7 @@ fi
 
 IDIR=$target
 JURL="http://www.cbcb.umd.edu/software/jellyfish/"
-JBASE="jellyfish-1.1.5"
+JBASE="jellyfish-1.1.11"
 
 echo "###### downloading $JBASE ######"
 curl -O $JURL$JBASE".tar.gz"
