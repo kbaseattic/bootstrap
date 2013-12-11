@@ -31,7 +31,7 @@ my $cmonkey_dir = $dest."/cmonkey-python";
 
 system("apt-get", "install", "python-xmlrunner");
 system("git", "clone", "https://github.com/weiju/cmonkey-python.git");
-system("cp", "cmonkey-python/config/default.ini", "/etc/cmonkey-python");
+system("cp", "default.ini", "/etc/cmonkey-python");
 system("cp", "cmonkey-python/config/KEGG_taxonomy", "/etc/cmonkey-python");
 system("cp", "cmonkey-python/config/fasta_test.fa", "/etc/cmonkey-python");
 system("cp", "cmonkey-python/config/proteome2taxid", "/etc/cmonkey-python");
