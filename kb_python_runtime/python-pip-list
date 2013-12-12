@@ -17,7 +17,6 @@ pika==0.9.8
 httplib2
 django-piston==0.2.2
 django-tastypie
-oauth2
 flup
 yolk
 nose
