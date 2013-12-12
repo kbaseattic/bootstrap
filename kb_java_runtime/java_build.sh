@@ -51,37 +51,39 @@ else
 	echo "Install JDK, restricted set to $restricted"
 	if [ "$restricted" = unrestricted ] ;
 	then
-	  curl http://www.kbase.us/docs/build/jdk-7u25-linux-x64.tar.gz > jdk-7u25-linux-x64.tar.gz
 	  #cleanup old
 	  rm -rf $target/jdk1.6*
 	  rm -rf $target/jdk1.7*
 	  rm $target/java
+	  find /$target/bin -xtype l -delete
 	  #install new 
-	  tar zxvf jdk-7u25-linux-x64.tar.gz -C $target
-	  ln -s $target/jdk1.7.0_25 $target/java
+	  tar zxvf jdk-7u45-linux-x64.tar.gz -C $target
+	  ln -s $target/jdk1.7.0_45 $target/java
+	  ln -s $target/jdk1.7.0_45/bin/* $target/bin/
 	else
 	  echo "This component is restricted, please download the tarball from the rights holder."
 	fi
 fi
 
 echo "Install Ant"
-curl -O http://www.kbase.us/docs/build/apache-ant-1.8.4-bin.tar.gz
+curl -O http://www.picotopia.org/apache/ant/binaries/apache-ant-1.9.2-bin.tar.gz
 rm -rf $target/apache-ant*
 rm $target/ant
-tar zxvf apache-ant-1.8.4-bin.tar.gz -C $target
-ln -s $target/apache-ant-1.8.4 $target/ant
+tar zxvf apache-ant-1.9.2-bin.tar.gz -C $target
+ln -s $target/apache-ant-1.9.2 $target/ant
+ln -s $target/ant/bin/ant $target/bin/ant
 
 echo "Install Ivy"
-curl -O http://www.kbase.us/docs/build/apache-ivy-2.3.0-rc1-bin.tar.gz 
+curl -O http://apache.cs.utah.edu//ant/ivy/2.3.0/apache-ivy-2.3.0-bin.tar.gz
 rm -rf $target/apache-ivy*
-tar zxvf apache-ivy-2.3.0-rc1-bin.tar.gz -C $target
-ln -s $target/apache-ivy-2.3.0-rc1/ivy-2.3.0-rc1.jar $target/ant/lib/.
+tar zxvf apache-ivy-2.3.0-bin.tar.gz -C $target
+ln -s $target/apache-ivy-2.3.0/ivy-2.3.0.jar $target/ant/lib/.
 
 echo "Install tomcat"
-curl http://kbase.us/docs/build/apache-tomcat-7.0.32.tar.gz > apache-tomcat-7.0.32.tar.gz
+curl -O "http://mirror.olnevhost.net/pub/apache/tomcat/tomcat-7/v7.0.47/bin/apache-tomcat-7.0.47.tar.gz"
 rm -rf $target/tomcat*
-tar zxvf apache-tomcat-7.0.32.tar.gz -C $target
-ln -s $target/apache-tomcat-7.0.32 $target/tomcat
+tar zxvf apache-tomcat-7.0.47.tar.gz -C $target
+ln -s $target/apache-tomcat-7.0.47 $target/tomcat
 
 #
 # Standard java libraries.
@@ -98,4 +100,13 @@ echo "Install jackson"
 rm -rf $target/lib/jackson-all*
 curl -o $target/lib/$jackson http://jackson.codehaus.org/1.9.11/$jackson
 ln -s $target/lib/$jackson $target/lib/jackson-all.jar
+
+mkdir -p $target/env
+echo "
+export JAVA_HOME=$target/java
+export ANT_HOME=$target/ant
+export THRIFT_HOME=$target/thrift
+export CATALINA_HOME=$target/tomcat
+export GLASSFISH_HOME=$target/glassfish3
+export PATH=\${JAVA_HOME}/bin:\${ANT_HOME}/bin:$target/bin:\${THRIFT_HOME}/bin:\${CATALINA_HOME}/bin:\${PATH}" > $target/env/java-build-runtime.env
 

@@ -1,9 +1,4 @@
-#!/bin/sh
-set -x
-
-. ../tools/error_handler
-
-trap 'error ${LINENO}' ERR
+#!/bin/bash
 
 target=${TARGET-/kb/runtime}
 
@@ -12,16 +7,20 @@ if [[ $# -gt 0 ]] ; then
 	shift
 fi
 
+rm -rf FGS
+git clone https://github.com/wltrimbl/FGS.git
 
-vers=1.16
-url=http://omics.informatics.indiana.edu/mg/get.php?justdoit=yes&software=FragGeneScan${vers}.tar.gz
+pushd FGS
+make
+mkdir bin
+mv train bin/.
+mv *.pl bin/.
+mv FragGeneScan bin/.
+popd
 
-tar=FragGeneScan$vers.tar.gz
+rm -rf $target/FragGeneScan
+mv FGS $target/FragGeneScan
+ln -sf $target/FragGeneScan/bin/* $target/bin/.
 
-curl -o $tar -L $url
-
-rm -rf $target/FragGeneScan$vers
-tar -C $target/FragGeneScan$vers -zxf $tar
-
-rm -f $target/fgs
-ln -s $target/FragGeneScan$vers $target/fgs
+echo "export FGS_HOME=$target/FragGeneScan" >> $target/runtime-env.sh
+echo "export PATH=\$PATH:\$FGS_HOME/bin" >>  $target/runtime-env.sh

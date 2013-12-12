@@ -1,0 +1,40 @@
+#!/usr/bin/env perl
+
+use strict;
+
+use Carp;
+use File::Basename;
+use Cwd 'abs_path';
+
+my $dest = $ENV{TARGET} || "/kb/runtime";
+my $parallel = 4;
+
+if (@ARGV)
+{
+    $dest = shift;
+    print STDERR "Overriding destination to $dest\n";
+}
+
+-d $dest || mkdir $dest;
+
+system ("mkdir", "/etc/cmonkey-python");
+my $vers = "1.0";
+my $cmonkey_dir = $dest."/cmonkey-python";
+#my $cmonkey_deb = "cmonkey-python_".$vers."_all.deb";
+#my $cmonkey_url = "http://networks.systemsbiology.net/gaggle/cmonkey-python_1.0.1-1_all.deb";
+#if (! -s $cmonkey_deb)
+#{
+#    system("curl", "-o", $cmonkey_deb, "-L", $cmonkey_url);
+#}
+#system("sudo", "dpkg", "-i", $cmonkey_deb);
+#system("sudo", "apt-get", "-f", "install");
+
+system("apt-get", "install", "python-xmlrunner");
+system("git", "clone", "https://github.com/weiju/cmonkey-python.git");
+system("cp", "default.ini", "/etc/cmonkey-python");
+system("cp", "cmonkey-python/config/KEGG_taxonomy", "/etc/cmonkey-python");
+system("cp", "cmonkey-python/config/fasta_test.fa", "/etc/cmonkey-python");
+system("cp", "cmonkey-python/config/proteome2taxid", "/etc/cmonkey-python");
+system("cp", "-r", "cmonkey-python", $dest);
+chdir($cmonkey_dir) or die "Cant chdir to $cmonkey_dir $!";
+system("./run_tests.sh");
