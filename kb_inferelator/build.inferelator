@@ -7,4 +7,4 @@ use File::Basename;
 use Cwd 'abs_path';
 
 system("apt-get", "install", "libcurl4-openssl-dev");
-system("R", "CMD", "BATCH", "/install_inferelator.R");
+system("R", "CMD", "BATCH", "./install_inferelator.R");
