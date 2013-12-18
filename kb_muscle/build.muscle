@@ -7,7 +7,6 @@ use File::Basename;
 use Cwd 'abs_path';
 
 my $dest = $ENV{TARGET} || "/kb/runtime";
-my $parallel = 4;
 
 if (@ARGV)
 {
@@ -17,29 +16,17 @@ if (@ARGV)
 
 -d $dest || mkdir $dest;
 
-
-
-my $vers = "3.8.31";
-my $muscle_dir = "muscle$vers";
-my $muscle_tar = "muscle${vers}_src.tar.gz";
-my $muscle_url = "http://www.drive5.com/muscle/downloads$vers/$muscle_tar";
+my $muscle_tar = "muscle3.8.31_i86linux64.tar.gz";
+my $muscle_url = "http://www.drive5.com/muscle/downloads3.8.31/$muscle_tar";
 
 if (! -s $muscle_tar)
 {
-    run("curl", "-o", $muscle_tar, "-L", $muscle_url);
+    system("curl", "-o", $muscle_tar, "-L", $muscle_url);
 }
 
-run("rm", "-rf", $muscle_dir);
-run("tar", "xzfp", $muscle_tar);
+system("rm", "$dest/bin/muscle");
+system("rm", "$dest/bin/muscle3.8.31_i86linux64");
 
-chdir("$muscle_dir/src");
-run("make");
-run("cp", "muscle", "$dest/bin/muscle");
-
-sub run
-{
-    my(@cmd) = @_;
-    print "@cmd\n";
-    my $rc = system(@cmd);
-    $rc == 0 or die "Command failed with rc=$rc: @cmd\n";
-}
+system("tar", "xzfp", $muscle_tar);
+system("cp", "muscle3.8.31_i86linux64", "$dest/bin/");
+system("ln", "-s", "$dest/bin/muscle3.8.31_i86linux64", "$dest/bin/muscle");

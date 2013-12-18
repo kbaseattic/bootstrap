@@ -53,4 +53,7 @@ system("patch", "-p0", "-i", $meme_patch4);
 system("curl", "-o", $meme_patch5, "-L", $meme_patch5_url);
 system("patch", "-p1", "-i", $meme_patch5);
 system("make", "install");
-system("ln", "-s", "$dest/meme/bin/*", "/usr/bin/");
+system("test", "-h", "meme") || system("ln", "-s", "$dest/meme/bin/meme", "/usr/bin/");
+system("test", "-h", "tomtom") || system("ln", "-s", "$dest/meme/bin/tomtom", "/usr/bin/");
+system("test", "-h", "mast") || system("ln", "-s", "$dest/meme/bin/mast", "/usr/bin/");
+system("test", "-h", "dust") || system("ln", "-s", "$dest/meme/bin/dust", "/usr/bin/");

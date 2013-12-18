@@ -23,5 +23,5 @@ for P in `cat ./python-easy-list-narrative`; do
 	easy_install $P
 done
 
-chmod a+x install-nexus.sh
-./install-nexus.sh $target
+#chmod a+x install-nexus.sh
+#./install-nexus.sh $target

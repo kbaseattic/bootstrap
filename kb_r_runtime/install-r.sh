@@ -12,9 +12,9 @@ if [[ $# != 1 ]] ; then
 fi
 
 RLIB=$1
-RURL="http://cran.r-project.org/src/base/R-2/"
-RBASE="R-2.15.1"
-
+RURL="http://cran.r-project.org/src/base/R-3/"
+RBASE="R-3.0.2"
+TPAGE=`which tpage`
 
 if [[ -x /usr/bin/apt-get ]] ; then
 	echo "###### purge system R ######"
@@ -24,15 +24,18 @@ if [[ -x /usr/bin/apt-get ]] ; then
 	apt-get --force-yes -y build-dep r-base
 fi
 
+echo "###### remove old R ######"
+rm -rf $RBASE
+rm -rf $dest/lib/R
+
 echo "###### downloading $RBASE ######"
 if [[ ! -s $RBASE".tar.gz" ]]; then
 	curl -O -L $RURL$RBASE".tar.gz"
 fi
-rm -rf $RBASE
 tar zxf $RBASE".tar.gz"
-pushd $RBASE
-echo "###### installing $RBASE ######"
 
+echo "###### installing $RBASE ######"
+pushd $RBASE
 conf_opts="--enable-R-shlib --with-tcltk --prefix=$dest"
 
 #
@@ -64,4 +67,5 @@ popd
 #rm -rf $RBASE
 
 echo "###### installing R libraries ######"
-$dest/bin/R CMD BATCH $RLIB
+echo "update.packages(checkBuilt=TRUE, ask=FALSE)" | $dest/bin/R --vanilla --slave
+$TPAGE --define rlib=$dest/lib/R/library $RLIB | $dest/bin/R --vanilla --slave

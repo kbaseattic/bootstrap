@@ -1,0 +1,43 @@
+#!/usr/bin/env perl
+
+use strict;
+
+use Carp;
+use File::Basename;
+use Cwd 'abs_path';
+
+my $dest = $ENV{TARGET} || "/kb/runtime";
+
+if (@ARGV)
+{
+    $dest = shift;
+    print STDERR "Overriding destination to $dest\n";
+}
+
+-d $dest || mkdir $dest;
+
+my $phylip_dir = "phylip-3.695";
+my $phylip_tar = "phylip-3.695.tar.gz";
+my $phylip_url = "http://evolution.gs.washington.edu/phylip/download/$phylip_tar";
+
+if (! -s $phylip_tar)
+{
+    system("curl", "-o", $phylip_tar, "-L", $phylip_url);
+}
+
+#system("rm", "$dest/bin/muscle");
+#system("rm", "$dest/bin/muscle3.8.31_i86linux64");
+
+system("tar", "xzfp", $phylip_tar);
+system("cp", "$phylip_dir/src/Makefile.unx", "$phylip_dir/src/Makefile");
+chdir "$phylip_dir/src";
+system("make", "install");
+chdir "../..";
+system("cp", "-r",  "$phylip_dir/exe", "$dest/$phylip_dir");
+
+system("mkdir", "-p", "$dest/env");
+open  F, ">$dest/env/$phylip_dir-env.sh" or die "cannot open $dest/env/$phylip_dir-env.sh";
+print F <<END;
+export PATH=\"$dest/$phylip_dir/exe:\$PATH\"
+END
+

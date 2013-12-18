@@ -109,6 +109,7 @@ for my $mod (@modules)
     close(LOG);
 }
 
+!system("cp", "VERSION",  $dest) or die "could not copy VERSION file to $dest";
 
 
 

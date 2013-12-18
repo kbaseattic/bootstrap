@@ -163,4 +163,6 @@ Cache::Memcached::Fast
 Set::IntervalTree
 IntervalTree
 Graph::Undirected::Components
+File::Touch
 IPC::System::Simple
+Data::Structure::Util
