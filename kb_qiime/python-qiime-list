@@ -1,4 +1,4 @@
-svn pprospector https://pprospector.svn.sourceforge.net/svnroot/pprospector/trunk
+svn pprospector https://svn.code.sf.net/p/pprospector/code/trunk
 git pycogent    git://github.com/pycogent/pycogent.git
 git pynast  git://github.com/qiime/pynast.git
 git qiime   git://github.com/qiime/qiime.git

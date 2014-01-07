@@ -4,12 +4,10 @@ rpy2
 beautifulsoup
 pika==0.9.8
 httplib2
-oauth2
 flup
 yolk
 nose
 jinja2
-lxml
 python-daemon
 pymongo
 certifi==0.0.8
@@ -23,7 +21,6 @@ jsonschema
 poster
 jsonrpcbase
 appdirs
-scikit-learn
 markdown
 xlutils
 gitpython
@@ -39,4 +36,3 @@ virtualenvwrapper
 configobj
 paramiko
 python-dateutil
-rpy2

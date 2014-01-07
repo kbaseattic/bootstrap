@@ -1,17 +1,22 @@
 #!/bin/bash
 
-target="/kb/runtime"
+. ../tools/error_handler
+
+trap 'error ${LINENO}' ERR
+
+target=${TARGET-/kb/runtime}
+
 if [[ $# -ne 0 ]] ; then
         target=$1
         shift
 fi
 
 IDIR=$target
-CURL="http://kbase.us/docs/build/"
+CURL="http://sourceforge.net/projects/cdbfasta/files/latest/download?source=files"
 CBASE="cdbfasta"
 
 echo "###### downloading $CBASE ######"
-curl -O $CURL$CBASE".tar.gz"
+curl -L $CURL > $CBASE".tar.gz"
 tar zxf $CBASE".tar.gz"
 
 echo "###### installing $CBASE ######"

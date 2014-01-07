@@ -25,10 +25,10 @@ if (! -s $tar)
     run("curl", "-o", $tar, "-L", $url);
 }
 
-#run("rm", "-rf", "$dir");
-#run("tar", "xzfp", $tar);
+run("rm", "-rf", "$dir");
+run("tar", "xzfp", $tar);
 chdir("$dir/c++") or die "cannot chdir $dir/c++: $!";
-#run("./configure", "--prefix=$dest", "--without-debug");
+run("./configure", "--prefix=$dest", "--without-debug");
 
 #
 # Use config.log to determine the build directory as configured here.
@@ -54,7 +54,7 @@ if (!$build_root)
     die "Could not find build_root";
 }
 
-#run("make");
+run("make");
 
 opendir(B, "$build_root/bin") or die "Cannot opendir $build_root/bin: $!";
 for my $f (sort grep { $_ !~ /^\./ && -x "$build_root/bin/$_" } readdir(B))

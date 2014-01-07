@@ -91,7 +91,7 @@ for my $mod (@modules)
 
     while (<RUN>)
     {
-	print "$tag  $_";
+	printf "%-10s $_", $tag;
 	print LOG $_;
     }
     if (!close(RUN))
@@ -109,6 +109,7 @@ for my $mod (@modules)
     close(LOG);
 }
 
+!system("cp", "VERSION",  $dest) or die "could not copy VERSION file to $dest";
 
 
 

@@ -36,20 +36,25 @@ done < $pkg_list
 mkdir -p $target/qiime
 mkdir -p $target/qiime/temp
 
-# java rdp clasifier
-echo "installing rdp-classifier"
-wget -O rdp_classifier_2.2.zip http://sourceforge.net/projects/rdp-classifier/files/rdp-classifier/rdp_classifier_2.2.zip/download
-unzip -d $target/qiime/ rdp_classifier_2.2.zip
-ln -s $target/qiime/rdp_classifier_2.2/rdp_classifier-2.2.jar $target/lib/rdp_classifier.jar
-ln -s $target/qiime/rdp_classifier_2.2/rdp_classifier-2.2.jar $target/java/lib/rdp_classifier.jar
+# java rdp clasifier if java exists
+if [ -d $target/java ]; then
+    echo "installing rdp-classifier"
+    wget -O rdp_classifier_2.2.zip http://sourceforge.net/projects/rdp-classifier/files/rdp-classifier/rdp_classifier_2.2.zip/download
+    unzip -d $target/qiime/ rdp_classifier_2.2.zip
+    ln -s $target/qiime/rdp_classifier_2.2/rdp_classifier-2.2.jar $target/lib/rdp_classifier.jar
+    ln -s $target/qiime/rdp_classifier_2.2/rdp_classifier-2.2.jar $target/java/lib/rdp_classifier.jar
+else
+    echo "no java - skipping rdp-classifier"
+fi
 
 # greengenes data
-echo "installing greengenes libraries"
+#echo "installing greengenes libraries"
 mkdir -p $target/qiime/greengenes
-wget -O $target/qiime/greengenes/core_set_aligned.fasta.imputed http://greengenes.lbl.gov/Download/Sequence_Data/Fasta_data_files/core_set_aligned.fasta.imputed
-wget -O $target/qiime/greengenes/lanemask_in_1s_and_0s http://greengenes.lbl.gov/Download/Sequence_Data/lanemask_in_1s_and_0s
-wget ftp://greengenes.microbio.me/greengenes_release/gg_12_10/gg_12_10_otus.tar.gz
-tar -xzf gg_12_10_otus.tar.gz -C $target/qiime/greengenes
+# removed, too big ! - leave path for module
+#wget -O $target/qiime/greengenes/core_set_aligned.fasta.imputed http://greengenes.lbl.gov/Download/Sequence_Data/Fasta_data_files/core_set_aligned.fasta.imputed
+#wget -O $target/qiime/greengenes/lanemask_in_1s_and_0s http://greengenes.lbl.gov/Download/Sequence_Data/lanemask_in_1s_and_0s
+#wget ftp://greengenes.microbio.me/greengenes_release/gg_12_10/gg_12_10_otus.tar.gz
+#tar -xzf gg_12_10_otus.tar.gz -C $target/qiime/greengenes
 
 # pre-compiled 64-bit Linux
 for B in bin/*; do 
