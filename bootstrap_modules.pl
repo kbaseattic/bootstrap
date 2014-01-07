@@ -91,7 +91,7 @@ for my $mod (@modules)
 
     while (<RUN>)
     {
-	print $_;
+	print "$tag  $_";
 	print LOG $_;
     }
     if (!close(RUN))
