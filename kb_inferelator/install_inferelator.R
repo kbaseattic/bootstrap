@@ -1,4 +1,4 @@
-#!/kb/runtime/bin/Rscript
+#!Rscript
 chooseCRANmirror(74);
 install.packages('devtools', repos = "http://cran.cnr.berkeley.edu", dep=T);
 library('devtools');
