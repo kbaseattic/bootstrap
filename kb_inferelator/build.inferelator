@@ -13,4 +13,4 @@ my $rlib_dir = $dest."/lib/R/library";
 
 system ("mkdir", "-p", $rlib_dir);
 #system("apt-get", "install", "libcurl4-openssl-dev");
-system("R", "CMD", "BATCH", "install_inferelator.R");
+system("TMPDIR=\"/var\"", "R", "CMD", "BATCH", "install_inferelator.R");
