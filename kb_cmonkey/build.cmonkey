@@ -18,6 +18,7 @@ if (@ARGV)
 -d $dest || mkdir $dest;
 
 system ("mkdir", "/etc/cmonkey-python");
+system ("mkdir", "/var/tmp/cmonkey");
 my $vers = "1.0";
 my $cmonkey_dir = $dest."/cmonkey-python";
 #my $cmonkey_deb = "cmonkey-python_".$vers."_all.deb";
