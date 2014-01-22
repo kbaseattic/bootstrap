@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dest="/kb/runtime"
+dest=${TARGET-/kb/runtime}
 echo "using $dest as installation directory";
 mkdir -p $dest
 
@@ -21,5 +21,5 @@ rsync -avz --exclude '*.h' --exclude '*.cpp' bowtie-1.0.0 $dest
 
 
 # optoin 2
-echo "export BOWTIE-1_HOME=$dest/bowtie-1.0.0" > $dest/env/bowtie1-runtime-env.sh
-echo "export PATH=\$PATH:\$BOWTIE-1_HOME:\$BOWTIE-1_HOME/scripts" >> $dest/env/bowtie1-runtime-env.sh
+#echo "export BOWTIE-1_HOME=$dest/bowtie-1.0.0" > $dest/env/bowtie1-runtime-env.sh
+#echo "export PATH=\$PATH:\$BOWTIE-1_HOME:\$BOWTIE-1_HOME/scripts" >> $dest/env/bowtie1-runtime-env.sh

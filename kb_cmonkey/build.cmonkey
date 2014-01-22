@@ -7,6 +7,7 @@ use File::Basename;
 use Cwd 'abs_path';
 
 my $dest = $ENV{TARGET} || "/kb/runtime";
+my $rscript_path = $dest."/bin/Rscript";
 my $parallel = 4;
 
 if (@ARGV)
@@ -17,14 +18,48 @@ if (@ARGV)
 
 -d $dest || mkdir $dest;
 
-my $vers = "1.0";
-my $cmonkey_dir = "cmonkey-python_$vers";
-my $cmonkey_deb = "cmonkey-python_".$vers."_all.deb";
-my $cmonkey_url = "http://networks.systemsbiology.net/gaggle/cmonkey-python_1.0_all.deb";
+system ("mkdir", "/etc/cmonkey-python");
+system ("mkdir", "/var/tmp/cmonkey");
+my $cmonkey_dir = $dest."/cmonkey-python";
+system ("rm", "-r", $cmonkey_dir);
+system ("mkdir", $cmonkey_dir);
 
-if (! -s $cmonkey_deb)
-{
-    system("curl", "-o", $cmonkey_deb, "-L", $cmonkey_url);
-}
+#my $vers = "1.0";
+#my $cmonkey_deb = "cmonkey-python_".$vers."_all.deb";
+#my $cmonkey_url = "http://networks.systemsbiology.net/gaggle/cmonkey-python_1.0.1-1_all.deb";
+#if (! -s $cmonkey_deb)
+#{
+#    system("curl", "-o", $cmonkey_deb, "-L", $cmonkey_url);
+#}
+#system("sudo", "dpkg", "-i", $cmonkey_deb);
+#system("sudo", "apt-get", "-f", "install");
 
-system("sudo", "dpkg", "-i", $cmonkey_deb);
+system("apt-get", "install", "python-xmlrunner");
+system("git", "clone", "https://github.com/weiju/cmonkey-python.git");
+system("rm", "cmonkey-python/config/default.ini");
+system("cp", "default.ini", "cmonkey-python/config");
+system("cp", "default.ini", "/etc/cmonkey-python");
+
+my $runinf_script = "#!".$rscript_path."\n";
+my $runinf_file = "cmonkey-python/inferelator/run_inf.R";
+open (RUNINF, $runinf_file);
+while (defined(my $line = <RUNINF>)){
+    if ($line =~ /\/usr\/bin\/Rscript/) 
+	{} 
+    else 
+	{
+        $runinf_script = $runinf_script.$line;
+	};
+};
+close (RUNINF);
+open (RUNINF, ">", $runinf_file);
+print RUNINF $runinf_script;
+close (RUNINF);
+
+system("cp", "cmonkey-python/config/KEGG_taxonomy", "/etc/cmonkey-python");
+system("cp", "cmonkey-python/config/fasta_test.fa", "/etc/cmonkey-python");
+system("cp", "cmonkey-python/config/proteome2taxid", "/etc/cmonkey-python");
+system("cp", "-r", "cmonkey-python", $dest);
+system ("rm", "-r", "cmonkey-python");
+chdir($cmonkey_dir) or die "Cant chdir to $cmonkey_dir $!";
+system("./run_tests.sh");

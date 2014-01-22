@@ -1,6 +1,6 @@
 #!/bin/bash
 
-target="/kb/runtime"
+target=${TARGET-/kb/runtime}
 if [[ $# -ne 0 ]] ; then
         target=$1
         shift

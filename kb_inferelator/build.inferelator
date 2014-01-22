@@ -1,0 +1,16 @@
+#!/usr/bin/env perl
+
+use strict;
+
+use Carp;
+use File::Basename;
+use Cwd 'abs_path';
+
+my $dest = $ENV{TARGET} || "/kb/runtime";
+
+-d $dest || mkdir $dest;
+my $rlib_dir = $dest."/lib/R/library";
+
+system ("mkdir", "-p", $rlib_dir);
+#system("apt-get", "install", "libcurl4-openssl-dev");
+system("R", "CMD", "BATCH", "install_inferelator.R");

@@ -8,15 +8,9 @@ else
 	TARGET=/kb/runtime
 fi
 
-#install bowtie and download index file
-#sudo apt-get -y install bowtie
-
-#install: superblat, blat, usearch
-cp superblat ${TARGET}/bin
+#install: superblat, usearch
+cp bin/superblat ${TARGET}/bin
 chmod +x ${TARGET}/bin/superblat
 
-cp blat ${TARGET}/bin
-chmod +x ${TARGET}/bin/blat
-
-cp usearch ${TARGET}/bin
+cp bin/usearch ${TARGET}/bin
 chmod +x ${TARGET}/bin/usearch

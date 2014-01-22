@@ -36,12 +36,16 @@ done < $pkg_list
 mkdir -p $target/qiime
 mkdir -p $target/qiime/temp
 
-# java rdp clasifier
-echo "installing rdp-classifier"
-wget -O rdp_classifier_2.2.zip http://sourceforge.net/projects/rdp-classifier/files/rdp-classifier/rdp_classifier_2.2.zip/download
-unzip -d $target/qiime/ rdp_classifier_2.2.zip
-ln -s $target/qiime/rdp_classifier_2.2/rdp_classifier-2.2.jar $target/lib/rdp_classifier.jar
-ln -s $target/qiime/rdp_classifier_2.2/rdp_classifier-2.2.jar $target/java/lib/rdp_classifier.jar
+# java rdp clasifier if java exists
+if [ -d $target/java ]; then
+    echo "installing rdp-classifier"
+    wget -O rdp_classifier_2.2.zip http://sourceforge.net/projects/rdp-classifier/files/rdp-classifier/rdp_classifier_2.2.zip/download
+    unzip -d $target/qiime/ rdp_classifier_2.2.zip
+    ln -s $target/qiime/rdp_classifier_2.2/rdp_classifier-2.2.jar $target/lib/rdp_classifier.jar
+    ln -s $target/qiime/rdp_classifier_2.2/rdp_classifier-2.2.jar $target/java/lib/rdp_classifier.jar
+else
+    echo "no java - skipping rdp-classifier"
+fi
 
 # greengenes data
 #echo "installing greengenes libraries"
