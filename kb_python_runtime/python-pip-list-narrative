@@ -40,3 +40,4 @@ pyzmq>=2.2
 python-qt
 tornado>=2.4.1
 pycrypto>=2.6
+pycurl
