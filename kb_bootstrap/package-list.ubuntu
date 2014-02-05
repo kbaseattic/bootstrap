@@ -90,3 +90,4 @@ bzip2
 libbz2-dev
 libncurses5-dev
 libncurses5
+libcurl4-gnutls-dev
