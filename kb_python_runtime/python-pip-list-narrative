@@ -41,3 +41,4 @@ python-qt
 tornado>=2.4.1
 pycrypto>=2.6
 pycurl
+thrift==0.9.1
