@@ -1,2 +1,2 @@
 kb_bootstrap	install-debian-packages	package-list.ubuntu
-lb_phylip	build.phylip
+kb_phylip	build.phylip
