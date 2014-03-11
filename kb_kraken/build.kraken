@@ -1,0 +1,42 @@
+#!/usr/bin/env perl
+
+use strict;
+
+use Carp;
+use File::Basename;
+use Cwd 'abs_path';
+
+my $dest = $ENV{TARGET} || "/kb/runtime";
+
+if (@ARGV)
+{
+    $dest = shift;
+    print STDERR "Overriding destination to $dest\n";
+}
+
+-d $dest || mkdir $dest;
+
+# http://ccb.jhu.edu/software/kraken/dl/kraken-0.10.3-beta.tgz
+my $kraken_tar = "kraken-0.10.3-beta.tgz";
+my $kraken_dir = (fileparse($kraken_tar, ".tgz"))[0];
+my $kraken_url = "http://ccb.jhu.edu/software/kraken/dl/$kraken_tar";
+
+if (! -s $kraken_tar)
+{
+    system("curl", "-o", $kraken_tar, "-L", $kraken_url);
+}
+
+system("rm", "$dest/kraken") if -e "$dest/kraken";;
+system("rm", "-r", "$dest/$kraken_dir") if -e "$dest/$kraken_dir";
+system("mkdir", "$dest/$kraken_dir");
+
+system("tar", "xzfp", $kraken_tar);
+chdir "$kraken_dir";
+system("./install_kraken.sh", "$dest/$kraken_dir");
+system("ln", "-s", "$dest/$kraken_dir", "$dest/kraken");
+
+system("mkdir", "-p", "$dest/env");
+open  F, ">$dest/env/$kraken_dir-env.sh" or die "cannot open $dest/env/$kraken_dir-env.sh";
+print F <<END;
+export PATH=\"$dest/$kraken_dir:\$PATH\"
+END
