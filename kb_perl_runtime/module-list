@@ -166,3 +166,4 @@ Graph::Undirected::Components
 File::Touch
 IPC::System::Simple
 Data::Structure::Util
+UUID
