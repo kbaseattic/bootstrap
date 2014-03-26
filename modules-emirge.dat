@@ -1,0 +1,31 @@
+
+
+as it seems Folker thinks (and he told other people) that Emirge is
+already in KBase, but to my knowledge it is not. Therefore I'd prefer to
+put it in KBase now as quickly as possible.. ;-)
+What would be the fastest/easiest way I can get Emirge into the
+bootstrap ? Would you put it in there or should I do it myself ?
+
+
+https://github.com/csmiller/EMIRGE
+
+download source:
+https://github.com/csmiller/EMIRGE/archive/v0.60.tar.gz
+
+
+dependencies (with example how to install):
+
+- apt-get install python-biopython cython
+- pip install pysam scipy numpy
+- usearch version >= 6.0.203
+- bowtie
+- samtools
+
+Most of the requirements should already be fulfilled, but I am not
+exactly sure.
+
+
+thanks
+Wolfgang
+
+

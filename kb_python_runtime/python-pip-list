@@ -58,3 +58,4 @@ configobj
 paramiko
 python-dateutil
 requests>=1.0
+pysam
