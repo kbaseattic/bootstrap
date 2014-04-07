@@ -34,7 +34,7 @@ readline
 virtualenv
 virtualenvwrapper
 configobj
-paramiko
+paramiko==1.12.2
 python-dateutil
 pyzmq>=2.2
 python-qt
