@@ -167,3 +167,5 @@ File::Touch
 IPC::System::Simple
 Data::Structure::Util
 UUID
+HTML::Strip
+HTTP::Request::StreamingUpload
