@@ -1,0 +1,78 @@
+#!/usr/bin/env perl
+
+use strict;
+use File::Find;
+use File::Path qw(make_path);
+use Cwd;
+my $cwd = getcwd();
+
+my $dest = shift;
+$dest = "/kb/runtime" unless defined $dest;
+print "using $dest as installation directory\n";
+system ("mkdir", "-p", $dest) unless -e $dest;
+
+my $location = "http://downloads.sourceforge.net/project/samtools/samtools/0.1.19";
+my $file = "samtools-0.1.19.tar.bz2";
+my $ver = "0.1.19";
+my $url = $location . "/" . $file;
+run("curl", "-o", $file, "-L", $url);
+
+
+# samtools install
+if (!-e "$dest/samtools-$ver") {
+    system("rm", "-rf", "samtools-" . $ver);
+    run("tar",  "xvfj",  "samtools-" . $ver . ".tar.bz2");
+
+    chdir "./samtools-" . $ver or die "could not chdir ./samtools-$ver";
+
+    run("make");
+    run("cd bcftools; make");
+
+    run("mkdir", $dest . "/samtools-" . $ver);
+    run("mkdir", $dest . "/samtools-" . $ver. "/bin");
+    run("mkdir", $dest . "/samtools-" . $ver . "/lib");
+    run("mkdir", $dest . "/samtools-" . $ver . "/include");
+    run("mkdir", $dest . "/samtools-" . $ver . "/include/bam");
+
+    run("cp", "samtools", $dest . "/samtools-" . $ver . "/bin/");
+    run("cp", "bcftools/bcftools", $dest . "/samtools-" . $ver . "/bin/");
+    run("cp", glob("*.a"), $dest . "/samtools-" . $ver . "/lib/");
+    run("cp", glob("*.h"), $dest . "/samtools-" . $ver . "/include/bam/");
+    my @misc = ();
+    find ( sub {push @misc, "./misc/$_" unless ((/\.h$/)   or 
+    					    (/\.o$/)       or 
+    					    (-d $_)        or
+    					    (/\.c$/)       or
+    					    (/\.java$/)    or
+					    (/^Makefile$/)  
+    					   ) 
+    	       }, "./misc/");
+run ("cp", @misc, $dest . "/samtools-" . $ver. "/bin");
+    run("ln", "-s", $dest . "/samtools-" . $ver, "$dest/samtools");
+    
+    chdir $cwd;
+}
+else {
+    print "looks like samtools is already installed at $dest/samtools-$ver\n";
+    print "check to make sure the installation is good\n";
+}
+
+# samtools environment settings
+system("mkdir", "-p", "$dest/env");
+open  F, ">$dest/env/samtools-$ver$-env.sh" or die "cannot open $dest/env/samtools-$ver-env.sh";
+print F <<END;
+export PATH=\"$dest/samtools-$ver/bin:\$PATH\"
+END
+
+
+
+
+sub run
+{
+    my(@cmd) =@_;
+    my $rc = system(@cmd);
+    if ($rc != 0)
+    {
+	die "Command failed with rc=$rc: @cmd\n";
+    }
+}
