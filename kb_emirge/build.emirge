@@ -1,0 +1,42 @@
+#!/usr/bin/env perl
+
+use strict;
+
+use Carp;
+use File::Basename;
+use Cwd 'abs_path';
+
+my $dest = $ENV{TARGET} || "/kb/runtime";
+
+if (@ARGV)
+{
+    $dest = shift;
+    print STDERR "Overriding destination to $dest\n";
+}
+
+-d $dest || mkdir $dest;
+
+my $emirge_tar = "v0.60.tar.gz";
+my $emirge_dir = "EMIRGE-0.60";
+my $emirge_url = "https://github.com/csmiller/EMIRGE/archive/$emirge_tar";
+
+if (! -s $emirge_tar)
+{
+    system("curl", "-o", $emirge_tar, "-L", $emirge_url);
+}
+
+# 
+#system("rm", "$dest/bin/emirge");
+#system("rm", "$dest/bin/muscle3.8.31_i86linux64");
+
+system("tar", "xzf", $emirge_tar);
+!system("cd $emirge_dir && python setup.py build") or die "can not run python setup.py build";
+!system("cd $emirge_dir && python setup.py install --prefix=$dest") or die "cannot run python setup.py install";
+
+# python setup.py install --prefix=$HOME/software
+
+
+exit;
+
+system("cp", "muscle3.8.31_i86linux64", "$dest/bin/");
+system("ln", "-s", "$dest/bin/muscle3.8.31_i86linux64", "$dest/bin/emirge");

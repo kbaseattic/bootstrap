@@ -1,0 +1,10 @@
+wget   http://cseweb.ucsd.edu/~ckozanit/gql/gql.tar.gz
+tar --ungzip -xf gql.tar.gz 
+cd gql_src/
+
+# check dependencies
+exit unless -e $ENV{SAMLOC};
+exit unless -e $ENV{DONOR_DIR}
+exit unless -e $ENV{BIOSQL_HOME}
+
+
