@@ -24,3 +24,4 @@ kb_phispy_runtime	./build.phispy
 kb_prinseq_runtime	./build.prinseq
 kb_solr	./install-solr.sh
 kb_sphinx_runtime	./sphinx_build.sh
+kb_scip	./install-scip.sh
