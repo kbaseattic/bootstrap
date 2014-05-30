@@ -8,7 +8,7 @@ mkdir -p $dest
 VERSION='v4.6.1-2012-08-27'
 rm -rf cd-hit-${VERSION}*
 wget "https://cdhit.googlecode.com/files/cd-hit-${VERSION}.tgz"
-unzip cd-hit-${VERSION}-source.zip
+tar -zxvf cd-hit-${VERSION}-source.zip
 
 # compile and copy binaries
 pushd cd-hit-${VERSION}
