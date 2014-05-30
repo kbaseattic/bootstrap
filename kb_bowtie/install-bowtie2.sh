@@ -15,4 +15,4 @@ pushd bowtie2-${VERSION}
 make
 cp bowtie2 bowtie2-align-l bowtie2-align-s bowtie2-build bowtie2-build-l bowtie2-build-s bowtie2-inspect bowtie2-inspect-l bowtie2-inspect-s $dest/bin
 popd
-
+rm -rf bowtie2-${VERSION}*
