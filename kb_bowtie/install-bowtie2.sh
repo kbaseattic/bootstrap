@@ -5,7 +5,7 @@ echo "using $dest as installation directory";
 mkdir -p $dest
 
 # downlownload version
-VERSION='2.2.2'
+VERSION='2.2.3'
 rm -rf bowtie2-${VERSION}*
 wget "http://sourceforge.net/projects/bowtie-bio/files/bowtie2/${VERSION}/bowtie2-${VERSION}-source.zip"
 unzip bowtie2-${VERSION}-source.zip
