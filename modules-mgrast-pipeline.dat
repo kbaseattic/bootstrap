@@ -12,5 +12,7 @@ kb_qiime        ./install-qiime.sh  python-qiime-list
 kb_blat         ./build.blat
 kb_fgs			./fgs_build.sh
 kb_bowtie		./install-bowtie1.sh
+kb_bowtie		./install-bowtie2.sh
+kb_cdhit        ./install-cd-hit.sh
 kb_cdbfasta		./cdbfasta_build.sh
 kb_jellyfish	./jellyfish_build.sh
