@@ -26,7 +26,6 @@ IPC::Run
 MIME::Tools
 SOAP::Lite
 PDL
-Class::Accessor
 DB_File
 Number::Format
 Spreadsheet::WriteExcel
@@ -45,7 +44,6 @@ JSON::Any
 JSON::RPC
 JSON::RPC::Client
 Proc::ParallelLoop
-SOAP::Lite
 Data::UUID
 Config::Simple
 Digest::MD5
@@ -69,16 +67,13 @@ Parse::Eyapp
 Object::Tiny::RW
 REST::Client
 Digest::SHA1
-Digest::MD5
 MIME::Base64
 MIME::Types
 HTTP::Request
 HTTP::Daemon
 HTTP::Server::Simple
 HTTP::Server::Simple::PSGI
-LWP::UserAgent
 Net::OAuth
-URI::Escape
 Carp
 Data::Dumper
 App::cpanminus
@@ -91,7 +86,6 @@ Time::ParseDate
 XML::DOM
 Taint::Util
 Clone
-URI::Dispatch
 URI::QueryParam
 Test::Cmd	--notest
 Test::More
@@ -116,9 +110,6 @@ Module::Util
 Term::ReadKey
 Log::Log4perl
 Sort::Topological
-Digest::SHA1
-Crypt::OpenSSL::RSA
-Convert::PEM
 LWP::Protocol::https
 Text::Table
 Text::NSP::Measures::2D::Fisher::twotailed
@@ -169,3 +160,4 @@ Data::Structure::Util
 UUID
 HTML::Strip
 HTTP::Request::StreamingUpload
+DBD::Pg
