@@ -1,5 +1,5 @@
-svn pprospector https://svn.code.sf.net/p/pprospector/code/trunk
-git pycogent    git://github.com/pycogent/pycogent.git
-git pynast  git://github.com/qiime/pynast.git
-git qiime   git://github.com/qiime/qiime.git
-git biom-format git://github.com/biom-format/biom-format.git
+svn pprospector https://svn.code.sf.net/p/pprospector/code/trunk none
+git pycogent    git://github.com/pycogent/pycogent.git  c77e75ebf42c4a6379693cb792034efb9acd5891
+git pynast  git://github.com/biocore/pynast.git 262acb14982c0fa48047c1e14ace950e77442169
+git qiime   git://github.com/biocore/qiime.git  d4333e2ea06af942f1f61148c4ccb02ffc438d6b
+git biom-format git://github.com/biocore/biom-format.git    d5b85a85498783f45b7e1ab9c66aaa9460e1d10a

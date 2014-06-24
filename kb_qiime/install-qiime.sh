@@ -15,12 +15,13 @@ else
 fi
 
 # python libs
-while read TYPE PKG SRC; do
+while read TYPE PKG SRC VER; do
     echo "downloading $PKG via $TYPE"
     if [[ $TYPE == 'svn' ]]; then
         svn co $SRC $PKG
     elif [[ $TYPE == 'git' ]]; then
         git clone $SRC
+        git checkout $VER
     fi
     if [[ ! -d $PKG ]] ; then
         echo "Download of $SRC did not create $PKG directory" 1>&2
