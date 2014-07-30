@@ -16,11 +16,11 @@ if [ -d "/Library" ] ; then
     echo "NOT supported on OSX"
     exit 0
 else
-    url="http://www.sph.umich.edu/csg/kang/emmax/download/emmax-intel-binary-20120210.tar.gz"
+    url="http://genetics.cs.ucla.edu/emmax/emmax-beta-07Mar2010.tar.gz"
 fi
 
 file=`basename $url`
-#dir=`echo $file | sed -e 's/\.tgz$//'`
+dir=`echo $file | sed -e 's/\.tar\.gz$//'`
 
 curl -f -o $file $url
 if [ $? -ne 0 -o ! -f $file ] ; then
@@ -30,10 +30,10 @@ fi
 
 tar -xzf $file
 
-if [ $? -ne 0 -o ! -f "emmax-intel64" ] ; then
+if [ $? -ne 0 -o ! -f "$dir/emmax" ] ; then
     echo "Unpack of $file failed" 1>&2
     exit 1
 fi
 
-cp emmax-intel64 $dest/bin/emmax
-cp emmax-kin-intel64 $dest/bin/emmax-kin
+cp $dir/emmax $dest/bin/emmax
+cp $dir/emmax-kin $dest/bin/emmax-kin
