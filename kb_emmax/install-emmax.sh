@@ -20,7 +20,7 @@ else
 fi
 
 file=`basename $url`
-dir=`echo $file | sed -e 's/\.tgz$//'`
+#dir=`echo $file | sed -e 's/\.tgz$//'`
 
 curl -f -o $file $url
 if [ $? -ne 0 -o ! -f $file ] ; then
@@ -30,10 +30,10 @@ fi
 
 tar -xzf $file
 
-if [ $? -ne 0 -o ! -f "$dir/emmax-intel64" ] ; then
-    echo "Unpack of $file to $dir failed" 1>&2
+if [ $? -ne 0 -o ! -f "emmax-intel64" ] ; then
+    echo "Unpack of $file failed" 1>&2
     exit 1
 fi
 
-cp $dir/emmax-intel64 $dest/bin/emmax
-cp $dir/emmax-kin-intel64 $dest/bin/emmax-kin
+cp emmax-intel64 $dest/bin/emmax
+cp emmax-kin-intel64 $dest/bin/emmax-kin
