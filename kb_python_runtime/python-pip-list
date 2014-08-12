@@ -55,7 +55,7 @@ pylxc
 virtualenv
 virtualenvwrapper
 configobj
-paramiko
+paramiko==1.12.1
 python-dateutil
 requests>=1.0
 pysam

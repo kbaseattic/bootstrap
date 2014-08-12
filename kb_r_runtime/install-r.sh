@@ -13,7 +13,7 @@ fi
 
 RLIB=$1
 RURL="http://cran.r-project.org/src/base/R-3/"
-RBASE="R-3.0.2"
+RBASE="R-3.1.0"
 TPAGE=`which tpage`
 
 if [[ -x /usr/bin/apt-get ]] ; then
