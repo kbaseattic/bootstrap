@@ -15,7 +15,7 @@ if (@ARGV)
     print STDERR "Overriding destination to $dest\n";
 }
 
-my $vers = "2.2.28";
+my $vers = "2.2.29";
 my $tar = "ncbi-blast-${vers}+-src.tar.gz";
 my $dir = "ncbi-blast-${vers}+-src";
 my $url = "ftp://ftp.ncbi.nlm.nih.gov/blast/executables/blast+/$vers/$tar";
@@ -28,7 +28,7 @@ if (! -s $tar)
 run("rm", "-rf", "$dir");
 run("tar", "xzfp", $tar);
 chdir("$dir/c++") or die "cannot chdir $dir/c++: $!";
-run("./configure", "--prefix=$dest", "--without-debug");
+run("./configure", "--prefix=$dest", "--without-debug", "--with-mt");
 
 #
 # Use config.log to determine the build directory as configured here.
