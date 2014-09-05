@@ -20,3 +20,5 @@ liburi-encode-perl
 libunicode-escape-perl
 liblist-allutils-perl
 libposix-strptime-perl
+libgraph-perl
+libconfig-simple-perl
