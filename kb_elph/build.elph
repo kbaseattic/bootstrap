@@ -31,6 +31,10 @@ system("rm", "-rf", $elph_dir);
 system("tar", "xzfp", $elph_tar);
 
 chdir("$elph_dir/sources") || die "chdir failed: $!";
+#
+# Patch makefile for mac.
+#
+system("perl", "-pi.bak", "-e", "s/-I-//", "Makefile");
 system("make", "-j$parallel") && die "make failed";
 -x "elph" || die "did not create elph";
 system("cp", "elph", "$dest/bin/elph") && die "cp elph $dest/bin/elph failed";

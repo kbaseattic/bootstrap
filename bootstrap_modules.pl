@@ -91,6 +91,7 @@ for my $mod (@modules)
 
     while (<RUN>)
     {
+	s/%/%%/g;
 	printf "%-10s $_", $tag;
 	print LOG $_;
     }

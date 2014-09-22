@@ -18,13 +18,20 @@ $ENV{PATH} = "$dest/bin:$ENV{PATH}";
 
 -d $dest || mkdir $dest;
 
-my $kmer_cvsroot = ':pserver:anonymous@biocvs.mcs.anl.gov:/disks/cvs/bio';
-my $kmer_mod = "KmersC";
-my $kmer_tag = "kbase";
 my $kmer_dir = "KmersC";
-
 system("rm", "-rf", $kmer_dir);
-run("cvs", "-d", $kmer_cvsroot, "export", "-r", $kmer_tag, "-d", $kmer_dir, $kmer_mod);
+if (0)
+{
+    my $kmer_cvsroot = ':pserver:anonymous@biocvs.mcs.anl.gov:/disks/cvs/bio';
+    my $kmer_mod = "KmersC";
+    my $kmer_tag = "kbase";
+
+    run("cvs", "-d", $kmer_cvsroot, "export", "-r", $kmer_tag, "-d", $kmer_dir, $kmer_mod);
+}
+else
+{
+    run("git", "clone", 'https://github.com/TheSEED/KmersC.git', $kmer_dir);
+}
 
 chdir($kmer_dir);
 
