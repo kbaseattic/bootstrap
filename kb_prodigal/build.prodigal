@@ -17,10 +17,11 @@ if (@ARGV)
 
 -d $dest || mkdir $dest;
 
-my $vers = "v2_60";
-my $prodigal_dir = "prodigal.$vers";
-my $prodigal_tar = "prodigal.$vers.tar.gz";
-my $prodigal_url = "https://prodigal.googlecode.com/files/$prodigal_tar";
+my $vers = "2.6.1";
+
+my $prodigal_dir = "Prodigal-$vers";
+my $prodigal_tar = "v$vers.tar.gz";
+my $prodigal_url = "https://github.com/hyattpd/Prodigal/archive/$prodigal_tar";
 
 if (! -s $prodigal_tar)
 {
