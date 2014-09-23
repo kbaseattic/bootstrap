@@ -23,10 +23,11 @@ if (-d "/Library")
     $ENV{CXX} = "g++ -m32";
 }
 
-my $vers = "1.6.6";
+my $vers = "1.6.12";
 my $libpng_dir = "libpng-$vers";
 my $libpng_tar = "libpng-${vers}.tar.gz";
-my $libpng_url = "ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng16/$libpng_tar";
+#my $libpng_url = "ftp://ftp.simplesystems.org/pub/libpng/png/src/libpng16/$libpng_tar";
+my $libpng_url = "http://download.sourceforge.net/libpng/$libpng_tar";
 
 if (! -s $libpng_tar)
 {

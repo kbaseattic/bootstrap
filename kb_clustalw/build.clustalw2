@@ -31,6 +31,7 @@ run("rm", "-rf", $clustalw_dir);
 run("tar", "xzfp", $clustalw_tar);
 
 chdir("$clustalw_dir");
+run("sed -i.bak -e '/exception/a\\\n#include <string>\n' src/general/VectorOutOfRange.h");
 run("./configure", "--prefix", "$dest");
 run("make");
 run("make", "install");
