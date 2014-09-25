@@ -47,6 +47,8 @@ mkdir -p $target/lib
 #
 if [ -d /Library/Java/Home ] ; then
 	export JAVA_HOME=/Library/Java/Home
+elif [ -x /usr/libexec/java_home ] ; then
+	export JAVA_HOME=`/usr/libexec/java_home`
 else
 	echo "Install JDK, restricted set to $restricted"
 	if [ "$restricted" = unrestricted ] ;
@@ -63,27 +65,43 @@ else
 	else
 	  echo "This component is restricted, please download the tarball from the rights holder."
 	fi
+	export JAVA_HOME=$target/java
 fi
 
 echo "Install Ant"
-curl -O http://www.picotopia.org/apache/ant/binaries/apache-ant-1.9.2-bin.tar.gz
+v=1.9.4
+curl -O http://apache.cs.utah.edu//ant/binaries/apache-ant-$v-bin.tar.gz
+
 rm -rf $target/apache-ant*
 rm $target/ant
-tar zxvf apache-ant-1.9.2-bin.tar.gz -C $target
-ln -s $target/apache-ant-1.9.2 $target/ant
+tar zxvf apache-ant-$v-bin.tar.gz -C $target
+if [ $? -ne 0 ] ; then
+	echo "Failed to unpack ant" 1>&2
+	exit 1
+fi
+ln -s $target/apache-ant-$v $target/ant
 ln -s $target/ant/bin/ant $target/bin/ant
 
 echo "Install Ivy"
 curl -O http://apache.cs.utah.edu//ant/ivy/2.3.0/apache-ivy-2.3.0-bin.tar.gz
 rm -rf $target/apache-ivy*
 tar zxvf apache-ivy-2.3.0-bin.tar.gz -C $target
+if [ $? -ne 0 ] ; then
+	echo "Failed to unpack ivy" 1>&2
+	exit 1
+fi
 ln -s $target/apache-ivy-2.3.0/ivy-2.3.0.jar $target/ant/lib/.
 
 echo "Install tomcat"
-curl -O "http://mirror.olnevhost.net/pub/apache/tomcat/tomcat-7/v7.0.47/bin/apache-tomcat-7.0.47.tar.gz"
+v=7.0.55
+curl -O "ftp://apache.cs.utah.edu/apache.org/tomcat/tomcat-7/v$v/bin/apache-tomcat-$v.tar.gz"
 rm -rf $target/tomcat*
-tar zxvf apache-tomcat-7.0.47.tar.gz -C $target
-ln -s $target/apache-tomcat-7.0.47 $target/tomcat
+tar zxvf apache-tomcat-$v.tar.gz -C $target
+if [ $? -ne 0 ] ; then
+	echo "Failed to unpack tomcat" 1>&2
+	exit 1
+fi
+ln -s $target/apache-tomcat-$v $target/tomcat
 
 #
 # Standard java libraries.
@@ -93,6 +111,10 @@ echo "Install glassfish"
 curl -O http://dlc.sun.com.edgesuite.net/glassfish/3.1.2.2/release/glassfish-3.1.2.2-ml.zip
 rm -rf $target/glassfish*
 unzip -d $target/ glassfish-3.1.2.2-ml.zip 
+if [ $? -ne 0 ] ; then
+	echo "Failed to unpack glassfish" 1>&2
+	exit 1
+fi
 
 jackson=jackson-all-1.9.11.jar
 
@@ -103,7 +125,13 @@ ln -s $target/lib/$jackson $target/lib/jackson-all.jar
 
 mkdir -p $target/env
 echo "
-export JAVA_HOME=$target/java
+if [ -d /Library/Java/Home ] ; then
+	export JAVA_HOME=/Library/Java/Home
+elif [ -x /usr/libexec/java_home ] ; then
+	export JAVA_HOME=`/usr/libexec/java_home`
+else
+	export JAVA_HOME=$target/java
+fi
 export ANT_HOME=$target/ant
 export THRIFT_HOME=$target/thrift
 export CATALINA_HOME=$target/tomcat
