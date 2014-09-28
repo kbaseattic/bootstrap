@@ -128,7 +128,7 @@ echo "
 if [ -d /Library/Java/Home ] ; then
 	export JAVA_HOME=/Library/Java/Home
 elif [ -x /usr/libexec/java_home ] ; then
-	export JAVA_HOME=`/usr/libexec/java_home`
+	export JAVA_HOME=\`/usr/libexec/java_home\`
 else
 	export JAVA_HOME=$target/java
 fi
