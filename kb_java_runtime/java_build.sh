@@ -93,7 +93,7 @@ fi
 ln -s $target/apache-ivy-2.3.0/ivy-2.3.0.jar $target/ant/lib/.
 
 echo "Install tomcat"
-v=7.0.55
+v=7.0.57
 curl -O "ftp://apache.cs.utah.edu/apache.org/tomcat/tomcat-7/v$v/bin/apache-tomcat-$v.tar.gz"
 rm -rf $target/tomcat*
 tar zxvf apache-tomcat-$v.tar.gz -C $target
