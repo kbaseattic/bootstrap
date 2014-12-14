@@ -89,6 +89,7 @@ Clone
 URI::QueryParam
 Test::Cmd	--notest
 Test::More
+Test::JSON
 Data::Stag
 File::Copy::Recursive
 Dancer
