@@ -26,13 +26,13 @@ git clone $libStatGenURL
 echo "###### cloning $fastQValidatorURL ######"
 git clone $fastQValidatorURL
 
-echo "###### building $libStatGenURL ######"
+echo "###### building $libStatGenURL with tag $libStatGenTag ######"
 cd libStatGen
 git checkout $libStatGenTag
 make
 cd ..
 
-echo "###### building $fastQValidatorURL ######"
+echo "###### building $fastQValidatorURL with tag $fastQValidatorTag ######"
 cd fastQValidator
 git checkout $fastQValidatorTag
 make
