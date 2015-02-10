@@ -96,3 +96,4 @@ libcurl4-gnutls-dev
 zip
 csh
 uuid-dev
+memcached
