@@ -19,6 +19,7 @@ fastQValidatorURL='https://github.com/statgen/fastQValidator'
 libStatGenTag=''
 fastQValidatorTag=''
 
+rm -rf libStatGen fastQValidator
 
 echo "###### cloning $libStatGenURL ######"
 git clone $libStatGenURL
@@ -26,14 +27,12 @@ echo "###### cloning $fastQValidatorURL ######"
 git clone $fastQValidatorURL
 
 echo "###### building $libStatGenURL ######"
-rm -rf libStatGen
 cd libStatGen
 git checkout $libStatGenTag
 make
 cd ..
 
 echo "###### building $fastQValidatorURL ######"
-rm -rf fastQValidator
 cd fastQValidator
 git checkout $fastQValidatorTag
 make
