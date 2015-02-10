@@ -88,6 +88,8 @@ libmysqlclient18
 libzmq-dev
 bzip2
 libbz2-dev
+zlib1g
+zlib1g-dev
 libncurses5-dev
 libncurses5
 libcurl4-gnutls-dev
