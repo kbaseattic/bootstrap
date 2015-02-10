@@ -15,7 +15,7 @@ IDIR=$target
 libStatGenURL='https://github.com/statgen/libStatGen'
 fastQValidatorURL='https://github.com/statgen/fastQValidator'
 # the official releases are too old, use a github tag to
-# avoid tracking master
+# avoid tracking head of master
 libStatGenTag='05f2a7e8bb8d0aa47d8814076c69df0b7cf44aeb'
 fastQValidatorTag='2e8bfa61fb2cfb5f3ff4568ff0590228a7c6c1e7'
 
