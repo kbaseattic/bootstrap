@@ -16,8 +16,8 @@ libStatGenURL='https://github.com/statgen/libStatGen'
 fastQValidatorURL='https://github.com/statgen/fastQValidator'
 # the official releases are too old, use a github tag to
 # avoid tracking master
-libStatGenTag=''
-fastQValidatorTag=''
+libStatGenTag='05f2a7e8bb8d0aa47d8814076c69df0b7cf44aeb'
+fastQValidatorTag='2e8bfa61fb2cfb5f3ff4568ff0590228a7c6c1e7'
 
 rm -rf libStatGen fastQValidator
 
@@ -40,6 +40,6 @@ cd ..
 
 
 echo "###### installing $fastQValidatorURL ######"
-cp ./fastQValidator/bin/fastQValidator $IDIR/bin
+cp ./fastQValidator/bin/fastQValidator $IDIR/bin/fastQValidator
 
 rm -rf libStatGen fastQValidator
