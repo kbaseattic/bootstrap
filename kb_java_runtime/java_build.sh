@@ -70,7 +70,7 @@ fi
 
 echo "Install Ant"
 v=1.9.4
-curl -O http://apache.cs.utah.edu//ant/binaries/apache-ant-$v-bin.tar.gz
+[ -e apache-ant-$v-bin.tar.gz ] || curl -O http://apache.cs.utah.edu//ant/binaries/apache-ant-$v-bin.tar.gz
 
 rm -rf $target/apache-ant*
 rm $target/ant
@@ -83,7 +83,7 @@ ln -s $target/apache-ant-$v $target/ant
 ln -s $target/ant/bin/ant $target/bin/ant
 
 echo "Install Ivy"
-curl -O http://apache.cs.utah.edu//ant/ivy/2.3.0/apache-ivy-2.3.0-bin.tar.gz
+[ -e apache-ivy-2.3.0-bin.tar.gz ] || curl -O http://apache.cs.utah.edu//ant/ivy/2.3.0/apache-ivy-2.3.0-bin.tar.gz
 rm -rf $target/apache-ivy*
 tar zxvf apache-ivy-2.3.0-bin.tar.gz -C $target
 if [ $? -ne 0 ] ; then
@@ -93,8 +93,8 @@ fi
 ln -s $target/apache-ivy-2.3.0/ivy-2.3.0.jar $target/ant/lib/.
 
 echo "Install tomcat"
-v=7.0.57
-curl -O "ftp://apache.cs.utah.edu/apache.org/tomcat/tomcat-7/v$v/bin/apache-tomcat-$v.tar.gz"
+v=7.0.59
+[ -e /apache-tomcat-$v.tar.gz ] || curl -O "ftp://apache.cs.utah.edu/apache.org/tomcat/tomcat-7/v$v/bin/apache-tomcat-$v.tar.gz"
 rm -rf $target/tomcat*
 tar zxvf apache-tomcat-$v.tar.gz -C $target
 if [ $? -ne 0 ] ; then
@@ -108,7 +108,7 @@ ln -s $target/apache-tomcat-$v $target/tomcat
 #
 
 echo "Install glassfish"
-curl -O http://dlc.sun.com.edgesuite.net/glassfish/3.1.2.2/release/glassfish-3.1.2.2-ml.zip
+[ -e glassfish-3.1.2.2-ml.zip ] || curl -O http://dlc.sun.com.edgesuite.net/glassfish/3.1.2.2/release/glassfish-3.1.2.2-ml.zip
 rm -rf $target/glassfish*
 unzip -d $target/ glassfish-3.1.2.2-ml.zip 
 if [ $? -ne 0 ] ; then
