@@ -53,7 +53,7 @@ my $distdir = abs_path("cpan-packages");
 
 my @global_args = ("--notest", "--save-dists", $distdir);
 
-my $default_mirror = exists($ENV{CPAN_MIRROR}) ? $ENV{CPAN_MIRROR} : 'http://search.cpan.org';
+my $default_mirror = exists($ENV{CPAN_MIRROR}) ? $ENV{CPAN_MIRROR} : 'http://search.cpan.org/CPAN/';
 
 push(@global_args, "--mirror", $distdir, "--mirror", $default_mirror);
 
