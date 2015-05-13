@@ -1,10 +1,7 @@
-# Dockerfile that builds a minimal container for IPython + narrative
+# Dockerfile that builds a minimal runtime
 #
-# Assumes that we have clones of the boostrap repo (for bringing in the python
-# environment) and a narrative repo in this directory
-# Steve Chan sychan@lbl.gov
 #
-# Copyright 2013 The Regents of the University of California,
+# Copyright 2015 The Regents of the University of California,
 # Lawrence Berkeley National Laboratory
 # United States Department of Energy
 # The DOE Systems Biology Knowledgebase (KBase)
@@ -19,11 +16,21 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update;apt-get -y upgrade;apt-get ins
 	libwxgtk2.8-dev libdb5.1-dev libgsl0-dev libxslt1-dev libfreetype6-dev libreadline-dev \
 	libpango1.0-dev libx11-dev libxt-dev libcairo2-dev zlib1g-dev libgtk2.0-dev python-dev \
 	libmysqlclient-dev libmysqld-dev libssl-dev libpq-dev libexpat1-dev libzmq-dev libbz2-dev \
-	libncurses5-dev libcurl4-gnutls-dev uuid-dev git wget uuid-dev build-essential curl
+	libncurses5-dev libcurl4-gnutls-dev uuid-dev git wget uuid-dev build-essential curl \
+	libsqlite3-dev libffi-dev
 
 RUN mkdir /kb
 ADD ./ /kb/bootstrap
 WORKDIR /kb/bootstrap
 ENV TARGET /kb/runtime
 ENV PATH ${TARGET}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-RUN ./bootstrap_modules.pl -d ${TARGET} -m ./modules-docker-min.dat ; rm -rf /kb/bootstrap/kb_*
+RUN mkdir /kb;mkdir /kb/runtime;mkdir /kb/runtime/bin
+RUN cd kb_perl_runtime;./build.runtime
+RUN cd kb_golang_runtime;/bin/bash ./install-golang.sh
+RUN cd kb_r_runtime;./install-r.sh r-packages.R
+RUN cd kb_python_runtime;./build.python
+RUN cd kb_python_runtime;./install-python-packages.sh
+RUN cd kb_java_runtime;  ./java_build.sh -u
+RUN cd kb_daemonize;./install-daemonize.sh
+#RUN ./bootstrap_modules.pl -d ${TARGET} -m ./modules-docker-min.dat ; rm -rf /kb/bootstrap/kb_*
+RUN rm -rf /kb/bootstrap/kb_*
