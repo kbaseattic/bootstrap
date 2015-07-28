@@ -32,5 +32,4 @@ RUN cd kb_python_runtime;./build.python
 RUN cd kb_python_runtime;./install-python-packages.sh
 RUN cd kb_java_runtime;  ./java_build.sh -u
 RUN cd kb_daemonize;./install-daemonize.sh
-#RUN ./bootstrap_modules.pl -d ${TARGET} -m ./modules-docker-min.dat ; rm -rf /kb/bootstrap/kb_*
 RUN rm -rf /kb/bootstrap/kb_*
