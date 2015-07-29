@@ -10,6 +10,6 @@ kbase services will require additional space.
 
 ## Build the image and tag it appropriately
 
-    docker built -t kbase/rtmin:1.2 -f Dockerfile.min .
+    docker built -t kbase/rtmin:1.2 .
 
 That's it.
