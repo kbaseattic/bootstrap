@@ -30,7 +30,8 @@ RUN \
   apt-get install -y software-properties-common && \
   add-apt-repository -y ppa:webupd8team/java && \
   apt-get update && \
-  apt-get install -y oracle-java7-installer 
+  apt-get install -y oracle-java7-installer && \
+  rm -rf /var/cache/oracle-jdk7-installer
 
 ENV JAVA_HOME /usr/lib/jvm/java-7-oracle/
 
@@ -88,7 +89,9 @@ RUN echo '#!/bin/sh' > /kb/runtime/bin/pod2man && \
 
 ADD . /kb/bootstrap
 WORKDIR /kb/bootstrap
-RUN cd kb_java_runtime;  ./java_build.sh -u
+RUN cd kb_java_runtime;  ./java_build.sh -u && \
+  rm -rf /kb/bootstrap/kb_j*
+
 RUN cd kb_daemonize;./install-daemonize.sh
 RUN \
   cpanm -i Digest::SHA1 && \ 
@@ -101,6 +104,4 @@ RUN \
   pip install  requests --upgrade
 
 RUN \
-  rm -rf /kb/bootstrap/kb_j* && \
-  rm -rf /var/lib/apt/lists/* && \
-  rm -rf /var/cache/oracle-jdk7-installer
+  rm -rf /var/lib/apt/lists/* 
