@@ -70,7 +70,8 @@ fi
 
 echo "Install Ant"
 v=1.9.4
-[ -e apache-ant-$v-bin.tar.gz ] || curl -O http://apache.cs.utah.edu//ant/binaries/apache-ant-$v-bin.tar.gz
+url=http://archive.apache.org/dist/ant/binaries/apache-ant-$v-bin.tar.gz
+[ -e apache-ant-$v-bin.tar.gz ] || curl -O $url
 
 rm -rf $target/apache-ant*
 rm $target/ant
@@ -83,9 +84,11 @@ ln -s $target/apache-ant-$v $target/ant
 ln -s $target/ant/bin/ant $target/bin/ant
 
 echo "Install Ivy"
-[ -e apache-ivy-2.3.0-bin.tar.gz ] || curl -O http://apache.cs.utah.edu//ant/ivy/2.3.0/apache-ivy-2.3.0-bin.tar.gz
+v="2.3.0"
+url=http://archive.apache.org/dist/ant/ivy/$v/apache-ivy-$v-bin.tar.gz
+[ -e apache-ivy-$v-bin.tar.gz ] || curl -O $url
 rm -rf $target/apache-ivy*
-tar zxvf apache-ivy-2.3.0-bin.tar.gz -C $target
+tar zxvf apache-ivy-$v-bin.tar.gz -C $target
 if [ $? -ne 0 ] ; then
 	echo "Failed to unpack ivy" 1>&2
 	exit 1
@@ -94,7 +97,8 @@ ln -s $target/apache-ivy-2.3.0/ivy-2.3.0.jar $target/ant/lib/.
 
 echo "Install tomcat"
 v=7.0.59
-[ -e /apache-tomcat-$v.tar.gz ] || curl -O "ftp://apache.cs.utah.edu/apache.org/tomcat/tomcat-7/v$v/bin/apache-tomcat-$v.tar.gz"
+url=http://archive.apache.org/dist/tomcat/tomcat-7/v${v}/bin/apache-tomcat-${v}.tar.gz
+[ -e /apache-tomcat-$v.tar.gz ] || curl -O $url
 rm -rf $target/tomcat*
 tar zxvf apache-tomcat-$v.tar.gz -C $target
 if [ $? -ne 0 ] ; then
@@ -108,7 +112,9 @@ ln -s $target/apache-tomcat-$v $target/tomcat
 #
 
 echo "Install glassfish"
-[ -e glassfish-3.1.2.2-ml.zip ] || curl -O http://dlc.sun.com.edgesuite.net/glassfish/3.1.2.2/release/glassfish-3.1.2.2-ml.zip
+v=3.1.2.2
+url=http://download.java.net/glassfish/$v/release/glassfish-$v-ml.zip
+[ -e glassfish-3.1.2.2-ml.zip ] || curl -O $url
 rm -rf $target/glassfish*
 unzip -d $target/ glassfish-3.1.2.2-ml.zip 
 if [ $? -ne 0 ] ; then
@@ -116,11 +122,16 @@ if [ $? -ne 0 ] ; then
 	exit 1
 fi
 
-jackson=jackson-all-1.9.11.jar
+#
+# Action Jackson
+#
+v=1.9.11
+jackson=jackson-all-${v}.jar
 
 echo "Install jackson"
 rm -rf $target/lib/jackson-all*
-curl -o $target/lib/$jackson http://jackson.codehaus.org/1.9.11/$jackson
+curl -o $target/lib/${jackson}.zip http://www.java2s.com/Code/JarDownload/jackson-all/${jackson}.zip
+unzip $target/lib/${jackson}.zip -d $target/lib/
 ln -s $target/lib/$jackson $target/lib/jackson-all.jar
 
 mkdir -p $target/env
