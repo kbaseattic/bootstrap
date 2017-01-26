@@ -162,3 +162,6 @@ UUID
 HTML::Strip
 HTTP::Request::StreamingUpload
 DBD::Pg
+File::Stream
+Spreadsheet::ParseXLSX
+Cache::Memcached::Fast
