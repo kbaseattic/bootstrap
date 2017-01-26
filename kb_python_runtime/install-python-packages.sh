@@ -95,4 +95,5 @@ if [ -d "/usr/local/lib/python2.7/dist-packages" ] ; then
 fi
 
 chmod a+x install-gevent.sh
+sleep 1
 ./install-gevent.sh $target
